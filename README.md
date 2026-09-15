@@ -8,7 +8,7 @@ Um projeto independente feito por mim como hobby.
 
 📱 Screenshots
 
-<div align="center"><img src="Screenshot/Screenshot%201.jpg" width="250"><img src="Screenshot/Screenshot%202.jpg" width="250"><img src="Screenshot/Screenshot%203.jpg" width="250"></div>---
+<div align="center"><img src="Screenshot/Screenshot_1.jpg" width="250"><img src="Screenshot/Screenshot_2.jpg" width="250"><img src="Screenshot/Screenshot_3.jpg" width="250"></div>---
 
 🌐 Sobre o Datu
 

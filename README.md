@@ -4,13 +4,13 @@ Um navegador rápido e minimalista para Android.
 
 Um projeto independente feito por mim como hobby.
 
-</div>---
+</div>
 
 📱 Screenshots
 
 <div align="center"><img src="Screenshot/Screenshot_1.jpg" width="250">
 <img src="Screenshot/Screenshot_2.jpg" width="250">
-<img src="Screenshot/Screenshot_3.jpg" width="250"></div>---
+<img src="Screenshot/Screenshot_3.jpg" width="250"></div>
 
 🌐 Sobre o Datu
 

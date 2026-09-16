@@ -1,0 +1,7 @@
+<resources>
+	<color name="colorPrimary">#7A163D</color>
+	<color name="colorPrimaryDark">#3B071A</color>
+	<color name="colorAccent">#FFB1C8</color>
+	<color name="colorControlHighlight">#FFB1C8</color>
+	<color name="colorControlNormal">#9A898E</color>
+</resources>

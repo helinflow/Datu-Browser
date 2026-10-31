@@ -286,11 +286,32 @@ android:layout_width="0dp"
 				android:saveEnabled="true" />
 		</LinearLayout>
 		<LinearLayout
-			android:id="@+id/tela3"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:padding="8dp"
-			android:orientation="vertical">
+            android:id="@+id/tela3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="12dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_config_titulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="8dp"
+                android:text="Configurações"
+                android:textColor="#F5DDE5"
+                android:textSize="28sp"
+                android:textStyle="bold" />
+            <TextView
+                android:id="@+id/text_config_subtitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginBottom="12dp"
+                android:text="Personalize sua navegação"
+                android:textColor="#D5C2C9"
+                android:textSize="14sp" />
 			<LinearLayout
 				android:id="@+id/linear_voltar"
 				android:layout_width="match_parent"

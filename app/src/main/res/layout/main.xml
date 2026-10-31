@@ -122,7 +122,7 @@
 							android:id="@+id/linear_numeros_bloqueados"
 							android:layout_width="0dp"
 							android:layout_weight="1"
-							android:layout_height="104dp"
+							android:layout_height="112dp"
 							android:layout_margin="6dp"
 							android:background="@drawable/datu_stat_bg"
 							android:padding="12dp"
@@ -139,18 +139,21 @@
 								android:textColor="#F5EEF1" />
 							<TextView
 								android:id="@+id/text3"
-								android:layout_width="wrap_content"
+								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
-								android:padding="8dp"
+								android:padding="3dp"
 								android:text="Rastreadores bloqueados"
-								android:textSize="12sp"
-								android:textColor="#FFB0C8" />
+								android:textSize="11sp"
+								android:textColor="#FFB0C8" android:gravity="center"
+								android:textAlignment="center"
+								android:maxLines="2"
+								android:includeFontPadding="true" />
 						</LinearLayout>
 						<LinearLayout
 							android:id="@+id/linear_numeros_bloqueiados"
 							android:layout_width="0dp"
 							android:layout_weight="1"
-							android:layout_height="104dp"
+							android:layout_height="112dp"
 							android:layout_margin="6dp"
 							android:background="@drawable/datu_stat_bg"
 							android:padding="12dp"
@@ -167,12 +170,15 @@
 								android:textColor="#F5EEF1" />
 							<TextView
 								android:id="@+id/text5"
-								android:layout_width="wrap_content"
+								android:layout_width="match_parent"
 								android:layout_height="wrap_content"
-								android:padding="8dp"
+								android:padding="3dp"
 								android:text="Dados poupados"
-								android:textSize="12sp"
-								android:textColor="#FFB0C8" />
+								android:textSize="11sp"
+								android:textColor="#FFB0C8" android:gravity="center"
+								android:textAlignment="center"
+								android:maxLines="2"
+								android:includeFontPadding="true" />
 						</LinearLayout>
 					</LinearLayout>
 				</LinearLayout>

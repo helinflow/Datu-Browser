@@ -152,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
 				if ((click % 2) == 1) {
 					binding.abrir.setImageResource(R.drawable.icon_keyboard_arrow_down_round);
 					binding.linearUblock.setVisibility(View.VISIBLE);
+					animarEntradaExpressiva(binding.linearUblock);
 				} else {
 					binding.abrir.setImageResource(R.drawable.icon_keyboard_arrow_up_round);
 					binding.linearUblock.setVisibility(View.GONE);

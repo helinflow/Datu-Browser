@@ -228,6 +228,7 @@
 					android:layout_gravity="center_horizontal|center_vertical">
 					<ImageView
 						android:id="@+id/imageview5"
+						android:contentDescription="Voltar"
 android:layout_width="0dp"
 						android:layout_weight="1"
 						android:layout_height="48dp"
@@ -240,6 +241,7 @@ android:layout_width="0dp"
 						android:src="@drawable/icon_arrow_back_ios_round" />
 					<ImageView
 						android:id="@+id/home"
+						android:contentDescription="Início"
 android:layout_width="0dp"
 						android:layout_weight="1"
 						android:layout_height="48dp"
@@ -252,6 +254,7 @@ android:layout_width="0dp"
 						android:src="@drawable/icon_home_round" />
 					<ImageView
 						android:id="@+id/recharge"
+						android:contentDescription="Recarregar página"
 android:layout_width="0dp"
 						android:layout_weight="1"
 						android:layout_height="48dp"
@@ -264,6 +267,7 @@ android:layout_width="0dp"
 						android:src="@drawable/icon_refresh_round" />
 					<ImageView
 						android:id="@+id/settings"
+						android:contentDescription="Configurações"
 android:layout_width="0dp"
 						android:layout_weight="1"
 						android:layout_height="48dp"

@@ -34,10 +34,12 @@
 						android:id="@+id/linear11"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="15dp"
-						android:padding="8dp"
-						android:gravity="center_horizontal|center_vertical"
-						android:orientation="horizontal">
+						android:layout_marginTop="28dp"
+						android:layout_marginBottom="18dp"
+						android:paddingStart="20dp"
+						android:paddingEnd="20dp"
+						android:gravity="center_vertical"
+						android:orientation="vertical">
 						<TextView
 							android:id="@+id/text_icon"
 							android:layout_width="wrap_content"
@@ -60,22 +62,27 @@
 						android:layout_gravity="center_horizontal|center_vertical">
 						<LinearLayout
 							android:id="@+id/linear_pesquisa"
-							android:layout_width="300dp"
-							android:layout_height="70dp"
-							android:background="#7A163D"
-							android:gravity="left"
+							android:layout_width="0dp"
+							android:layout_weight="1"
+							android:layout_height="60dp"
+							android:background="@drawable/datu_search_bg"
+							android:gravity="center_vertical"
 							android:orientation="vertical"
-							android:layout_gravity="center_horizontal|center_vertical">
+							android:layout_gravity="center_vertical">
 							<EditText
 								android:id="@+id/edittext1"
 								android:layout_width="match_parent"
-								android:layout_height="305dp"
-								android:padding="8dp"
-								android:gravity="left"
+								android:layout_height="match_parent"
+								android:paddingStart="18dp"
+								android:paddingEnd="12dp"
+								android:background="@android:color/transparent"
+								android:singleLine="true"
+								android:imeOptions="actionSearch"
+								android:gravity="center_vertical"
 								android:textSize="16sp"
 								android:textColor="#F5DDE5"
 								android:hint="O que você procura\?"
-								android:textColorHint="#F5DDE5"
+								android:textColorHint="#D5C2C9"
 								android:layout_gravity="center_horizontal|center_vertical" />
 						</LinearLayout>
 						<ImageView
@@ -92,17 +99,21 @@
 						android:id="@+id/linear_estatisticas"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:layout_margin="15dp"
+						android:layout_marginTop="20dp"
+						android:layout_marginStart="10dp"
+						android:layout_marginEnd="10dp"
 						android:gravity="center_horizontal|center_vertical"
 						android:orientation="horizontal"
 						android:layout_gravity="center_horizontal|center_vertical">
 						<LinearLayout
 							android:id="@+id/linear_numeros_bloqueados"
-							android:layout_width="wrap_content"
-							android:layout_height="100dp"
-							android:layout_margin="15dp"
-							android:padding="8dp"
-							android:gravity="center_horizontal|center_vertical"
+							android:layout_width="0dp"
+							android:layout_weight="1"
+							android:layout_height="104dp"
+							android:layout_margin="6dp"
+							android:background="@drawable/datu_stat_bg"
+							android:padding="12dp"
+							android:gravity="center"
 							android:orientation="vertical"
 							android:layout_gravity="center_horizontal|center_vertical">
 							<TextView
@@ -124,11 +135,13 @@
 						</LinearLayout>
 						<LinearLayout
 							android:id="@+id/linear_numeros_bloqueiados"
-							android:layout_width="wrap_content"
-							android:layout_height="100dp"
-							android:layout_margin="15dp"
-							android:padding="8dp"
-							android:gravity="center_horizontal|center_vertical"
+							android:layout_width="0dp"
+							android:layout_weight="1"
+							android:layout_height="104dp"
+							android:layout_margin="6dp"
+							android:background="@drawable/datu_stat_bg"
+							android:padding="12dp"
+							android:gravity="center"
 							android:orientation="vertical"
 							android:layout_gravity="center_horizontal|center_vertical">
 							<TextView
@@ -144,7 +157,7 @@
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:padding="8dp"
-								android:text="Economia de dados"
+								android:text="Dados poupados"
 								android:textSize="12sp"
 								android:textColor="#FFB1C8" />
 						</LinearLayout>

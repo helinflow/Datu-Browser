@@ -1927,14 +1927,14 @@ public class MainActivity extends AppCompatActivity {
 		// CATEGORIAS
 		// ============================================================
 		
-		ShieldsCategoria categoriaPrincipal =
+		final ShieldsCategoria categoriaPrincipal =
 		new ShieldsCategoria();
 		
 		categoriaPrincipal.nome =
 		"principal";
 		
 		categoriaPrincipal.cotaCssMax =
-		3000;
+		350;
 		
 		shieldsCategorias.put(
 		"principal",
@@ -1942,14 +1942,14 @@ public class MainActivity extends AppCompatActivity {
 		);
 		
 		
-		ShieldsCategoria categoriaPrivacidade =
+		final ShieldsCategoria categoriaPrivacidade =
 		new ShieldsCategoria();
 		
 		categoriaPrivacidade.nome =
 		"privacidade";
 		
 		categoriaPrivacidade.cotaCssMax =
-		1500;
+		200;
 		
 		shieldsCategorias.put(
 		"privacidade",
@@ -1957,14 +1957,14 @@ public class MainActivity extends AppCompatActivity {
 		);
 		
 		
-		ShieldsCategoria categoriaCorrecoes =
+		final ShieldsCategoria categoriaCorrecoes =
 		new ShieldsCategoria();
 		
 		categoriaCorrecoes.nome =
 		"correcoes";
 		
 		categoriaCorrecoes.cotaCssMax =
-		500;
+		100;
 		
 		shieldsCategorias.put(
 		"correcoes",
@@ -1972,14 +1972,14 @@ public class MainActivity extends AppCompatActivity {
 		);
 		
 		
-		ShieldsCategoria categoriaCompatibilidade =
+		final ShieldsCategoria categoriaCompatibilidade =
 		new ShieldsCategoria();
 		
 		categoriaCompatibilidade.nome =
 		"compatibilidade";
 		
 		categoriaCompatibilidade.cotaCssMax =
-		500;
+		100;
 		
 		shieldsCategorias.put(
 		"compatibilidade",
@@ -1987,14 +1987,14 @@ public class MainActivity extends AppCompatActivity {
 		);
 		
 		
-		ShieldsCategoria categoriaEasyList =
+		final ShieldsCategoria categoriaEasyList =
 		new ShieldsCategoria();
 		
 		categoriaEasyList.nome =
 		"easylist";
 		
 		categoriaEasyList.cotaCssMax =
-		3000;
+		350;
 		
 		shieldsCategorias.put(
 		"easylist",
@@ -2002,14 +2002,14 @@ public class MainActivity extends AppCompatActivity {
 		);
 		
 		
-		ShieldsCategoria categoriaEasyPrivacy =
+		final ShieldsCategoria categoriaEasyPrivacy =
 		new ShieldsCategoria();
 		
 		categoriaEasyPrivacy.nome =
 		"easyprivacy";
 		
 		categoriaEasyPrivacy.cotaCssMax =
-		1500;
+		200;
 		
 		shieldsCategorias.put(
 		"easyprivacy",
@@ -2460,7 +2460,7 @@ public class MainActivity extends AppCompatActivity {
 				shieldsLoader.carregar(new java.io.File(shieldsPasta, "easyprivacy.txt"), categoriaEasyPrivacy);
 				shieldsPronto.set(true);
 			}
-		}, "DatuShieldsFilterLoader").start(););
+		}, "DatuShieldsFilterLoader").start();
 		
 		
 		// ============================================================

@@ -1,0 +1,35 @@
+name: Chromium Android prototype
+
+on:
+  workflow_dispatch:
+    inputs:
+      chromium_revision:
+        description: "Optional Chromium commit hash to build (leave empty for current checkout)"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-content-shell:
+    # Requires a dedicated Linux x86_64 self-hosted runner with >=100 GB free disk.
+    # Do not switch this to GitHub-hosted runners: Chromium's Android build is too large.
+    runs-on: [self-hosted, linux, x64, chromium-builder]
+    timeout-minutes: 360
+    steps:
+      - name: Checkout Datu
+        uses: actions/checkout@v4
+
+      - name: Build official Chromium Content Shell
+        env:
+          CHROMIUM_REVISION: ${{ inputs.chromium_revision }}
+        run: bash scripts/build-chromium-content-shell.sh
+
+      - name: Upload Chromium test APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: datu-chromium-content-shell-arm64
+          path: artifacts/Datu-Chromium-ContentShell-arm64.apk
+          if-no-files-found: error
+          retention-days: 7

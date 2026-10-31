@@ -1,11 +1,26 @@
 <resources>
-	<style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
-		<item name="colorOnPrimary">@android:color/white</item>
+	<style name="AppTheme" parent="Theme.Material3Expressive.Dark.NoActionBar">
 		<item name="colorPrimary">@color/colorPrimary</item>
-		<item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-		<item name="colorAccent">@color/colorAccent</item>
-		<item name="colorControlHighlight">@color/colorControlHighlight</item>
-		<item name="colorControlNormal">@color/colorControlNormal</item>
+		<item name="colorOnPrimary">@color/colorOnPrimary</item>
+		<item name="colorPrimaryContainer">@color/colorPrimaryContainer</item>
+		<item name="colorOnPrimaryContainer">@color/colorOnPrimaryContainer</item>
+		<item name="colorSecondary">@color/colorSecondary</item>
+		<item name="colorOnSecondary">@color/colorOnSecondary</item>
+		<item name="colorSecondaryContainer">@color/colorSecondaryContainer</item>
+		<item name="colorOnSecondaryContainer">@color/colorOnSecondaryContainer</item>
+		<item name="colorTertiary">@color/colorTertiary</item>
+		<item name="colorOnTertiary">@color/colorOnTertiary</item>
+		<item name="colorSurface">@color/colorSurface</item>
+		<item name="colorOnSurface">@color/colorOnSurface</item>
+		<item name="colorSurfaceVariant">@color/colorSurfaceVariant</item>
+		<item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
+		<item name="colorOutline">@color/colorOutline</item>
+		<item name="colorError">@color/colorError</item>
+		<item name="android:statusBarColor">@color/colorSurface</item>
+		<item name="android:navigationBarColor">@color/colorSurface</item>
+		<item name="android:windowLightStatusBar">false</item>
+		<item name="android:windowLightNavigationBar">false</item>
+		<item name="android:colorAccent">@color/colorAccent</item>
 	</style>
 	<style name="AppTheme.FullScreen" parent="AppTheme">
 		<item name="android:windowFullscreen">true</item>

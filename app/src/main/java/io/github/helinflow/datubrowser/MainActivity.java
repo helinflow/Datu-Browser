@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View _view) {
 				binding.tela1.setVisibility(View.GONE);
 				binding.tela2.setVisibility(View.VISIBLE);
+				animarEntradaExpressiva(binding.tela2);
 				binding.tela3.setVisibility(View.GONE);
 			}
 		});
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				binding.tela1.setVisibility(View.VISIBLE);
+				animarEntradaExpressiva(binding.tela1);
 				binding.tela2.setVisibility(View.GONE);
 				binding.tela3.setVisibility(View.GONE);
 			}
@@ -120,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				binding.tela1.setVisibility(View.VISIBLE);
+				animarEntradaExpressiva(binding.tela1);
 				binding.tela2.setVisibility(View.GONE);
 				binding.tela3.setVisibility(View.GONE);
 			}
@@ -138,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 				binding.tela1.setVisibility(View.GONE);
 				binding.tela2.setVisibility(View.GONE);
 				binding.tela3.setVisibility(View.VISIBLE);
+				animarEntradaExpressiva(binding.tela3);
 			}
 		});
 		
@@ -160,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View _view) {
 				binding.tela1.setVisibility(View.GONE);
 				binding.tela2.setVisibility(View.VISIBLE);
+				animarEntradaExpressiva(binding.tela2);
 				binding.tela3.setVisibility(View.GONE);
 			}
 		});
@@ -1184,10 +1189,14 @@ public class MainActivity extends AppCompatActivity {
 		final java.util.concurrent.atomic.AtomicLong
 		shieldsBytesEconomizados =
 		new java.util.concurrent.atomic.AtomicLong(0);
+
+		final java.util.concurrent.atomic.AtomicLong
+		shieldsUltimaAtualizacaoUI =
+		new java.util.concurrent.atomic.AtomicLong(0);
 		
 		
-		final boolean[] shieldsPronto =
-		new boolean[] {false};
+		final java.util.concurrent.atomic.AtomicBoolean shieldsPronto =
+		new java.util.concurrent.atomic.AtomicBoolean(false);
 		
 		
 		final String[] urlPaginaAtual =
@@ -2129,8 +2138,9 @@ public class MainActivity extends AppCompatActivity {
 						>= 0
 						) {
 							
-							int pos =
-							linha.indexOf("##");
+							int pos = linha.indexOf("##");
+							// Seletores de domínio não podem ser aplicados globalmente.
+							if (pos != 0) continue;
 							
 							
 							String seletor =
@@ -2280,6 +2290,17 @@ public class MainActivity extends AppCompatActivity {
 						// REGRA NORMAL
 						// --------------------------------------------
 						
+						boolean opcoesCompativeis = true;
+						for (int oi = 0; oi < partesOpcoes.length; oi++) {
+							String opcao = partesOpcoes[oi].trim().toLowerCase();
+							if (opcao.length() == 0) continue;
+							if (!opcao.equals("third-party") && !opcao.startsWith("domain=")) {
+								opcoesCompativeis = false;
+								break;
+							}
+						}
+						if (!opcoesCompativeis) continue;
+
 						RegraRede rr =
 						new RegraRede();
 						
@@ -2396,9 +2417,9 @@ public class MainActivity extends AppCompatActivity {
 						}
 						
 						
-						categoria.parciais.add(
-						rr
-						);
+						if (categoria.parciais.size() < 12000) {
+							categoria.parciais.add(rr);
+						}
 					}
 					
 					
@@ -2427,62 +2448,19 @@ public class MainActivity extends AppCompatActivity {
 		// CARREGAR LISTAS
 		// ============================================================
 		
-		shieldsLoader.carregar(
-		new java.io.File(
-		shieldsPasta,
-		"filters.min.txt"
-		),
-		categoriaPrincipal
-		);
-		
-		
-		shieldsLoader.carregar(
-		new java.io.File(
-		shieldsPasta,
-		"privacy.min.txt"
-		),
-		categoriaPrivacidade
-		);
-		
-		
-		shieldsLoader.carregar(
-		new java.io.File(
-		shieldsPasta,
-		"quick-fixes.txt"
-		),
-		categoriaCorrecoes
-		);
-		
-		
-		shieldsLoader.carregar(
-		new java.io.File(
-		shieldsPasta,
-		"unbreak.txt"
-		),
-		categoriaCompatibilidade
-		);
-		
-		
-		shieldsLoader.carregar(
-		new java.io.File(
-		shieldsPasta,
-		"easylist.txt"
-		),
-		categoriaEasyList
-		);
-		
-		
-		shieldsLoader.carregar(
-		new java.io.File(
-		shieldsPasta,
-		"easyprivacy.txt"
-		),
-		categoriaEasyPrivacy
-		);
-		
-		
-		shieldsPronto[0] =
-		true;
+		// Analisar as listas em segundo plano para não travar a interface.
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "filters.min.txt"), categoriaPrincipal);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "privacy.min.txt"), categoriaPrivacidade);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "quick-fixes.txt"), categoriaCorrecoes);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "unbreak.txt"), categoriaCompatibilidade);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "easylist.txt"), categoriaEasyList);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "easyprivacy.txt"), categoriaEasyPrivacy);
+				shieldsPronto.set(true);
+			}
+		}, "DatuShieldsFilterLoader").start(););
 		
 		
 		// ============================================================
@@ -2821,7 +2799,7 @@ public class MainActivity extends AppCompatActivity {
 				// --------------------------------------------
 				
 				if (
-				!shieldsPronto[0]
+				!shieldsPronto.get()
 				) {
 					
 					return false;
@@ -3184,14 +3162,12 @@ public class MainActivity extends AppCompatActivity {
 					.incrementAndGet();
 					
 					
-					shieldsBytesEconomizados
-					.addAndGet(
-					SHIELDS_BYTES_POR_BLOQUEIO
-					);
-					
-					
-					atualizarShieldsTextosUI
-					.run();
+					shieldsBytesEconomizados.addAndGet(SHIELDS_BYTES_POR_BLOQUEIO);
+					long agoraUI = android.os.SystemClock.uptimeMillis();
+					long ultimaUI = shieldsUltimaAtualizacaoUI.get();
+					if (agoraUI - ultimaUI >= 500L && shieldsUltimaAtualizacaoUI.compareAndSet(ultimaUI, agoraUI)) {
+						atualizarShieldsTextosUI.run();
+					}
 				}
 				
 				
@@ -3762,11 +3738,22 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 	@Override
+	private void animarEntradaExpressiva(android.view.View view) {
+		if (view == null) return;
+		float deslocamento = 14f * getResources().getDisplayMetrics().density;
+		view.animate().cancel();
+		view.setAlpha(0f);
+		view.setTranslationY(deslocamento);
+		view.animate().alpha(1f).translationY(0f).setDuration(420L)
+			.setInterpolator(new android.view.animation.OvershootInterpolator(0.65f)).start();
+	}
+
 	public void onBackPressed() {
 		if (binding.webview.canGoBack()) {
 			binding.webview.goBack();
 		} else {
 			binding.tela1.setVisibility(View.VISIBLE);
+				animarEntradaExpressiva(binding.tela1);
 			binding.tela2.setVisibility(View.GONE);
 			binding.tela3.setVisibility(View.GONE);
 			click++;

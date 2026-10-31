@@ -51,6 +51,15 @@
 							android:textStyle="bold"
 							android:textColor="#F5DDE5"
 							android:layout_gravity="center_horizontal|center_vertical" />
+						<TextView
+							android:id="@+id/text_home_subtitle"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="2dp"
+							android:text="Navegue com liberdade."
+							android:textColor="#D5C2C9"
+							android:textSize="14sp"
+							android:letterSpacing="0.02" />
 					</LinearLayout>
 					<LinearLayout
 						android:id="@+id/linear12"
@@ -81,7 +90,7 @@
 								android:gravity="center_vertical"
 								android:textSize="16sp"
 								android:textColor="#F5DDE5"
-								android:hint="O que você procura\?"
+								android:hint="Pesquise ou digite um endereço"
 								android:textColorHint="#D5C2C9"
 								android:layout_gravity="center_horizontal|center_vertical" />
 						</LinearLayout>
@@ -132,7 +141,7 @@
 								android:layout_width="wrap_content"
 								android:layout_height="wrap_content"
 								android:padding="8dp"
-								android:text="Bloqueados"
+								android:text="Rastreadores bloqueados"
 								android:textSize="12sp"
 								android:textColor="#FFB1C8" />
 						</LinearLayout>

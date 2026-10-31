@@ -16,8 +16,9 @@
 		<item name="colorOnSurfaceVariant">@color/colorOnSurfaceVariant</item>
 		<item name="colorOutline">@color/colorOutline</item>
 		<item name="colorError">@color/colorError</item>
-		<item name="android:statusBarColor">@color/colorSurface</item>
-		<item name="android:navigationBarColor">@color/colorSurface</item>
+		<item name="android:statusBarColor">@color/colorBackground</item>
+		<item name="android:windowBackground">@color/colorBackground</item>
+		<item name="android:navigationBarColor">@color/colorBackground</item>
 		<item name="android:windowLightStatusBar">false</item>
 		<item name="android:windowLightNavigationBar">false</item>
 		<item name="android:colorAccent">@color/colorAccent</item>

@@ -228,7 +228,7 @@
 					android:layout_gravity="center_horizontal|center_vertical">
 					<ImageView
 						android:id="@+id/imageview5"
-						android:layout_width="0dp"
+android:layout_width="0dp"
 						android:layout_weight="1"
 						android:layout_height="48dp"
 						android:background="@drawable/datu_nav_item_bg"
@@ -237,14 +237,10 @@
 						android:scaleX="0.62"
 						android:scaleY="0.62"
 						android:layout_gravity="center"
-						android:src="@drawable/icon_arrow_back_ios_round"
-						android:scaleType="fitCenter"
-						android:scaleX="0.5"
-						android:scaleY="0.5"
-						android:layout_gravity="center_horizontal|center_vertical" />
+						android:src="@drawable/icon_arrow_back_ios_round" />
 					<ImageView
 						android:id="@+id/home"
-						android:layout_width="0dp"
+android:layout_width="0dp"
 						android:layout_weight="1"
 						android:layout_height="48dp"
 						android:background="@drawable/datu_nav_item_bg"
@@ -253,14 +249,10 @@
 						android:scaleX="0.62"
 						android:scaleY="0.62"
 						android:layout_gravity="center"
-						android:src="@drawable/icon_home_round"
-						android:scaleType="fitCenter"
-						android:scaleX="0.5"
-						android:scaleY="0.5"
-						android:layout_gravity="center_horizontal|center_vertical" />
+						android:src="@drawable/icon_home_round" />
 					<ImageView
 						android:id="@+id/recharge"
-						android:layout_width="0dp"
+android:layout_width="0dp"
 						android:layout_weight="1"
 						android:layout_height="48dp"
 						android:background="@drawable/datu_nav_item_bg"
@@ -269,14 +261,10 @@
 						android:scaleX="0.62"
 						android:scaleY="0.62"
 						android:layout_gravity="center"
-						android:src="@drawable/icon_refresh_round"
-						android:scaleType="fitCenter"
-						android:scaleX="0.5"
-						android:scaleY="0.5"
-						android:layout_gravity="center_horizontal|center_vertical" />
+						android:src="@drawable/icon_refresh_round" />
 					<ImageView
 						android:id="@+id/settings"
-						android:layout_width="0dp"
+android:layout_width="0dp"
 						android:layout_weight="1"
 						android:layout_height="48dp"
 						android:background="@drawable/datu_nav_item_bg"
@@ -285,11 +273,7 @@
 						android:scaleX="0.62"
 						android:scaleY="0.62"
 						android:layout_gravity="center"
-						android:src="@drawable/icon_settings_round"
-						android:scaleType="fitCenter"
-						android:scaleX="0.5"
-						android:scaleY="0.5"
-						android:layout_gravity="center_horizontal|center_vertical" />
+						android:src="@drawable/icon_settings_round" />
 				</LinearLayout>
 			</LinearLayout>
 			<android.webkit.WebView
@@ -327,6 +311,7 @@
 				android:id="@+id/linear_javascript"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:background="@drawable/datu_settings_card_bg"
 				android:layout_margin="15dp"
 				android:padding="8dp"
 				android:gravity="center_horizontal|center_vertical"
@@ -347,6 +332,7 @@
 				android:id="@+id/linear_anuncios"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:background="@drawable/datu_settings_card_bg"
 				android:layout_marginLeft="15dp"
 				android:layout_marginTop="15dp"
 				android:layout_marginRight="15dp"
@@ -377,6 +363,7 @@
 				android:id="@+id/linear_ublock"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:background="@drawable/datu_settings_card_bg"
 				android:layout_marginLeft="15dp"
 				android:layout_marginRight="15dp"
 				android:layout_marginBottom="15dp"

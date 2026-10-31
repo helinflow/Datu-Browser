@@ -1,23 +1,30 @@
 <resources>
-	<!-- Datu brand: expressive dark plum and rose palette -->
-	<color name="colorPrimary">#FFB1C8</color>
-	<color name="colorOnPrimary">#65002F</color>
-	<color name="colorPrimaryContainer">#7A163D</color>
-	<color name="colorOnPrimaryContainer">#FFD9E2</color>
-	<color name="colorSecondary">#E7B9C8</color>
-	<color name="colorOnSecondary">#432936</color>
-	<color name="colorSecondaryContainer">#5B3F4B</color>
-	<color name="colorOnSecondaryContainer">#FFD9E2</color>
-	<color name="colorTertiary">#F0B7A4</color>
-	<color name="colorOnTertiary">#4A261C</color>
-	<color name="colorSurface">#1A1013</color>
-	<color name="colorOnSurface">#F5DDE5</color>
-	<color name="colorSurfaceVariant">#514349</color>
-	<color name="colorOnSurfaceVariant">#D5C2C9</color>
-	<color name="colorOutline">#9E8C93</color>
-	<color name="colorError">#FFB4AB</color>
-	<color name="colorPrimaryDark">#3B071A</color>
-	<color name="colorAccent">#FFB1C8</color>
-	<color name="colorControlHighlight">#66FFB1C8</color>
-	<color name="colorControlNormal">#D5C2C9</color>
+    <!-- DATU BROWSER — DARK v1 -->
+    <color name="colorPrimary">#7A163D</color>
+    <color name="colorOnPrimary">#FFFFFF</color>
+    <color name="colorPrimaryContainer">#492B36</color>
+    <color name="colorOnPrimaryContainer">#FFB0C8</color>
+    <color name="colorSecondary">#B83B68</color>
+    <color name="colorOnSecondary">#FFFFFF</color>
+    <color name="colorSecondaryContainer">#492B36</color>
+    <color name="colorOnSecondaryContainer">#F5EEF1</color>
+    <color name="colorTertiary">#FFB0C8</color>
+    <color name="colorOnTertiary">#421326</color>
+    <color name="colorSurface">#1A1719</color>
+    <color name="colorOnSurface">#F5EEF1</color>
+    <color name="colorSurfaceVariant">#242022</color>
+    <color name="colorOnSurfaceVariant">#D0C4C8</color>
+    <color name="colorOutline">#3A3235</color>
+    <color name="colorError">#FFB4AB</color>
+    <color name="colorSuccess">#B5CCB0</color>
+    <color name="colorBackground">#141214</color>
+    <color name="colorNavigation">#211A1D</color>
+    <color name="colorTextDisabled">#91878B</color>
+    <color name="colorSelected">#492B36</color>
+    <color name="colorGradientStart">#424242</color>
+    <color name="colorGradientEnd">#212121</color>
+    <color name="colorPrimaryDark">#141214</color>
+    <color name="colorAccent">#B83B68</color>
+    <color name="colorControlHighlight">#66B83B68</color>
+    <color name="colorControlNormal">#D0C4C8</color>
 </resources>

@@ -4,32 +4,59 @@
 
 The `chromium-engine` branch is an isolated experiment based on `main`. The stable `main` branch is not changed.
 
-The current app is a Java/Sketchware-generated Android app that embeds pages through `android.webkit.WebView`. `MainActivity` directly depends on WebView APIs for navigation, settings, JavaScript injection, request interception, cookies, and downloads.
+The current app is a Java/Sketchware-generated Android app. Its browser screen is built around `android.webkit.WebView`. `MainActivity` directly uses WebView APIs for navigation, settings, JavaScript, request interception, cookies, and downloads.
+
+The current Android project targets compile SDK 34, target SDK 34, and min SDK 21. The supported Chromium Android build configuration and ABI must be selected deliberately; do not assume that the current app's min SDK or every ABI is compatible with a future Chromium build.
 
 ## Important upstream constraint
 
-The Chromium project does not publish a supported Android AAR/Gradle SDK for embedding the Chromium Content layer into an arbitrary Android app. Chromium's own guidance says that a direct embedder must be built around Chromium's GN/Ninja build system and that Content Shell is a testing/example target, not a production-grade browser. Existing code written against `android.webkit.WebView` cannot simply be redirected to a standalone Chromium engine.
+Chromium does not provide a supported, drop-in Android AAR/Gradle SDK that turns an arbitrary app into a Chromium Content embedder. Chromium's official Android instructions use its own source checkout and build tools (GN plus Ninja/Siso).
+
+The official `content_shell_apk` target is useful as a minimal Content-layer test application. It is not a reusable browser view or a production-ready embeddable SDK. Building Content Shell proves that the Chromium source/toolchain can produce and launch a Chromium-based Android app; it does **not** prove that Datu can embed that engine.
 
 References:
+- Chromium Android build instructions: https://chromium.googlesource.com/chromium/src/+/main/docs/android_build_instructions.md
 - Chromium WebView architecture: https://github.com/chromium/chromium/blob/main/android_webview/docs/architecture.md
-- Chromium Android build targets (Chrome APK and Content Shell): https://chromium.googlesource.com/chromium/src/+/HEAD/docs/android_build_instructions.md
-- Chromium developer discussion on embedding Chromium in Android apps: https://groups.google.com/a/chromium.org/g/chromium-dev/c/7oa3OoEt-7w
+- Chromium Content module overview: https://www.chromium.org/developers/content-module/
 
-## Migration requirements
+## Staged prototype plan
 
-A genuine standalone Chromium embedder would require:
+### Stage 0 — preserve the working browser
 
-1. Build and pin a Chromium source revision with the Android toolchain and GN/Ninja.
-2. Create a native Java/JNI bridge and a rendering host based on Chromium's Content APIs (not `android.webkit.WebView`).
-3. Reimplement navigation, back/forward, lifecycle, permissions, cookies, downloads, file chooser, SSL/error handling, and renderer crash recovery.
-4. Rebuild Datu Shields around the new engine's request interception/network hooks; WebView callbacks and `evaluateJavascript` cannot be reused as-is.
-5. Package and test ABI-specific native libraries, renderer processes, sandboxing, updates, and APK size.
-6. Add automated smoke tests and verify a release APK on physical Android devices before considering migration complete.
+- Keep the existing WebView implementation untouched as the fallback.
+- Keep all Chromium experiments on `chromium-engine`.
+- Do not change the stable `main` branch or replace the existing APK.
 
-## Safety rule for this experiment
+### Stage 1 — prove the official Chromium Android build
 
-Do not remove the current WebView implementation or change the stable `main` branch until a standalone Chromium prototype can build, launch, load HTTPS pages, navigate back/forward, and pass basic security tests.
+- Use a dedicated Linux build machine with the disk space, memory, Android SDK/NDK toolchain, and build dependencies required by Chromium.
+- Pin a specific Chromium source revision rather than building an unpinned moving branch.
+- Configure GN for Android and the intended device ABI.
+- Build the official `content_shell_apk` target and launch it on a test device.
+- Verify that an HTTPS page loads and that the test app is using its packaged Chromium runtime, not Android's WebView provider.
 
-## First milestone
+This stage is a toolchain and runtime proof only. The Content Shell APK is not the Datu APK.
 
-Produce a minimal Chromium Content embedder prototype and a reproducible build pipeline. Do not claim the engine is integrated until the APK actually contains and launches the Chromium runtime without relying on the device's WebView provider.
+### Stage 2 — assess embedding feasibility
+
+Only after Stage 1 succeeds, investigate a minimal Content embedder host and the Java/JNI boundary required to host it inside an Android application. Document the upstream APIs and required native libraries before writing integration code. Do not invent a Maven dependency or copy Chromium binaries from unrelated apps.
+
+### Stage 3 — integrate behind an engine boundary
+
+If a maintainable embedder is feasible, isolate engine-specific code behind a Datu interface. Port navigation, lifecycle, permissions, cookies, downloads, file chooser, SSL/error handling, and renderer crash recovery incrementally. Keep WebView selectable as fallback until parity and stability tests pass.
+
+### Stage 4 — port Datu Shields and release checks
+
+Reimplement request filtering using supported Chromium networking hooks. WebView callbacks and `evaluateJavascript` are not drop-in replacements. Test HTTPS, redirects, downloads, privacy behavior, renderer recovery, ABI packaging, APK size, and installation on physical devices.
+
+## Stop conditions
+
+Pause the migration rather than pretending it is complete if:
+- Chromium cannot be built reproducibly with the available build machine.
+- The only working result is the standalone Content Shell test APK.
+- Embedding requires unsupported/private APIs or an unmaintainable patch set.
+- The resulting APK cannot be tested on the target Android versions and ABIs.
+
+## Completion rule
+
+Do not remove the current WebView implementation or change the stable `main` branch until a genuine Datu-hosted Chromium prototype can build, launch, load HTTPS pages, navigate back/forward, survive basic lifecycle events, and pass security and stability tests. Never label a build as Chromium-integrated unless the Datu APK itself contains and launches the Chromium runtime without relying on the device's WebView provider.

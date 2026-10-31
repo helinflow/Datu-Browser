@@ -9,7 +9,7 @@
 		android:id="@+id/linear1"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="#1A1013"
+		android:background="#141214"
 		android:orientation="horizontal"
 		android:layout_weight="1">
 		<LinearLayout
@@ -49,7 +49,7 @@
 							android:text="@string/app_name"
 							android:textSize="34sp"
 							android:textStyle="bold"
-							android:textColor="#F5DDE5"
+							android:textColor="#F5EEF1"
 							android:layout_gravity="center_horizontal|center_vertical" />
 						<TextView
 							android:id="@+id/text_home_subtitle"
@@ -57,7 +57,7 @@
 							android:layout_height="wrap_content"
 							android:layout_marginTop="2dp"
 							android:text="Navegue com liberdade."
-							android:textColor="#D5C2C9"
+							android:textColor="#D0C4C8"
 							android:textSize="14sp"
 							android:letterSpacing="0.02" />
 					</LinearLayout>
@@ -88,10 +88,11 @@
 								android:singleLine="true"
 								android:imeOptions="actionSearch"
 								android:gravity="center_vertical"
-								android:textSize="16sp"
-								android:textColor="#F5DDE5"
+								android:textSize="15sp"
+					android:includeFontPadding="true"
+								android:textColor="#F5EEF1"
 								android:hint="Pesquise ou digite um endereço"
-								android:textColorHint="#D5C2C9"
+								android:textColorHint="#D0C4C8"
 								android:layout_gravity="center_horizontal|center_vertical" />
 						</LinearLayout>
 						<ImageView
@@ -135,7 +136,7 @@
 								android:padding="8dp"
 								android:text="●●●"
 								android:textSize="16sp"
-								android:textColor="#F5DDE5" />
+								android:textColor="#F5EEF1" />
 							<TextView
 								android:id="@+id/text3"
 								android:layout_width="wrap_content"
@@ -143,7 +144,7 @@
 								android:padding="8dp"
 								android:text="Rastreadores bloqueados"
 								android:textSize="12sp"
-								android:textColor="#FFB1C8" />
+								android:textColor="#FFB0C8" />
 						</LinearLayout>
 						<LinearLayout
 							android:id="@+id/linear_numeros_bloqueiados"
@@ -163,7 +164,7 @@
 								android:padding="8dp"
 								android:text="●●●"
 								android:textSize="16sp"
-								android:textColor="#F5DDE5" />
+								android:textColor="#F5EEF1" />
 							<TextView
 								android:id="@+id/text5"
 								android:layout_width="wrap_content"
@@ -171,7 +172,7 @@
 								android:padding="8dp"
 								android:text="Dados poupados"
 								android:textSize="12sp"
-								android:textColor="#FFB1C8" />
+								android:textColor="#FFB0C8" />
 						</LinearLayout>
 					</LinearLayout>
 				</LinearLayout>
@@ -219,7 +220,7 @@
 						android:gravity="center"
 						android:text="Datu Browser"
 						android:textSize="16sp"
-						android:textColor="#F5DDE5"
+						android:textColor="#F5EEF1"
 						android:layout_gravity="center_horizontal|center_vertical"
 						android:layout_weight="1"
 						android:maxLength="25"
@@ -318,7 +319,21 @@ android:layout_width="0dp"
             android:paddingStart="20dp"
             android:paddingEnd="20dp"
             android:paddingTop="12dp"
+            android:clipToPadding="false"
             android:orientation="vertical">
+            <ScrollView
+                android:id="@+id/scroll_configuracoes"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:clipToPadding="false"
+                android:scrollbars="none">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="28dp">
+
             <TextView
                 android:id="@+id/text_config_titulo"
                 android:layout_width="match_parent"
@@ -326,8 +341,10 @@ android:layout_width="0dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:text="Configurações"
-                android:textColor="#F5DDE5"
-                android:textSize="28sp"
+                android:textColor="#F5EEF1"
+                android:textSize="26sp"
+                android:includeFontPadding="true"
+                android:breakStrategy="simple"
                 android:textStyle="bold" />
             <TextView
                 android:id="@+id/text_config_subtitulo"
@@ -336,7 +353,7 @@ android:layout_width="0dp"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="12dp"
                 android:text="Personalize sua navegação"
-                android:textColor="#D5C2C9"
+                android:textColor="#D0C4C8"
                 android:textSize="14sp" />
 			<LinearLayout
 				android:id="@+id/linear_voltar"
@@ -371,7 +388,7 @@ android:layout_width="0dp"
 					android:gravity="left"
 					android:text="Javascript "
 					android:textSize="16sp"
-					android:textColor="#F5DDE5"
+					android:textColor="#F5EEF1"
 					android:checked="true"
 					android:layout_gravity="center_horizontal|center_vertical" />
 			</LinearLayout>
@@ -390,11 +407,12 @@ android:layout_width="0dp"
 					android:id="@+id/text1"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:padding="8dp"
+					android:padding="10dp"
 					android:gravity="left|center_vertical"
+					android:breakStrategy="simple"
 					android:text="Anúncios"
 					android:textSize="16sp"
-					android:textColor="#F5DDE5"
+					android:textColor="#F5EEF1"
 					android:layout_gravity="center_horizontal|center_vertical"
 					android:layout_weight="1" />
 				<ImageView
@@ -430,13 +448,13 @@ android:layout_width="0dp"
 						android:gravity="left"
 						android:text="Bloqueio de anúncios"
 						android:textSize="16sp"
-						android:textColor="#F5DDE5"
+						android:textColor="#F5EEF1"
 						android:layout_gravity="center_horizontal|center_vertical" />
 				</LinearLayout>
 				<LinearLayout
 					android:id="@+id/linear_estatist"
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
+					android:layout_height="wrap_content"
 					android:padding="8dp"
 					android:gravity="left"
 					android:orientation="vertical">
@@ -448,7 +466,7 @@ android:layout_width="0dp"
 						android:gravity="left"
 						android:text="Status"
 						android:textSize="16sp"
-						android:textColor="#F5DDE5"
+						android:textColor="#F5EEF1"
 						android:layout_gravity="center_horizontal|center_vertical" />
 				</LinearLayout>
 				<LinearLayout
@@ -465,7 +483,7 @@ android:layout_width="0dp"
 						android:gravity="left"
 						android:text="Filtros"
 						android:textSize="16sp"
-						android:textColor="#F5DDE5"
+						android:textColor="#F5EEF1"
 						android:layout_gravity="center_horizontal|center_vertical"
 						android:layout_weight="1" />
 					<TextView
@@ -476,7 +494,7 @@ android:layout_width="0dp"
 						android:gravity="center_horizontal|center_vertical"
 						android:text="0%"
 						android:textSize="12sp"
-						android:textColor="#F5DDE5"
+						android:textColor="#F5EEF1"
 						android:layout_gravity="center_horizontal|center_vertical" />
 					<TextView
 						android:id="@+id/text_atualize"
@@ -486,7 +504,7 @@ android:layout_width="0dp"
 						android:gravity="center_horizontal|center_vertical"
 						android:text="Atualizar"
 						android:textSize="16sp"
-						android:textColor="#F5DDE5"
+						android:textColor="#F5EEF1"
 						android:layout_gravity="center_horizontal|center_vertical" />
 				</LinearLayout>
 				<TextView
@@ -497,8 +515,10 @@ android:layout_width="0dp"
 					android:layout_marginRight="15dp"
 					android:padding="8dp"
 					android:textSize="16sp"
-					android:textColor="#F5DDE5" />
+					android:textColor="#F5EEF1" />
 			</LinearLayout>
+                </LinearLayout>
+            </ScrollView>
 		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

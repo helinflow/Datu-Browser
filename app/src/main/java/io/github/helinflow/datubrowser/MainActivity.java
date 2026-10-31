@@ -3737,17 +3737,27 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 	
-	@Override
 	private void animarEntradaExpressiva(android.view.View view) {
 		if (view == null) return;
 		float deslocamento = 14f * getResources().getDisplayMetrics().density;
 		view.animate().cancel();
 		view.setAlpha(0f);
 		view.setTranslationY(deslocamento);
-		view.animate().alpha(1f).translationY(0f).setDuration(420L)
-			.setInterpolator(new android.view.animation.OvershootInterpolator(0.65f)).start();
+		androidx.dynamicanimation.animation.SpringForce mola =
+			new androidx.dynamicanimation.animation.SpringForce(0f)
+			.setDampingRatio(0.78f).setStiffness(520f);
+		new androidx.dynamicanimation.animation.SpringAnimation(view,
+			androidx.dynamicanimation.animation.DynamicAnimation.TRANSLATION_Y, 0f)
+			.setSpring(mola).start();
+		androidx.dynamicanimation.animation.SpringForce molaAlpha =
+			new androidx.dynamicanimation.animation.SpringForce(1f)
+			.setDampingRatio(0.9f).setStiffness(650f);
+		new androidx.dynamicanimation.animation.SpringAnimation(view,
+			androidx.dynamicanimation.animation.DynamicAnimation.ALPHA, 1f)
+			.setSpring(molaAlpha).start();
 	}
 
+	@Override
 	public void onBackPressed() {
 		if (binding.webview.canGoBack()) {
 			binding.webview.goBack();

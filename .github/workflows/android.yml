@@ -51,3 +51,50 @@ jobs:
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
           retention-days: 14
+
+      - name: Build release APK
+        run: gradle --no-daemon assembleRelease
+
+      - name: Sign release APK
+        id: sign
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ] || [ -z "$KEYSTORE_PASSWORD" ] || [ -z "$KEY_ALIAS" ] || [ -z "$KEY_PASSWORD" ]; then
+            echo "Signing secrets are not configured; skipping signed APK."
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          KEYSTORE_PATH="$RUNNER_TEMP/datu-release.jks"
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$KEYSTORE_PATH"
+
+          UNSIGNED_APK="app/build/outputs/apk/release/app-release-unsigned.apk"
+          if [ ! -f "$UNSIGNED_APK" ]; then
+            echo "::error::Unsigned release APK not found at $UNSIGNED_APK. Check the Gradle release output path."
+            exit 1
+          fi
+
+          "$ANDROID_HOME/build-tools/34.0.0/zipalign" -f -p 4 "$UNSIGNED_APK" "$RUNNER_TEMP/datu-release-aligned.apk"
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" sign \
+            --ks "$KEYSTORE_PATH" \
+            --ks-key-alias "$KEY_ALIAS" \
+            --ks-pass env:KEYSTORE_PASSWORD \
+            --key-pass env:KEY_PASSWORD \
+            --out "$RUNNER_TEMP/datu-browser-release.apk" \
+            "$RUNNER_TEMP/datu-release-aligned.apk"
+
+          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify "$RUNNER_TEMP/datu-browser-release.apk"
+          echo "signed=true" >> "$GITHUB_OUTPUT"
+
+      - name: Upload signed release APK
+        if: steps.sign.outputs.signed == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: datu-browser-release-signed-apk
+          path: ${{ runner.temp }}/datu-browser-release.apk
+          if-no-files-found: error
+          retention-days: 30

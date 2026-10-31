@@ -2468,6 +2468,9 @@ public class MainActivity extends AppCompatActivity {
 		// SWITCH
 		// ============================================================
 		
+		final java.util.concurrent.atomic.AtomicBoolean shieldsAtivo =
+		new java.util.concurrent.atomic.AtomicBoolean(false);
+
 		final android.widget.Switch
 		switchBloqueioAnuncios =
 		(android.widget.Switch) findViewById(
@@ -2490,6 +2493,7 @@ public class MainActivity extends AppCompatActivity {
 			SHIELDS_SWITCH_KEY,
 			false
 			);
+			shieldsAtivo.set(estadoSalvo);
 			
 			
 			switchBloqueioAnuncios
@@ -2527,6 +2531,7 @@ public class MainActivity extends AppCompatActivity {
 					isChecked
 					)
 					.apply();
+					shieldsAtivo.set(isChecked);
 					
 					
 					// ----------------------------------------
@@ -2783,13 +2788,7 @@ public class MainActivity extends AppCompatActivity {
 				// SWITCH
 				// --------------------------------------------
 				
-				if (
-				switchBloqueioAnuncios
-				== null
-				||
-				!switchBloqueioAnuncios
-				.isChecked()
-				) {
+				if (!shieldsAtivo.get()) {
 					
 					return false;
 				}
@@ -3211,15 +3210,7 @@ public class MainActivity extends AppCompatActivity {
 			final android.webkit.WebView view) {
 				
 				
-				if (
-				view == null
-				||
-				switchBloqueioAnuncios
-				== null
-				||
-				!switchBloqueioAnuncios
-				.isChecked()
-				) {
+				if (view == null || !shieldsAtivo.get()) {
 					
 					return;
 				}
@@ -3322,13 +3313,7 @@ public class MainActivity extends AppCompatActivity {
 				);
 				
 				
-				if (
-				switchBloqueioAnuncios
-				!= null
-				&&
-				switchBloqueioAnuncios
-				.isChecked()
-				) {
+				if (shieldsAtivo.get()) {
 					
 					injetarCss(
 					view

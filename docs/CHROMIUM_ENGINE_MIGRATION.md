@@ -6,7 +6,7 @@ The `chromium-engine` branch is an isolated experiment based on `main`. The stab
 
 The current app is a Java/Sketchware-generated Android app. Its browser screen is built around `android.webkit.WebView`. `MainActivity` directly uses WebView APIs for navigation, settings, JavaScript, request interception, cookies, and downloads.
 
-The current Android project targets compile SDK 34, target SDK 34, and min SDK 21. The supported Chromium Android build configuration and ABI must be selected deliberately; do not assume that the current app's min SDK or every ABI is compatible with a future Chromium build.
+The current Android project targets compile SDK 35, target SDK 34, and min SDK 23. The supported Chromium Android build configuration and ABI must be selected deliberately; do not assume that the current app's min SDK or every ABI is compatible with a future Chromium build.
 
 ## Important upstream constraint
 
@@ -19,6 +19,18 @@ References:
 - Chromium WebView architecture: https://github.com/chromium/chromium/blob/main/android_webview/docs/architecture.md
 - Chromium Content module overview: https://www.chromium.org/developers/content-module/
 
+## Implemented build prototype
+
+The branch now contains:
+- `scripts/build-chromium-content-shell.sh`: checks the build workspace, obtains `depot_tools`, checks out/synchronizes Chromium, installs Android build dependencies, and builds the official `content_shell_apk` target for Android ARM64.
+- `.github/workflows/chromium-prototype.yml`: a manually triggered workflow that runs on a dedicated self-hosted Linux x86_64 runner labelled `chromium-builder` and uploads the test APK as a short-lived workflow artifact.
+
+The runner needs at least 100 GB free disk space. At least 16 GB RAM is recommended by Chromium; 8 GB is the documented minimum. GitHub-hosted runners are deliberately not used for this job because their available disk space is not suitable for a full Chromium checkout/build.
+
+To run it, register a self-hosted Linux x86_64 GitHub Actions runner with the additional label `chromium-builder`, then open Actions → Chromium Android prototype → Run workflow. An optional Chromium commit hash can be supplied to pin the source revision.
+
+**Artifact naming is explicit:** `Datu-Chromium-ContentShell-arm64.apk` is a standalone Chromium test shell. It is not the Datu Browser APK and must not be installed or presented as a Datu release.
+
 ## Staged prototype plan
 
 ### Stage 0 — preserve the working browser
@@ -30,7 +42,7 @@ References:
 ### Stage 1 — prove the official Chromium Android build
 
 - Use a dedicated Linux build machine with the disk space, memory, Android SDK/NDK toolchain, and build dependencies required by Chromium.
-- Pin a specific Chromium source revision rather than building an unpinned moving branch.
+- Pin a specific Chromium source revision rather than building an unpinned moving branch for release work.
 - Configure GN for Android and the intended device ABI.
 - Build the official `content_shell_apk` target and launch it on a test device.
 - Verify that an HTTPS page loads and that the test app is using its packaged Chromium runtime, not Android's WebView provider.

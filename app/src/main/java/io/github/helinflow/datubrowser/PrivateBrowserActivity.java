@@ -332,11 +332,15 @@ public final class PrivateBrowserActivity extends Activity {
             host = host.toLowerCase(java.util.Locale.US);
             boolean bloqueado = false;
             synchronized (privateBlockedHosts) {
-                for (String dominio : privateBlockedHosts) {
-                    if (host.equals(dominio) || host.endsWith("." + dominio)) {
+                String candidato = host;
+                while (candidato != null && !candidato.isEmpty()) {
+                    if (privateBlockedHosts.contains(candidato)) {
                         bloqueado = true;
                         break;
                     }
+                    int ponto = candidato.indexOf('.');
+                    if (ponto < 0) break;
+                    candidato = candidato.substring(ponto + 1);
                 }
             }
             if (bloqueado) {

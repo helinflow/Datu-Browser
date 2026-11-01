@@ -48,7 +48,11 @@
 							android:text="@string/app_name"
 							android:textSize="34sp"
 							android:textStyle="bold"
-							android:textColor="#E6E0E9"
+							android:textColor="#FFFFFF"
+							android:shadowColor="#E6000000"
+							android:shadowDx="0"
+							android:shadowDy="2"
+							android:shadowRadius="8"
 							android:layout_gravity="center_horizontal|center_vertical" />
 					</LinearLayout>
 					<ImageView
@@ -147,7 +151,7 @@
 								android:padding="3dp"
 								android:text="Rastreadores bloqueados"
 								android:textSize="11sp"
-								android:textColor="#D0BCFF" android:gravity="center"
+								android:textColor="#FFFFFF" android:shadowColor="#E6000000" android:shadowDx="0" android:shadowDy="1" android:shadowRadius="5" android:gravity="center"
 								android:textAlignment="center"
 								android:maxLines="2"
 								android:includeFontPadding="true" />
@@ -209,95 +213,8 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:orientation="vertical">
-			<LinearLayout
-				android:id="@+id/linear_barra"
-				android:layout_width="match_parent"
-				android:layout_height="60dp"
-				android:background="@drawable/datu_toolbar_bg"
-				android:gravity="center_horizontal|center_vertical"
-				android:orientation="horizontal"
-				android:layout_gravity="center_horizontal|center_vertical">
-				<LinearLayout
-					android:id="@+id/linear_A"
-					android:layout_width="match_parent"
-					android:layout_height="60dp"
-					android:padding="8dp"
-					android:gravity="center_horizontal|center_vertical"
-					android:orientation="horizontal"
-					android:layout_gravity="center_horizontal|center_vertical">
-					<ImageView
-						android:id="@+id/add"
-						android:layout_width="48dp"
-						android:layout_height="48dp"
-						android:src="@drawable/icon_add_round"
-						android:scaleType="fitCenter"
-						android:scaleX="0.5"
-						android:scaleY="0.5"
-						android:layout_gravity="center_horizontal|center_vertical"
-    android:background="@drawable/datu_nav_item_bg"
-    android:padding="12dp"
-    android:contentDescription="Nova pesquisa" android:tint="#D0BCFF"
-/>
-					<TextView
-						android:id="@+id/text_barra"
-						android:layout_width="0dp"
-						android:layout_height="48dp"
-						android:padding="8dp"
-						android:background="@drawable/datu_address_bg"
-						android:gravity="center_vertical"
-						android:text="Pesquisar ou digitar endereço"
-						android:textSize="16sp"
-						android:textColor="#E6E0E9"
-						android:layout_gravity="center_horizontal|center_vertical"
-						android:layout_weight="1"
-						android:maxLines="1"
-    android:ellipsize="end"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp" />
-					<TextView
-                        android:id="@+id/tab_counter"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="4dp"
-                        android:background="@drawable/datu_tab_counter_bg"
-                        android:gravity="center"
-                        android:text="1"
-                        android:textColor="#D0BCFF"
-                        android:textSize="14sp"
-                        android:textStyle="bold"
-                        android:contentDescription="Guias abertas" />
-                    <ImageView
-						android:id="@+id/mais"
-						android:layout_width="48dp"
-						android:layout_height="48dp"
-						android:src="@drawable/icon_keyboard_arrow_down_round"
-						android:scaleType="fitCenter"
-						android:scaleX="0.5"
-						android:scaleY="0.5"
-						android:layout_gravity="center_horizontal|center_vertical"
-    android:background="@drawable/datu_nav_item_bg"
-    android:padding="12dp"
-    android:contentDescription="Abrir navegação" android:tint="#D0BCFF"
-/>
-				</LinearLayout>
-			</LinearLayout>
-			<LinearLayout
-				android:id="@+id/linear_B"
-				android:layout_width="match_parent"
-				android:layout_height="52dp"
-				android:orientation="horizontal"
-				android:gravity="center"
-				android:background="#141218"
-				android:paddingStart="8dp"
-				android:paddingEnd="8dp">
-				<ImageView android:id="@+id/toolbar_back" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="12dp" android:src="@drawable/icon_arrow_back_ios_round" android:tint="#CAC4D0" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Voltar página" />
-				<ImageView android:id="@+id/toolbar_forward" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="12dp" android:src="@drawable/icon_arrow_forward_ios_round" android:tint="#CAC4D0" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Avançar página" />
-				<ImageView android:id="@+id/toolbar_favorites" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="10dp" android:src="@drawable/ic_library_favorite" android:tint="#D0BCFF" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Favoritos" />
-				<ImageView android:id="@+id/toolbar_downloads" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="10dp" android:src="@drawable/ic_library_download" android:tint="#D0BCFF" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Downloads" />
-			</LinearLayout>
+			
+			
 			<android.webkit.WebView
 				android:id="@+id/webview"
 				android:padding="0dp"
@@ -820,4 +737,93 @@
         </ScrollView>
     </LinearLayout>
 	</LinearLayout>
+<LinearLayout
+				android:id="@+id/linear_barra"
+				android:layout_width="match_parent"
+				android:layout_height="60dp"
+				android:background="@drawable/datu_toolbar_bg"
+				android:gravity="center_horizontal|center_vertical"
+				android:orientation="horizontal"
+				android:layout_gravity="center_horizontal|center_vertical">
+				<LinearLayout
+					android:id="@+id/linear_A"
+					android:layout_width="match_parent"
+					android:layout_height="60dp"
+					android:padding="8dp"
+					android:gravity="center_horizontal|center_vertical"
+					android:orientation="horizontal"
+					android:layout_gravity="center_horizontal|center_vertical">
+					<ImageView
+						android:id="@+id/add"
+						android:layout_width="48dp"
+						android:layout_height="48dp"
+						android:src="@drawable/icon_add_round"
+						android:scaleType="fitCenter"
+						android:scaleX="0.5"
+						android:scaleY="0.5"
+						android:layout_gravity="center_horizontal|center_vertical"
+    android:background="@drawable/datu_nav_item_bg"
+    android:padding="12dp"
+    android:contentDescription="Nova pesquisa" android:tint="#D0BCFF"
+/>
+					<TextView
+						android:id="@+id/text_barra"
+						android:layout_width="0dp"
+						android:layout_height="48dp"
+						android:padding="8dp"
+						android:background="@drawable/datu_address_bg"
+						android:gravity="center_vertical"
+						android:text="Pesquisar ou digitar endereço"
+						android:textSize="16sp"
+						android:textColor="#E6E0E9"
+						android:layout_gravity="center_horizontal|center_vertical"
+						android:layout_weight="1"
+						android:maxLines="1"
+    android:ellipsize="end"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp" />
+					<TextView
+                        android:id="@+id/tab_counter"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/datu_tab_counter_bg"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="#D0BCFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:contentDescription="Guias abertas" />
+                    <ImageView
+						android:id="@+id/mais"
+						android:layout_width="48dp"
+						android:layout_height="48dp"
+						android:src="@drawable/icon_keyboard_arrow_down_round"
+						android:scaleType="fitCenter"
+						android:scaleX="0.5"
+						android:scaleY="0.5"
+						android:layout_gravity="center_horizontal|center_vertical"
+    android:background="@drawable/datu_nav_item_bg"
+    android:padding="12dp"
+    android:contentDescription="Abrir navegação" android:tint="#D0BCFF"
+/>
+				</LinearLayout>
+			</LinearLayout>
+<LinearLayout
+				android:id="@+id/linear_B"
+				android:layout_width="match_parent"
+				android:layout_height="52dp"
+				android:orientation="horizontal"
+				android:gravity="center"
+				android:background="#141218"
+				android:paddingStart="8dp"
+				android:paddingEnd="8dp">
+				<ImageView android:id="@+id/toolbar_back" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="12dp" android:src="@drawable/icon_arrow_back_ios_round" android:tint="#CAC4D0" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Voltar página" />
+				<ImageView android:id="@+id/toolbar_forward" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="12dp" android:src="@drawable/icon_arrow_forward_ios_round" android:tint="#CAC4D0" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Avançar página" />
+				<ImageView android:id="@+id/toolbar_favorites" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="10dp" android:src="@drawable/ic_library_favorite" android:tint="#D0BCFF" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Favoritos" />
+				<ImageView android:id="@+id/toolbar_downloads" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="10dp" android:src="@drawable/ic_library_download" android:tint="#D0BCFF" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Downloads" />
+			</LinearLayout>
 </LinearLayout>

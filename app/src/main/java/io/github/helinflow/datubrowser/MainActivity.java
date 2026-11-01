@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
 	private boolean wallpaperAtivoNaTela = false;
 	private boolean shieldsDetalhesExpandidos = false;
 	private Runnable recarregarFiltrosShields;
+	private int telaAnteriorConfiguracoes = 2;
 	
 	private void atualizarBarrasInferiores() {
 		android.view.View barraA = findViewById(R.id.linear_A);
@@ -93,6 +94,32 @@ public class MainActivity extends AppCompatActivity {
 	}
 	
 
+    private void abrirConfiguracoes() {
+        telaAnteriorConfiguracoes = binding.tela1.getVisibility() == View.VISIBLE ? 1 : 2;
+        binding.tela1.setVisibility(View.GONE);
+        binding.tela2.setVisibility(View.GONE);
+        binding.tela3.setVisibility(View.VISIBLE);
+        binding.tela4.setVisibility(View.GONE);
+        atualizarBarrasInferiores();
+        View scroll = findViewById(R.id.scroll_configuracoes);
+        if (scroll instanceof android.widget.ScrollView) ((android.widget.ScrollView) scroll).scrollTo(0, 0);
+    }
+
+    private void fecharConfiguracoes() {
+        if (binding == null) return;
+        binding.tela3.setVisibility(View.GONE);
+        binding.tela1.setVisibility(telaAnteriorConfiguracoes == 1 ? View.VISIBLE : View.GONE);
+        binding.tela2.setVisibility(telaAnteriorConfiguracoes == 1 ? View.GONE : View.VISIBLE);
+        atualizarBarrasInferiores();
+    }
+
+    private void atualizarResumoMecanismoPesquisa(TextView resumo) {
+        if (resumo == null || dados == null) return;
+        String motor = dados.getString("search_engine", "brave");
+        resumo.setText("duckduckgo".equals(motor) ? "DuckDuckGo"
+            : "google".equals(motor) ? "Google" : "Brave Search");
+    }
+
     private void configurarBuscaConfiguracoes() {
         EditText busca = findViewById(R.id.config_search);
         if (busca == null) return;
@@ -103,8 +130,8 @@ public class MainActivity extends AppCompatActivity {
                 String termo = s == null ? "" : s.toString().trim().toLowerCase(Locale.ROOT);
                 boolean tudo = termo.isEmpty();
 
-                boolean basico = tudo || "básico basico aparência aparencia imagem imagens papel parede inicial fundo".contains(termo);
-                boolean privacidade = tudo || "privacidade segurança seguranca anúncios anuncios bloqueio bloqueador filtros filtro rastreadores estatísticas estatisticas".contains(termo);
+                boolean basico = tudo || "básico basico aparência aparencia imagem imagens papel parede inicial fundo pesquisa buscador mecanismo".contains(termo);
+                boolean privacidade = tudo || "privacidade segurança seguranca anúncios anuncios bloqueio bloqueador filtros filtro rastreadores estatísticas estatisticas limpar dados navegação cookies histórico".contains(termo);
                 boolean sites = tudo || "sites site conteúdo conteudo javascript script permissões permissao".contains(termo);
                 boolean sobre = tudo || "sobre datu avisos terceiros licenças licencas licença licenca código aberto".contains(termo);
 
@@ -125,6 +152,41 @@ public class MainActivity extends AppCompatActivity {
 
         findViewById(R.id.settings_third_party_notices).setOnClickListener(v ->
             startActivity(new Intent(MainActivity.this, ThirdPartyNoticesActivity.class)));
+
+        View mecanismoPesquisa = findViewById(R.id.settings_search_engine);
+        TextView resumoPesquisa = findViewById(R.id.settings_search_engine_summary);
+        atualizarResumoMecanismoPesquisa(resumoPesquisa);
+        mecanismoPesquisa.setOnClickListener(v -> {
+            String[] nomes = {"Brave Search", "DuckDuckGo", "Google"};
+            String[] valores = {"brave", "duckduckgo", "google"};
+            String atual = dados.getString("search_engine", "brave");
+            int selecionado = "duckduckgo".equals(atual) ? 1 : "google".equals(atual) ? 2 : 0;
+            new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Mecanismo de pesquisa")
+                .setSingleChoiceItems(nomes, selecionado, (dialog, which) -> {
+                    dados.edit().putString("search_engine", valores[which]).apply();
+                    atualizarResumoMecanismoPesquisa(resumoPesquisa);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Cancelar", null)
+                .show();
+        });
+
+        findViewById(R.id.settings_clear_data).setOnClickListener(v ->
+            new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Limpar dados de navegação?")
+                .setMessage("Isso apagará o histórico, cookies, cache e dados locais dos sites. Você poderá sair das suas contas. Favoritos e downloads serão preservados.")
+                .setNegativeButton("Cancelar", null)
+                .setPositiveButton("Limpar", (dialog, which) -> {
+                    getSharedPreferences("datu_browser_library", MODE_PRIVATE)
+                        .edit().putString("history", "[]").apply();
+                    android.webkit.CookieManager cookies = android.webkit.CookieManager.getInstance();
+                    cookies.removeAllCookies(value -> cookies.flush());
+                    android.webkit.WebStorage.getInstance().deleteAllData();
+                    if (binding != null && binding.webview != null) binding.webview.clearCache(true);
+                    Toast.makeText(MainActivity.this, "Dados de navegação apagados.", Toast.LENGTH_SHORT).show();
+                })
+                .show());
     }
 
 	private void abrirEditorEndereco() {
@@ -278,18 +340,7 @@ public class MainActivity extends AppCompatActivity {
 			if (shieldsDetalhesExpandidos) animarEntradaExpressiva(binding.linearUblock);
 		});
 		
-		binding.voltar.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				binding.tela1.setVisibility(View.GONE);
-				atualizarBarrasInferiores();
-				binding.tela2.setVisibility(View.VISIBLE);
-				atualizarBarrasInferiores();
-				animarEntradaExpressiva(binding.tela2);
-				binding.tela3.setVisibility(View.GONE);
-				atualizarBarrasInferiores();
-			}
-		});
+		binding.voltar.setOnClickListener(v -> fecharConfiguracoes());
 		
 		binding.switchJavascript.setOnCheckedChangeListener((button, enabled) -> {
             binding.webview.getSettings().setJavaScriptEnabled(enabled);
@@ -3950,9 +4001,7 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         });
         adicionarDivisorMenu(lista);
-        adicionarLinhaMenu(lista, android.R.drawable.ic_menu_preferences, "Configurações", () -> {
-            startActivity(new Intent(MainActivity.this, DatuSettingsActivity.class));
-        });
+        adicionarLinhaMenu(lista, android.R.drawable.ic_menu_preferences, "Configurações", () -> abrirConfiguracoes());
 
         painel.addView(rolagem, new LinearLayout.LayoutParams(-1, -2));
         int largura = Math.min(dp(320), getResources().getDisplayMetrics().widthPixels - dp(24));
@@ -4428,6 +4477,10 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public void onBackPressed() {
+		if (binding != null && binding.tela3.getVisibility() == View.VISIBLE) {
+			fecharConfiguracoes();
+			return;
+		}
 		if (findViewById(R.id.tela4).getVisibility() == View.VISIBLE) {
 			fecharBiblioteca();
 			return;

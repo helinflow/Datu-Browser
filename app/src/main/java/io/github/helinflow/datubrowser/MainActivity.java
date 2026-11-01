@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
 	private SharedPreferences dados;
 	private android.webkit.ValueCallback<android.net.Uri[]> uploadCallback;
 	private static final int FILE_CHOOSER_REQUEST = 7201;
-	private static final int LIBRARY_REQUEST = 7202;
 	private BrowserEngine browserEngine;
 	
 	@Override
@@ -115,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.favorites).setOnClickListener(v -> abrirBiblioteca("favorites"));
         findViewById(R.id.history).setOnClickListener(v -> abrirBiblioteca("history"));
         findViewById(R.id.downloads).setOnClickListener(v -> abrirBiblioteca("downloads"));
+		findViewById(R.id.library_back).setOnClickListener(v -> fecharBiblioteca());
 		
 		binding.imageview5.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -3741,10 +3741,103 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 	
+	private void fecharBiblioteca() {
+		findViewById(R.id.tela4).setVisibility(View.GONE);
+		findViewById(R.id.linear1).setVisibility(View.VISIBLE);
+	}
+
 	private void abrirBiblioteca(String screen) {
-		Intent intent = new Intent(this, LibraryActivity.class);
-		intent.putExtra("screen", screen);
-		startActivityForResult(intent, LIBRARY_REQUEST);
+		findViewById(R.id.linear1).setVisibility(View.GONE);
+		View page = findViewById(R.id.tela4);
+		page.setVisibility(View.VISIBLE);
+		TextView heading = findViewById(R.id.library_title);
+		LinearLayout content = findViewById(R.id.library_content);
+		content.removeAllViews();
+		boolean isHistory = "history".equals(screen);
+		boolean isFavorites = "favorites".equals(screen);
+		heading.setText(isFavorites ? "Favoritos" : isHistory ? "Histórico" : "Downloads");
+		if (isFavorites || isHistory) {
+			String key = isHistory ? "history" : "favorites";
+			JSONArray items;
+			try { items = new JSONArray(getSharedPreferences("datu_browser_library", 0).getString(key, "[]")); }
+			catch (Exception e) { items = new JSONArray(); }
+			if (items.length() == 0) adicionarItemBiblioteca(content, isHistory ? "Seu histórico está vazio" : "Nenhum favorito salvo ainda", "", null);
+			for (int i = 0; i < items.length(); i++) {
+				JSONObject item = items.optJSONObject(i);
+				if (item == null) continue;
+				String url = item.optString("url", "");
+				adicionarItemBiblioteca(content, item.optString("title", url), url, () -> {
+					fecharBiblioteca();
+					browserEngine.loadUrl(url);
+				});
+			}
+			if (isHistory && items.length() > 0) adicionarItemBiblioteca(content, "Limpar histórico", "Apagar os registros salvos neste dispositivo", () -> {
+				getSharedPreferences("datu_browser_library", 0).edit().putString("history", "[]").apply();
+				content.removeAllViews();
+				adicionarItemBiblioteca(content, "Seu histórico está vazio", "", null);
+			});
+		} else {
+			DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+			Cursor cursor = null;
+			int count = 0;
+			try {
+				if (dm != null) cursor = dm.query(new DownloadManager.Query());
+				if (cursor != null) while (cursor.moveToNext()) {
+					long id = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID));
+					String name = cursor.getString(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TITLE));
+					int status = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
+					String state = status == DownloadManager.STATUS_SUCCESSFUL ? "Concluído" : status == DownloadManager.STATUS_RUNNING ? "Em andamento" : status == DownloadManager.STATUS_FAILED ? "Falhou" : "Na fila";
+					final long downloadId = id;
+					adicionarItemBiblioteca(content, name + " · " + state, "Toque para abrir o arquivo", () -> abrirDownload(dm, downloadId));
+					count++;
+				}
+			} catch (Exception ignored) {
+			} finally { if (cursor != null) cursor.close(); }
+			if (count == 0) adicionarItemBiblioteca(content, "Nenhum download encontrado", "", null);
+		}
+		animarEntradaExpressiva(page);
+	}
+
+	private void adicionarItemBiblioteca(LinearLayout parent, String name, String detail, Runnable action) {
+		LinearLayout card = new LinearLayout(this);
+		card.setOrientation(LinearLayout.VERTICAL);
+		card.setPadding(16, 14, 16, 14);
+		GradientDrawable background = new GradientDrawable();
+		background.setColor(Color.rgb(36, 32, 34));
+		background.setCornerRadius(20 * getResources().getDisplayMetrics().density);
+		card.setBackground(background);
+		TextView title = new TextView(this);
+		title.setText(name);
+		title.setTextSize(16);
+		title.setTextColor(Color.rgb(245, 238, 241));
+		title.setTypeface(null, Typeface.BOLD);
+		card.addView(title);
+		if (detail != null && !detail.isEmpty()) {
+			TextView subtitle = new TextView(this);
+			subtitle.setText(detail);
+			subtitle.setTextSize(12);
+			subtitle.setTextColor(Color.rgb(208, 196, 200));
+			subtitle.setMaxLines(2);
+			card.addView(subtitle);
+		}
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+		params.bottomMargin = (int)(10 * getResources().getDisplayMetrics().density);
+		parent.addView(card, params);
+		if (action != null) card.setOnClickListener(v -> action.run());
+	}
+
+	private void abrirDownload(DownloadManager manager, long id) {
+		try {
+			Uri uri = manager.getUriForDownloadedFile(id);
+			if (uri == null) { Toast.makeText(this, "Esse download ainda não foi concluído.", Toast.LENGTH_SHORT).show(); return; }
+			String type = getContentResolver().getType(uri);
+			Intent intent = new Intent(Intent.ACTION_VIEW);
+			intent.setDataAndType(uri, type == null ? "*/*" : type);
+			intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+			startActivity(intent);
+		} catch (Exception e) {
+			Toast.makeText(this, "Não há aplicativo compatível para abrir esse arquivo.", Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	private String formatarEndereco(String url) {
@@ -3779,10 +3872,7 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == LIBRARY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-			String url = data.getStringExtra("url");
-			if (url != null && !url.isEmpty()) browserEngine.loadUrl(url);
-		} else if (requestCode == FILE_CHOOSER_REQUEST && uploadCallback != null) {
+		if (requestCode == FILE_CHOOSER_REQUEST && uploadCallback != null) {
 			android.net.Uri[] result = null;
 			if (resultCode == Activity.RESULT_OK && data != null) {
 				if (data.getClipData() != null) {

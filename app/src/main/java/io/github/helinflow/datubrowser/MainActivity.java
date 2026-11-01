@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 	private PopupWindow menuNavegacao;
 	private boolean carregandoPreferencias = true;
 	private boolean wallpaperAtivoNaTela = false;
+	private boolean wallpaperCarregamentoEmAndamento = false;
 	private boolean shieldsDetalhesExpandidos = false;
 	private Runnable recarregarFiltrosShields;
 	private int telaAnteriorConfiguracoes = 2;
@@ -4136,7 +4137,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void carregarPapelParede() {
-        if (!dados.getBoolean("home_wallpaper", true) || isFinishing()) return;
+        if (!dados.getBoolean("home_wallpaper", true) || isFinishing() || wallpaperCarregamentoEmAndamento) return;
+        wallpaperCarregamentoEmAndamento = true;
 
         final java.io.File arquivo = new java.io.File(getFilesDir(), "datu_home_wallpaper.jpg");
         if (arquivo.exists() && arquivo.length() > 0) {
@@ -4208,6 +4210,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override protected void onPostExecute(Bitmap bitmap) {
+                wallpaperCarregamentoEmAndamento = false;
                 if (bitmap != null && !isFinishing()
                     && dados.getBoolean("home_wallpaper", true)) aplicarPapelParede(bitmap);
             }

@@ -1,30 +1,30 @@
 <resources>
-    <!-- DATU BROWSER — DARK v1 -->
-    <color name="colorPrimary">#7A163D</color>
-    <color name="colorOnPrimary">#FFFFFF</color>
-    <color name="colorPrimaryContainer">#492B36</color>
-    <color name="colorOnPrimaryContainer">#FFB0C8</color>
-    <color name="colorSecondary">#B83B68</color>
-    <color name="colorOnSecondary">#FFFFFF</color>
-    <color name="colorSecondaryContainer">#492B36</color>
-    <color name="colorOnSecondaryContainer">#F5EEF1</color>
-    <color name="colorTertiary">#FFB0C8</color>
-    <color name="colorOnTertiary">#421326</color>
-    <color name="colorSurface">#1A1719</color>
-    <color name="colorOnSurface">#F5EEF1</color>
-    <color name="colorSurfaceVariant">#242022</color>
-    <color name="colorOnSurfaceVariant">#D0C4C8</color>
-    <color name="colorOutline">#3A3235</color>
-    <color name="colorError">#FFB4AB</color>
+    <!-- DATU BROWSER — MATERIAL 3 EXPRESSIVE DARK -->
+    <color name="colorPrimary">#D0BCFF</color>
+    <color name="colorOnPrimary">#381E72</color>
+    <color name="colorPrimaryContainer">#4F378B</color>
+    <color name="colorOnPrimaryContainer">#EADDFF</color>
+    <color name="colorSecondary">#CCC2DC</color>
+    <color name="colorOnSecondary">#332D41</color>
+    <color name="colorSecondaryContainer">#4A4458</color>
+    <color name="colorOnSecondaryContainer">#E8DEF8</color>
+    <color name="colorTertiary">#EFB8C8</color>
+    <color name="colorOnTertiary">#492532</color>
+    <color name="colorSurface">#141218</color>
+    <color name="colorOnSurface">#E6E0E9</color>
+    <color name="colorSurfaceVariant">#49454F</color>
+    <color name="colorOnSurfaceVariant">#CAC4D0</color>
+    <color name="colorOutline">#938F99</color>
+    <color name="colorError">#F2B8B5</color>
     <color name="colorSuccess">#B5CCB0</color>
-    <color name="colorBackground">#141214</color>
-    <color name="colorNavigation">#211A1D</color>
-    <color name="colorTextDisabled">#91878B</color>
-    <color name="colorSelected">#492B36</color>
-    <color name="colorGradientStart">#424242</color>
-    <color name="colorGradientEnd">#212121</color>
-    <color name="colorPrimaryDark">#141214</color>
-    <color name="colorAccent">#B83B68</color>
-    <color name="colorControlHighlight">#66B83B68</color>
-    <color name="colorControlNormal">#D0C4C8</color>
+    <color name="colorBackground">#0E0D12</color>
+    <color name="colorNavigation">#1D1B20</color>
+    <color name="colorTextDisabled">#938F99</color>
+    <color name="colorSelected">#4F378B</color>
+    <color name="colorGradientStart">#24212B</color>
+    <color name="colorGradientEnd">#141218</color>
+    <color name="colorPrimaryDark">#0E0D12</color>
+    <color name="colorAccent">#D0BCFF</color>
+    <color name="colorControlHighlight">#66D0BCFF</color>
+    <color name="colorControlNormal">#CAC4D0</color>
 </resources>

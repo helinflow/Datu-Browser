@@ -3747,6 +3747,8 @@ public class MainActivity extends AppCompatActivity {
         shape.setCornerRadius(dp(raioDp));
         return shape;
     }
+    // Chromium Android uses an anchored overflow popup backed by a menu model.
+    // Datu mirrors that interaction pattern while keeping actions connected to its own features.
     private void abrirMenuNavegacao() {
         if (menuNavegacao != null && menuNavegacao.isShowing()) {
             menuNavegacao.dismiss();
@@ -3755,56 +3757,40 @@ public class MainActivity extends AppCompatActivity {
 
         LinearLayout painel = new LinearLayout(this);
         painel.setOrientation(LinearLayout.VERTICAL);
-        painel.setPadding(dp(18), dp(16), dp(18), dp(12));
-        painel.setBackground(formaArredondada(Color.rgb(32, 33, 36), 24));
-
-        View alca = new View(this);
-        alca.setBackground(formaArredondada(Color.rgb(95, 99, 104), 4));
-        LinearLayout.LayoutParams alcaParams = new LinearLayout.LayoutParams(dp(36), dp(4));
-        alcaParams.gravity = Gravity.CENTER_HORIZONTAL;
-        alcaParams.bottomMargin = dp(16);
-        painel.addView(alca, alcaParams);
+        painel.setPadding(dp(8), dp(10), dp(8), dp(10));
+        painel.setBackground(formaArredondada(Color.rgb(41, 42, 45), 18));
 
         TextView titulo = new TextView(this);
-        titulo.setText("Datu");
+        titulo.setText("Menu");
         titulo.setTextColor(Color.rgb(232, 234, 237));
-        titulo.setTextSize(20);
+        titulo.setTextSize(16);
         titulo.setTypeface(null, Typeface.BOLD);
-        titulo.setPadding(dp(4), 0, dp(4), dp(14));
+        titulo.setPadding(dp(16), dp(6), dp(12), dp(12));
         painel.addView(titulo);
-
-        LinearLayout atalhos = new LinearLayout(this);
-        atalhos.setOrientation(LinearLayout.HORIZONTAL);
-        adicionarAtalhoMenu(atalhos, R.drawable.icon_add_round, "Guias", () -> {
-            if (menuNavegacao != null) menuNavegacao.dismiss();
-            abrirSeletorGuias();
-        });
-        adicionarAtalhoMenu(atalhos, R.drawable.ic_library_favorite, "Favoritos", () -> {
-            if (menuNavegacao != null) menuNavegacao.dismiss();
-            abrirBiblioteca("favorites");
-        });
-        adicionarAtalhoMenu(atalhos, R.drawable.ic_library_history, "Histórico", () -> {
-            if (menuNavegacao != null) menuNavegacao.dismiss();
-            abrirBiblioteca("history");
-        });
-        adicionarAtalhoMenu(atalhos, R.drawable.ic_library_download, "Downloads", () -> {
-            if (menuNavegacao != null) menuNavegacao.dismiss();
-            abrirBiblioteca("downloads");
-        });
-        painel.addView(atalhos);
-
-        View divisor = new View(this);
-        divisor.setBackgroundColor(Color.rgb(60, 64, 67));
-        LinearLayout.LayoutParams divisorParams = new LinearLayout.LayoutParams(-1, dp(1));
-        divisorParams.topMargin = dp(14);
-        divisorParams.bottomMargin = dp(8);
-        painel.addView(divisor, divisorParams);
 
         ScrollView rolagem = new ScrollView(this);
         rolagem.setFillViewport(false);
+        rolagem.setVerticalScrollBarEnabled(false);
         LinearLayout lista = new LinearLayout(this);
         lista.setOrientation(LinearLayout.VERTICAL);
         rolagem.addView(lista);
+
+        adicionarLinhaMenu(lista, R.drawable.icon_add_round, "Nova guia", () -> {
+            if (tabManager != null) {
+                tabManager.create(binding.webview, "https://search.brave.com/");
+                browserEngine.loadUrl("https://search.brave.com/");
+                atualizarContadorGuias();
+            }
+        });
+        adicionarLinhaMenu(lista, R.drawable.icon_add_round, "Nova guia anônima", () -> {
+            startActivity(new Intent(MainActivity.this, PrivateBrowserActivity.class));
+        });
+        adicionarDivisorMenu(lista);
+
+        adicionarLinhaMenu(lista, R.drawable.ic_library_favorite, "Favoritos", () -> abrirBiblioteca("favorites"));
+        adicionarLinhaMenu(lista, R.drawable.ic_library_history, "Histórico", () -> abrirBiblioteca("history"));
+        adicionarLinhaMenu(lista, R.drawable.ic_library_download, "Downloads", () -> abrirBiblioteca("downloads"));
+        adicionarDivisorMenu(lista);
 
         adicionarLinhaMenu(lista, R.drawable.icon_arrow_back_ios_round, "Voltar", () -> {
             if (browserEngine != null && browserEngine.canGoBack()) browserEngine.goBack();
@@ -3819,66 +3805,67 @@ public class MainActivity extends AppCompatActivity {
         adicionarLinhaMenu(lista, R.drawable.icon_refresh_round, "Atualizar página", () -> {
             if (browserEngine != null) browserEngine.reload();
         });
-                adicionarLinhaMenu(lista, R.drawable.icon_settings_round, "Configurações", () -> {
+        adicionarLinhaMenu(lista, R.drawable.icon_share_round, "Compartilhar", () -> {
+            String url = browserEngine == null ? null : browserEngine.getUrl();
+            if (url == null || url.trim().isEmpty()) return;
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT, url);
+            startActivity(Intent.createChooser(share, "Compartilhar página"));
+        });
+        adicionarLinhaMenu(lista, R.drawable.icon_search_round, "Buscar na página", () -> {
+            EditText query = new EditText(this);
+            query.setSingleLine(true);
+            query.setHint("Texto para localizar");
+            new AlertDialog.Builder(this)
+                    .setTitle("Buscar na página")
+                    .setView(query)
+                    .setNegativeButton("Cancelar", null)
+                    .setPositiveButton("Buscar", (dialog, which) -> {
+                        String term = query.getText() == null ? "" : query.getText().toString().trim();
+                        if (!term.isEmpty()) binding.webview.findAllAsync(term);
+                    })
+                    .show();
+        });
+        adicionarDivisorMenu(lista);
+        adicionarLinhaMenu(lista, R.drawable.icon_settings_round, "Configurações", () -> {
             startActivity(new Intent(MainActivity.this, DatuSettingsActivity.class));
         });
-        painel.addView(rolagem, new LinearLayout.LayoutParams(-1, -2));
 
-        int largura = getResources().getDisplayMetrics().widthPixels - dp(16);
-        int alturaMaxima = (int)(getResources().getDisplayMetrics().heightPixels * 0.78f);
+        painel.addView(rolagem, new LinearLayout.LayoutParams(-1, -2));
+        int largura = Math.min(dp(320), getResources().getDisplayMetrics().widthPixels - dp(24));
+        int alturaMaxima = (int) (getResources().getDisplayMetrics().heightPixels * 0.76f);
         menuNavegacao = new PopupWindow(painel, largura, -2, true);
         menuNavegacao.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         menuNavegacao.setOutsideTouchable(true);
-        menuNavegacao.setElevation(dp(18));
-        menuNavegacao.setAnimationStyle(android.R.style.Animation_InputMethod);
+        menuNavegacao.setElevation(dp(12));
+        menuNavegacao.setOverlapAnchor(true);
         menuNavegacao.setOnDismissListener(() -> menuNavegacao = null);
-        painel.measure(View.MeasureSpec.makeMeasureSpec(largura, View.MeasureSpec.AT_MOST),
+        painel.measure(View.MeasureSpec.makeMeasureSpec(largura, View.MeasureSpec.EXACTLY),
                 View.MeasureSpec.makeMeasureSpec(alturaMaxima, View.MeasureSpec.AT_MOST));
         menuNavegacao.setHeight(Math.min(painel.getMeasuredHeight(), alturaMaxima));
-        menuNavegacao.showAtLocation(binding.getRoot(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, dp(8));
+        menuNavegacao.showAsDropDown(binding.mais,
+                -largura + binding.mais.getWidth(), dp(4), Gravity.END);
     }
 
-    private void adicionarAtalhoMenu(LinearLayout linha, int icone, String nome, Runnable acao) {
-        LinearLayout item = new LinearLayout(this);
-        item.setOrientation(LinearLayout.VERTICAL);
-        item.setGravity(Gravity.CENTER);
-        item.setPadding(dp(2), dp(10), dp(2), dp(8));
-        item.setBackground(formaArredondada(Color.rgb(41, 42, 45), 16));
-
-        ImageView imagem = new ImageView(this);
-        imagem.setImageResource(icone);
-        imagem.setColorFilter(Color.rgb(232, 234, 237), android.graphics.PorterDuff.Mode.SRC_IN);
-        LinearLayout.LayoutParams ip = new LinearLayout.LayoutParams(dp(25), dp(25));
-        ip.bottomMargin = dp(6);
-        item.addView(imagem, ip);
-
-        TextView texto = new TextView(this);
-        texto.setText(nome);
-        texto.setTextColor(Color.rgb(232, 234, 237));
-        texto.setTextSize(11);
-        texto.setGravity(Gravity.CENTER);
-        texto.setMaxLines(1);
-        item.addView(texto, new LinearLayout.LayoutParams(-1, -2));
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(76), 1f);
-        params.setMargins(dp(3), 0, dp(3), 0);
-        linha.addView(item, params);
-        item.setOnClickListener(v -> {
-            if (menuNavegacao != null) menuNavegacao.dismiss();
-            acao.run();
-        });
+    private void adicionarDivisorMenu(LinearLayout lista) {
+        View divisor = new View(this);
+        divisor.setBackgroundColor(Color.rgb(60, 64, 67));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, dp(1));
+        params.setMargins(dp(12), dp(5), dp(12), dp(5));
+        lista.addView(divisor, params);
     }
 
     private void adicionarLinhaMenu(LinearLayout lista, int icone, String titulo, Runnable acao) {
         LinearLayout item = new LinearLayout(this);
         item.setOrientation(LinearLayout.HORIZONTAL);
         item.setGravity(Gravity.CENTER_VERTICAL);
-        item.setPadding(dp(12), 0, dp(12), 0);
+        item.setPadding(dp(14), 0, dp(12), 0);
         item.setBackgroundResource(android.R.drawable.list_selector_background);
 
         ImageView imagem = new ImageView(this);
         imagem.setImageResource(icone);
-        imagem.setColorFilter(Color.rgb(189, 193, 198), android.graphics.PorterDuff.Mode.SRC_IN);
+        imagem.setColorFilter(Color.rgb(218, 220, 224), android.graphics.PorterDuff.Mode.SRC_IN);
         LinearLayout.LayoutParams ip = new LinearLayout.LayoutParams(dp(22), dp(22));
         ip.rightMargin = dp(18);
         item.addView(imagem, ip);
@@ -3886,10 +3873,10 @@ public class MainActivity extends AppCompatActivity {
         TextView texto = new TextView(this);
         texto.setText(titulo);
         texto.setTextColor(Color.rgb(232, 234, 237));
-        texto.setTextSize(15);
+        texto.setTextSize(14);
         item.addView(texto, new LinearLayout.LayoutParams(0, -1, 1));
 
-        lista.addView(item, new LinearLayout.LayoutParams(-1, dp(52)));
+        lista.addView(item, new LinearLayout.LayoutParams(-1, dp(48)));
         item.setOnClickListener(v -> {
             if (menuNavegacao != null) menuNavegacao.dismiss();
             acao.run();

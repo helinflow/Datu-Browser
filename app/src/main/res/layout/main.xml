@@ -284,11 +284,26 @@
 />
 				</LinearLayout>
 			</LinearLayout>
+			<LinearLayout
+				android:id="@+id/linear_B"
+				android:layout_width="match_parent"
+				android:layout_height="52dp"
+				android:orientation="horizontal"
+				android:gravity="center"
+				android:background="#141218"
+				android:paddingStart="8dp"
+				android:paddingEnd="8dp">
+				<ImageView android:id="@+id/toolbar_back" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="12dp" android:src="@drawable/icon_arrow_back_ios_round" android:tint="#CAC4D0" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Voltar página" />
+				<ImageView android:id="@+id/toolbar_forward" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="12dp" android:src="@drawable/icon_arrow_forward_ios_round" android:tint="#CAC4D0" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Avançar página" />
+				<ImageView android:id="@+id/toolbar_favorites" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="10dp" android:src="@drawable/ic_library_favorite" android:tint="#D0BCFF" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Favoritos" />
+				<ImageView android:id="@+id/toolbar_downloads" android:layout_width="0dp" android:layout_height="44dp" android:layout_weight="1" android:padding="10dp" android:src="@drawable/ic_library_download" android:tint="#D0BCFF" android:background="@drawable/datu_nav_item_bg" android:contentDescription="Downloads" />
+			</LinearLayout>
 			<android.webkit.WebView
 				android:id="@+id/webview"
-				android:padding="8dp"
+				android:padding="0dp"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
+				android:layout_height="0dp"
+				android:layout_weight="1"
 				android:overScrollMode="never"
 				android:scrollbars="none"
 				android:saveEnabled="true" />
@@ -298,7 +313,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="#202124"
+            android:background="#0E0D12"
             android:visibility="gone">
             <ScrollView
                 android:id="@+id/scroll_configuracoes"
@@ -325,7 +340,7 @@
                             android:layout_height="48dp"
                             android:padding="14dp"
                             android:src="@drawable/icon_arrow_back_ios_round"
-                            android:tint="#E8EAED"
+                            android:tint="#E6E0E9"
                             android:contentDescription="Voltar"/>
                         <TextView
                             android:id="@+id/text_config_titulo"
@@ -333,7 +348,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
                             android:text="Configurações"
-                            android:textColor="#E8EAED"
+                            android:textColor="#E6E0E9"
                             android:textSize="22sp"/>
                     </LinearLayout>
 
@@ -352,7 +367,7 @@
                             android:layout_height="22dp"
                             android:layout_marginStart="16dp"
                             android:src="@drawable/ic_settings_search"
-                            android:tint="#BDC1C6"/>
+                            android:tint="#CAC4D0"/>
                         <EditText
                             android:id="@+id/config_search"
                             android:layout_width="match_parent"
@@ -362,8 +377,8 @@
                             android:background="@android:color/transparent"
                             android:singleLine="true"
                             android:textSize="16sp"
-                            android:textColor="#E8EAED"
-                            android:textColorHint="#9AA0A6"
+                            android:textColor="#E6E0E9"
+                            android:textColorHint="#938F99"
                             android:hint="Pesquisar nas configurações"
                             android:imeOptions="actionSearch"
                             android:inputType="text"/>
@@ -386,7 +401,7 @@
                             android:text="D"
                             android:textSize="23sp"
                             android:textStyle="bold"
-                            android:textColor="#202124"
+                            android:textColor="#0E0D12"
                             android:background="@drawable/datu_chromium_brand_bg"/>
                         <LinearLayout
                             android:layout_width="0dp"
@@ -399,7 +414,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Datu Browser"
                                 android:textSize="16sp"
-                                android:textColor="#E8EAED"
+                                android:textColor="#E6E0E9"
                                 android:textStyle="bold"/>
                             <TextView
                                 android:layout_width="wrap_content"
@@ -407,7 +422,7 @@
                                 android:layout_marginTop="3dp"
                                 android:text="Personalize sua experiência"
                                 android:textSize="13sp"
-                                android:textColor="#9AA0A6"/>
+                                android:textColor="#938F99"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -420,7 +435,7 @@
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:text="Básico"
-                        android:textColor="#8AB4F8"
+                        android:textColor="#D0BCFF"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
@@ -443,7 +458,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_settings_image"
-                                android:tint="#BDC1C6"/>
+                                android:tint="#CAC4D0"/>
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -457,8 +472,8 @@
                                     android:padding="0dp"
                                     android:text="Imagens na página inicial"
                                     android:textSize="16sp"
-                                    android:textColor="#E8EAED"
-                                    android:buttonTint="#8AB4F8"
+                                    android:textColor="#E6E0E9"
+                                    android:buttonTint="#D0BCFF"
                                     android:checked="true"/>
                                 <TextView
                                     android:layout_width="match_parent"
@@ -466,14 +481,14 @@
                                     android:layout_marginTop="3dp"
                                     android:text="Mostrar paisagens como plano de fundo"
                                     android:textSize="13sp"
-                                    android:textColor="#9AA0A6"/>
+                                    android:textColor="#938F99"/>
                             </LinearLayout>
                         </LinearLayout>
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginStart="72dp"
-                            android:background="#3C4043"/>
+                            android:background="#49454F"/>
                     </LinearLayout>
 
                     <TextView
@@ -485,7 +500,7 @@
                         android:paddingTop="20dp"
                         android:paddingBottom="8dp"
                         android:text="Privacidade e segurança"
-                        android:textColor="#8AB4F8"
+                        android:textColor="#D0BCFF"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
@@ -509,7 +524,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_settings_shield"
-                                android:tint="#BDC1C6"/>
+                                android:tint="#CAC4D0"/>
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -522,21 +537,21 @@
                                     android:layout_height="wrap_content"
                                     android:text="Proteção contra anúncios"
                                     android:textSize="16sp"
-                                    android:textColor="#E8EAED"/>
+                                    android:textColor="#E6E0E9"/>
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="3dp"
                                     android:text="Bloqueio, filtros e estatísticas"
                                     android:textSize="13sp"
-                                    android:textColor="#9AA0A6"/>
+                                    android:textColor="#938F99"/>
                             </LinearLayout>
                             <ImageView
                                 android:id="@+id/abrir"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/icon_keyboard_arrow_down_round"
-                                android:tint="#9AA0A6"/>
+                                android:tint="#938F99"/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/linear_ublock"
@@ -561,8 +576,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="Bloquear anúncios e rastreadores"
                                     android:textSize="15sp"
-                                    android:textColor="#E8EAED"
-                                    android:buttonTint="#8AB4F8"/>
+                                    android:textColor="#E6E0E9"
+                                    android:buttonTint="#D0BCFF"/>
                             </LinearLayout>
                             <LinearLayout
                                 android:id="@+id/linear_estatist"
@@ -577,8 +592,8 @@
                                     android:layout_height="wrap_content"
                                     android:text="Mostrar estatísticas de bloqueio"
                                     android:textSize="15sp"
-                                    android:textColor="#E8EAED"
-                                    android:buttonTint="#8AB4F8"/>
+                                    android:textColor="#E6E0E9"
+                                    android:buttonTint="#D0BCFF"/>
                             </LinearLayout>
                             <LinearLayout
                                 android:id="@+id/linear15"
@@ -594,7 +609,7 @@
                                     android:layout_weight="1"
                                     android:text="Listas de filtros"
                                     android:textSize="14sp"
-                                    android:textColor="#E8EAED"/>
+                                    android:textColor="#E6E0E9"/>
                                 <TextView
                                     android:id="@+id/text_porcentagem"
                                     android:layout_width="wrap_content"
@@ -602,7 +617,7 @@
                                     android:padding="8dp"
                                     android:text="0%"
                                     android:textSize="12sp"
-                                    android:textColor="#9AA0A6"/>
+                                    android:textColor="#938F99"/>
                                 <TextView
                                     android:id="@+id/text_atualize"
                                     android:layout_width="wrap_content"
@@ -610,7 +625,7 @@
                                     android:padding="8dp"
                                     android:text="Atualizar"
                                     android:textSize="14sp"
-                                    android:textColor="#8AB4F8"/>
+                                    android:textColor="#D0BCFF"/>
                             </LinearLayout>
                             <TextView
                                 android:id="@+id/text_informacao"
@@ -618,7 +633,7 @@
                                 android:layout_height="wrap_content"
                                 android:paddingTop="4dp"
                                 android:textSize="13sp"
-                                android:textColor="#9AA0A6"/>
+                                android:textColor="#938F99"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -631,7 +646,7 @@
                         android:paddingTop="20dp"
                         android:paddingBottom="8dp"
                         android:text="Conteúdo e permissões"
-                        android:textColor="#8AB4F8"
+                        android:textColor="#D0BCFF"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
@@ -654,7 +669,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@drawable/ic_settings_tune"
-                                android:tint="#BDC1C6"/>
+                                android:tint="#CAC4D0"/>
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -668,8 +683,8 @@
                                     android:padding="0dp"
                                     android:text="JavaScript"
                                     android:textSize="16sp"
-                                    android:textColor="#E8EAED"
-                                    android:buttonTint="#8AB4F8"
+                                    android:textColor="#E6E0E9"
+                                    android:buttonTint="#D0BCFF"
                                     android:checked="true"/>
                                 <TextView
                                     android:layout_width="match_parent"
@@ -677,14 +692,14 @@
                                     android:layout_marginTop="3dp"
                                     android:text="Permitir que sites executem JavaScript"
                                     android:textSize="13sp"
-                                    android:textColor="#9AA0A6"/>
+                                    android:textColor="#938F99"/>
                             </LinearLayout>
                         </LinearLayout>
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:layout_marginStart="72dp"
-                            android:background="#3C4043"/>
+                            android:background="#49454F"/>
                     </LinearLayout>
 
                     <TextView
@@ -696,7 +711,7 @@
                         android:paddingTop="20dp"
                         android:paddingBottom="8dp"
                         android:text="Sobre o navegador"
-                        android:textColor="#8AB4F8"
+                        android:textColor="#D0BCFF"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
 
@@ -715,7 +730,7 @@
                             android:paddingEnd="20dp"
                             android:background="?android:attr/selectableItemBackground"
                             android:text="Licenças e avisos de terceiros"
-                            android:textColor="#E8EAED"
+                            android:textColor="#E6E0E9"
                             android:textSize="16sp"/>
                     </LinearLayout>
 
@@ -726,7 +741,7 @@
                         android:gravity="center"
                         android:padding="32dp"
                         android:text="Nenhuma configuração encontrada"
-                        android:textColor="#9AA0A6"
+                        android:textColor="#938F99"
                         android:textSize="14sp"
                         android:visibility="gone"/>
                     <TextView

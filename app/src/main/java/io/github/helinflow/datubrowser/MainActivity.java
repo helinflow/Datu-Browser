@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 	private TabManager tabManager;
 	private PopupWindow menuNavegacao;
 	private boolean carregandoPreferencias = true;
+	private boolean wallpaperAtivoNaTela = false;
 	
 	private void atualizarBarrasInferiores() {
 		android.view.View barraA = findViewById(R.id.linear_A);
@@ -4057,6 +4058,7 @@ public class MainActivity extends AppCompatActivity {
                 Math.min(largura, escalada.getWidth() - x),
                 Math.min(altura, escalada.getHeight() - y));
             area.setBackground(new BitmapDrawable(getResources(), recorte));
+            wallpaperAtivoNaTela = true;
             if (escalada != original && !escalada.isRecycled()) escalada.recycle();
         });
     }
@@ -4390,6 +4392,14 @@ public class MainActivity extends AppCompatActivity {
 		if (binding != null && dados != null) {
 			String javascript = dados.getString("javascript", "ativado");
 			binding.webview.getSettings().setJavaScriptEnabled(!"desativado".equals(javascript));
+
+			boolean wallpaperHabilitado = dados.getBoolean("home_wallpaper", true);
+			if (!wallpaperHabilitado) {
+				binding.tela1.setBackgroundColor(Color.rgb(14, 13, 18));
+				wallpaperAtivoNaTela = false;
+			} else if (!wallpaperAtivoNaTela) {
+				carregarPapelParede();
+			}
 		}
 	}
 

@@ -4,6 +4,7 @@ import android.animation.*;
 import android.app.*;
 import android.app.Activity;
 import android.content.*;
+import android.database.Cursor;
 import android.content.SharedPreferences;
 import android.content.res.*;
 import android.graphics.*;
@@ -3888,6 +3889,10 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public void onBackPressed() {
+		if (findViewById(R.id.tela4).getVisibility() == View.VISIBLE) {
+			fecharBiblioteca();
+			return;
+		}
 		if (browserEngine != null && browserEngine.canGoBack()) {
 			browserEngine.goBack();
 		} else {

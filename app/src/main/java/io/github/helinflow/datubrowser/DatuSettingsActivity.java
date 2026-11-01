@@ -28,17 +28,18 @@ public class DatuSettingsActivity extends AppCompatActivity {
 
         android.widget.LinearLayout root = new android.widget.LinearLayout(this);
         root.setOrientation(android.widget.LinearLayout.VERTICAL);
-        root.setBackgroundColor(0xFF202124);
+        root.setBackgroundColor(0xFF0E0D12);
 
         Toolbar toolbar = new Toolbar(this);
         toolbar.setTitle("Configurações");
-        toolbar.setTitleTextColor(0xFFE8EAED);
+        toolbar.setElevation(0f);
+        toolbar.setTitleTextColor(0xFFE6E0E9);
         toolbar.setNavigationIcon(R.drawable.ic_library_back);
         if (toolbar.getNavigationIcon() != null) {
-            toolbar.getNavigationIcon().mutate().setTint(0xFFE8EAED);
+            toolbar.getNavigationIcon().mutate().setTint(0xFFE6E0E9);
         }
         toolbar.setNavigationContentDescription("Voltar");
-        toolbar.setBackgroundColor(0xFF202124);
+        toolbar.setBackgroundColor(0xFF141218);
         toolbar.setNavigationOnClickListener(v -> finish());
         root.addView(toolbar, new android.widget.LinearLayout.LayoutParams(
                 -1, (int) (56 * getResources().getDisplayMetrics().density + 0.5f)));

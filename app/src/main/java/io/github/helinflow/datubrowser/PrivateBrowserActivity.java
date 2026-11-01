@@ -171,12 +171,14 @@ public final class PrivateBrowserActivity extends Activity {
             BrowserTab tab = tabs.get(i);
             String title = tab.getTitle();
             if (title == null || title.trim().isEmpty()) title = "Nova guia anônima";
-            labels[i] = title + "\\n" + tab.getUrl();
+            labels[i] = title + "\n" + tab.getUrl();
         }
         new android.app.AlertDialog.Builder(this)
             .setTitle("Guias anônimas")
             .setItems(labels, (dialog, which) -> {
                 tabManager.select(which, webView);
+                BrowserTab active = tabManager.getActive();
+                if (active != null) address.setText(active.getUrl());
                 atualizarContadorGuias();
             })
             .setPositiveButton("Nova guia", (dialog, which) -> {

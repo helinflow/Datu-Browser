@@ -10,6 +10,12 @@
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".PrivateBrowserActivity"
+            android:exported="false"
+            android:process=":private"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".LibraryActivity"
             android:exported="false"
             android:screenOrientation="portrait"

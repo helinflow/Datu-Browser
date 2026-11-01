@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
 		browserEngine = new WebViewBrowserEngine(binding.webview);
 		initialize(_savedInstanceState);
 		initializeLogic();
+        configurarBuscaConfiguracoes();
 		tabManager = new TabManager();
 		tabManager.create(binding.webview, "https://search.brave.com/");
 		tabManager.captureActive(binding.webview);
@@ -71,6 +72,35 @@ public class MainActivity extends AppCompatActivity {
 		if (contadorGuias != null) contadorGuias.setOnClickListener(v -> abrirSeletorGuias());
 	}
 	
+
+    private void configurarBuscaConfiguracoes() {
+        EditText busca = findViewById(R.id.config_search);
+        if (busca == null) return;
+
+        busca.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String termo = s == null ? "" : s.toString().trim().toLowerCase(Locale.ROOT);
+                boolean tudo = termo.isEmpty();
+
+                boolean aparencia = tudo || "aparência paisagem papel parede imagem imagens inicial fundo".contains(termo);
+                boolean sites = tudo || "sites site javascript script permissões permissao".contains(termo);
+                boolean privacidade = tudo || "privacidade segurança anuncios anúncios bloqueio bloqueador filtros filtro shields estatísticas rastreadores".contains(termo);
+
+                findViewById(R.id.settings_group_appearance).setVisibility(aparencia ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_heading_basic).setVisibility(aparencia ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_group_site).setVisibility(sites ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_heading_site).setVisibility(sites ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_group_privacy).setVisibility(privacidade ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_heading_privacy).setVisibility(privacidade ? View.VISIBLE : View.GONE);
+
+                boolean nenhum = !aparencia && !sites && !privacidade;
+                findViewById(R.id.text_config_sem_resultados).setVisibility(nenhum ? View.VISIBLE : View.GONE);
+            }
+            @Override public void afterTextChanged(Editable s) { }
+        });
+    }
+
 	private void initialize(Bundle _savedInstanceState) {
 		dados = getSharedPreferences("dados", Activity.MODE_PRIVATE);
 		

@@ -1521,10 +1521,9 @@ public class MainActivity extends AppCompatActivity {
 				String[] partes = host.toLowerCase(java.util.Locale.ROOT).split("\\.");
 				if (partes.length < 2) return host.toLowerCase(java.util.Locale.ROOT);
 				String sufixoDuplo = partes[partes.length - 2] + "." + partes[partes.length - 1];
-				java.util.HashSet<String> sufixosCompostos = new java.util.HashSet<String>(java.util.Arrays.asList(
-					"com.br", "net.br", "org.br", "edu.br", "gov.br", "com.au", "net.au", "org.au",
-					"co.uk", "org.uk", "gov.uk", "ac.uk", "co.jp", "co.nz", "com.mx", "co.in"));
-				int quantidade = sufixosCompostos.contains(sufixoDuplo) ? 3 : 2;
+				boolean sufixoComposto = ",com.br,net.br,org.br,edu.br,gov.br,com.au,net.au,org.au,co.uk,org.uk,gov.uk,ac.uk,co.jp,co.nz,com.mx,co.in,"
+					.contains("," + sufixoDuplo + ",");
+				int quantidade = sufixoComposto ? 3 : 2;
 				if (partes.length < quantidade) return host.toLowerCase(java.util.Locale.ROOT);
 				StringBuilder base = new StringBuilder();
 				for (int i = partes.length - quantidade; i < partes.length; i++) {
@@ -2912,7 +2911,7 @@ public class MainActivity extends AppCompatActivity {
 					
 					if (shields.mesmoSite(hostRecurso, hostPagina)) {
 						return false;
-					}}
+					}
 				}
 				
 				

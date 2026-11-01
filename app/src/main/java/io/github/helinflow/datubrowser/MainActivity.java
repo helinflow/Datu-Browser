@@ -665,7 +665,7 @@ public class MainActivity extends AppCompatActivity {
 							tvPorcentagem.setText("100%");
 							tvInformacao.setText("Download concluído. Aplicando filtros...");
 							if (recarregarFiltrosShields != null) recarregarFiltrosShields.run();
-						}} else if ("ERRO_PASTA".equals(resultado)) {
+						} else if ("ERRO_PASTA".equals(resultado)) {
 							
 							tvPorcentagem.setText("0%");
 							
@@ -2565,7 +2565,7 @@ public class MainActivity extends AppCompatActivity {
 				synchronized (shieldsCache) { shieldsCache.clear(); }
 				runOnUiThread(() -> {
 					if (binding != null && binding.webview != null) {
-						injetarCss(binding.webview);
+						shields.injetarCss(binding.webview);
 						if (binding.webview.getUrl() != null) binding.webview.reload();
 					}
 					android.widget.TextView info = findViewById(R.id.text_informacao);

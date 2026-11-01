@@ -9,6 +9,10 @@ package io.github.helinflow.datubrowser;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.graphics.drawable.GradientDrawable;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +48,28 @@ public class DatuSettingsActivity extends AppCompatActivity {
         root.addView(toolbar, new android.widget.LinearLayout.LayoutParams(
                 -1, (int) (56 * getResources().getDisplayMetrics().density + 0.5f)));
 
+        EditText search = new EditText(this);
+        search.setSingleLine(true);
+        search.setTextSize(15);
+        search.setTextColor(0xFFE6E0E9);
+        search.setHintTextColor(0xFF938F99);
+        search.setHint("Pesquisar nas configurações");
+        search.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_search, 0, 0, 0);
+        search.setCompoundDrawablePadding((int) (12 * getResources().getDisplayMetrics().density + 0.5f));
+        search.setPadding((int) (16 * getResources().getDisplayMetrics().density + 0.5f), 0,
+                (int) (16 * getResources().getDisplayMetrics().density + 0.5f), 0);
+        GradientDrawable searchBackground = new GradientDrawable();
+        searchBackground.setColor(0xFF1D1B20);
+        searchBackground.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        search.setBackground(searchBackground);
+        android.widget.LinearLayout.LayoutParams searchParams = new android.widget.LinearLayout.LayoutParams(
+                -1, (int) (52 * getResources().getDisplayMetrics().density + 0.5f));
+        searchParams.setMargins((int) (18 * getResources().getDisplayMetrics().density + 0.5f),
+                (int) (10 * getResources().getDisplayMetrics().density + 0.5f),
+                (int) (18 * getResources().getDisplayMetrics().density + 0.5f),
+                (int) (12 * getResources().getDisplayMetrics().density + 0.5f));
+        root.addView(search, searchParams);
+
         android.widget.FrameLayout content = new android.widget.FrameLayout(this);
         content.setId(CONTENT_ID);
         root.addView(content, new android.widget.LinearLayout.LayoutParams(-1, 0, 1));
@@ -52,8 +78,18 @@ public class DatuSettingsActivity extends AppCompatActivity {
         if (state == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(CONTENT_ID, new MainSettingsFragment())
-                    .commit();
+                    .commitNow();
         }
+        search.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                androidx.fragment.app.Fragment fragment = getSupportFragmentManager().findFragmentById(CONTENT_ID);
+                if (fragment instanceof MainSettingsFragment) {
+                    ((MainSettingsFragment) fragment).filterPreferences(s == null ? "" : s.toString());
+                }
+            }
+            @Override public void afterTextChanged(Editable s) { }
+        });
     }
 
     public static class MainSettingsFragment extends PreferenceFragmentCompat {
@@ -162,6 +198,34 @@ public class DatuSettingsActivity extends AppCompatActivity {
                 return true;
             });
             about.addPreference(notices);
+        }
+
+        public void filterPreferences(String query) {
+            String needle = query == null ? "" : query.trim().toLowerCase(java.util.Locale.ROOT);
+            PreferenceScreen screen = getPreferenceScreen();
+            if (screen == null) return;
+            for (int i = 0; i < screen.getPreferenceCount(); i++) {
+                Preference item = screen.getPreference(i);
+                if (!(item instanceof PreferenceCategory)) {
+                    item.setVisible(needle.isEmpty() || matches(item, needle));
+                    continue;
+                }
+                PreferenceCategory category = (PreferenceCategory) item;
+                boolean any = needle.isEmpty() || String.valueOf(category.getTitle()).toLowerCase(java.util.Locale.ROOT).contains(needle);
+                for (int j = 0; j < category.getPreferenceCount(); j++) {
+                    Preference child = category.getPreference(j);
+                    boolean match = needle.isEmpty() || matches(child, needle);
+                    child.setVisible(match);
+                    any |= match;
+                }
+                category.setVisible(any);
+            }
+        }
+
+        private boolean matches(Preference preference, String needle) {
+            String title = preference.getTitle() == null ? "" : preference.getTitle().toString();
+            String summary = preference.getSummary() == null ? "" : preference.getSummary().toString();
+            return (title + " " + summary).toLowerCase(java.util.Locale.ROOT).contains(needle);
         }
 
         private String searchEngineLabel(String value) {

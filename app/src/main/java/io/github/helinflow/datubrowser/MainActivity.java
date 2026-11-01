@@ -365,6 +365,8 @@ public class MainActivity extends AppCompatActivity {
 				new android.os.AsyncTask<Void, String, String>() {
 					
 					private int arquivoAtual = 0;
+					private int arquivosAtualizados = 0;
+					private int falhas = 0;
 					
 					@Override
 					protected String doInBackground(Void... params) {
@@ -427,6 +429,7 @@ public class MainActivity extends AppCompatActivity {
 								
 								if (codigo < 200 || codigo >= 300) {
 									
+									falhas++;
 									publishProgress(
 									"ERRO",
 									nomes[arquivoAtual],
@@ -506,22 +509,23 @@ public class MainActivity extends AppCompatActivity {
 								saida.close();
 								saida = null;
 								
-								if (destino.exists()) {
-									destino.delete();
-								}
-								
-								if (!temporario.renameTo(destino)) {
-									
+								java.io.File backup = new java.io.File(pasta, arquivos[arquivoAtual] + ".bak");
+								if (backup.exists()) backup.delete();
+								if (destino.exists() && !destino.renameTo(backup)) {
 									temporario.delete();
-									
-									publishProgress(
-									"ERRO",
-									nomes[arquivoAtual],
-									"Não foi possível salvar"
-									);
-									
+									falhas++;
+									publishProgress("ERRO", nomes[arquivoAtual], "Não foi possível preservar a lista anterior");
 									continue;
 								}
+								if (!temporario.renameTo(destino)) {
+									if (backup.exists()) backup.renameTo(destino);
+									temporario.delete();
+									falhas++;
+									publishProgress("ERRO", nomes[arquivoAtual], "Não foi possível salvar");
+									continue;
+								}
+								if (backup.exists()) backup.delete();
+								arquivosAtualizados++;
 								
 								publishProgress(
 								"PROGRESSO",
@@ -532,7 +536,7 @@ public class MainActivity extends AppCompatActivity {
 								);
 								
 							} catch (Exception e) {
-								
+								falhas++;
 								publishProgress(
 								"ERRO",
 								nomes[arquivoAtual],
@@ -561,7 +565,8 @@ public class MainActivity extends AppCompatActivity {
 							}
 						}
 						
-						return "FINALIZADO";
+						if (arquivosAtualizados == 0) return "SEM_ATUALIZACAO";
+						return falhas > 0 ? "FINALIZADO_COM_FALHAS" : "FINALIZADO";
 					}
 					
 					@Override
@@ -661,10 +666,14 @@ public class MainActivity extends AppCompatActivity {
 					@Override
 					protected void onPostExecute(String resultado) {
 						
-						if ("FINALIZADO".equals(resultado)) {
+						if ("FINALIZADO".equals(resultado) || "FINALIZADO_COM_FALHAS".equals(resultado)) {
 							tvPorcentagem.setText("100%");
-							tvInformacao.setText("Download concluído. Aplicando filtros...");
+							tvInformacao.setText("FINALIZADO_COM_FALHAS".equals(resultado)
+								? "Algumas listas falharam. Aplicando as atualizadas..."
+								: "Download concluído. Aplicando filtros...");
 							if (recarregarFiltrosShields != null) recarregarFiltrosShields.run();
+						} else if ("SEM_ATUALIZACAO".equals(resultado)) {
+							tvInformacao.setText("Nenhuma lista foi atualizada. Verifique a conexão e tente novamente.");
 						} else if ("ERRO_PASTA".equals(resultado)) {
 							
 							tvPorcentagem.setText("0%");

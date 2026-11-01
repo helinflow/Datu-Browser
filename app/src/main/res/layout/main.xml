@@ -412,70 +412,6 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/settings_heading_navigation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="24dp"
-                        android:paddingEnd="24dp"
-                        android:paddingTop="8dp"
-                        android:paddingBottom="8dp"
-                        android:text="Navegação"
-                        android:textColor="#8AB4F8"
-                        android:textSize="14sp"
-                        android:textStyle="bold"/>
-
-                    <LinearLayout
-                        android:id="@+id/settings_group_navigation"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView
-                            android:id="@+id/settings_open_tabs"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:gravity="center_vertical"
-                            android:paddingStart="24dp"
-                            android:paddingEnd="20dp"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:text="Guias abertas"
-                            android:textColor="#E8EAED"
-                            android:textSize="16sp"/>
-                        <TextView
-                            android:id="@+id/settings_open_favorites"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:gravity="center_vertical"
-                            android:paddingStart="24dp"
-                            android:paddingEnd="20dp"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:text="Favoritos"
-                            android:textColor="#E8EAED"
-                            android:textSize="16sp"/>
-                        <TextView
-                            android:id="@+id/settings_open_history"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:gravity="center_vertical"
-                            android:paddingStart="24dp"
-                            android:paddingEnd="20dp"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:text="Histórico"
-                            android:textColor="#E8EAED"
-                            android:textSize="16sp"/>
-                        <TextView
-                            android:id="@+id/settings_open_downloads"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:gravity="center_vertical"
-                            android:paddingStart="24dp"
-                            android:paddingEnd="20dp"
-                            android:background="?android:attr/selectableItemBackground"
-                            android:text="Downloads"
-                            android:textColor="#E8EAED"
-                            android:textSize="16sp"/>
-                    </LinearLayout>
-
-                    <TextView
                         android:id="@+id/settings_heading_basic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -492,7 +428,8 @@
                         android:id="@+id/settings_group_appearance"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@drawable/datu_chromium_profile_bg">
                         <LinearLayout
                             android:id="@+id/linear_papel_parede"
                             android:layout_width="match_parent"
@@ -556,7 +493,8 @@
                         android:id="@+id/settings_group_privacy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@drawable/datu_chromium_profile_bg">
                         <LinearLayout
                             android:id="@+id/linear_anuncios"
                             android:layout_width="match_parent"
@@ -692,7 +630,7 @@
                         android:paddingEnd="24dp"
                         android:paddingTop="20dp"
                         android:paddingBottom="8dp"
-                        android:text="Configurações de sites"
+                        android:text="Conteúdo e permissões"
                         android:textColor="#8AB4F8"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
@@ -701,7 +639,8 @@
                         android:id="@+id/settings_group_site"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@drawable/datu_chromium_profile_bg">
                         <LinearLayout
                             android:id="@+id/linear_javascript"
                             android:layout_width="match_parent"
@@ -756,7 +695,7 @@
                         android:paddingEnd="24dp"
                         android:paddingTop="20dp"
                         android:paddingBottom="8dp"
-                        android:text="Sobre o Datu"
+                        android:text="Sobre o navegador"
                         android:textColor="#8AB4F8"
                         android:textSize="14sp"
                         android:textStyle="bold"/>
@@ -765,7 +704,8 @@
                         android:id="@+id/settings_group_about"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:background="@drawable/datu_chromium_profile_bg">
                         <TextView
                             android:id="@+id/settings_third_party_notices"
                             android:layout_width="match_parent"

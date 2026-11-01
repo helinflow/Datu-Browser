@@ -64,7 +64,7 @@ public final class PrivateBrowserActivity extends Activity {
         header.setGravity(Gravity.CENTER_VERTICAL);
         header.setPadding(dp(8), dp(4), dp(8), dp(4));
         TextView label = new TextView(this);
-        label.setText("◉  Navegação anônima");
+        label.setText(privateShieldsEnabled ? "◉  Navegação anônima · Shields" : "◉  Navegação anônima");
         label.setTextColor(0xFFD0BCFF);
         label.setTextSize(17);
         label.setPadding(dp(8), dp(8), dp(8), dp(8));

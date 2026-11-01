@@ -3758,6 +3758,11 @@ public class MainActivity extends AppCompatActivity {
 		boolean isHistory = "history".equals(screen);
 		boolean isFavorites = "favorites".equals(screen);
 		heading.setText(isFavorites ? "Favoritos" : isHistory ? "Histórico" : "Downloads");
+        ImageView sectionIcon = findViewById(R.id.library_icon);
+        sectionIcon.setImageResource(isFavorites ? R.drawable.ic_library_favorite
+            : isHistory ? R.drawable.ic_library_history : R.drawable.ic_library_download);
+        sectionIcon.setContentDescription(isFavorites ? "Favoritos"
+            : isHistory ? "Histórico" : "Downloads");
 		if (isFavorites || isHistory) {
 			String key = isHistory ? "history" : "favorites";
 			JSONArray items;

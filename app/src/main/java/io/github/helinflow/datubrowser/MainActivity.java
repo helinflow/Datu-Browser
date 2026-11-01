@@ -4286,7 +4286,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	@Override
-		@Override
 	protected void onResume() {
 		super.onResume();
 		if (binding != null && dados != null) {

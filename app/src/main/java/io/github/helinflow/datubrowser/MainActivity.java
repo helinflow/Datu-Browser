@@ -4108,7 +4108,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 		rolagem.addView(grade);
 		android.widget.LinearLayout.LayoutParams scrollParams =
-			new android.widget.LinearLayout.LayoutParams(-1, 0, 1);
+			new android.widget.LinearLayout.LayoutParams(-1, dpGuias(360));
 		scrollParams.bottomMargin = dpGuias(12);
 		raiz.addView(rolagem, scrollParams);
 

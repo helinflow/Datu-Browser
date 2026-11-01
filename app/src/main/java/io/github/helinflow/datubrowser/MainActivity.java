@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 	private static final int FILE_CHOOSER_REQUEST = 7201;
 	private static final int LIBRARY_REQUEST = 7202;
 	private BrowserEngine browserEngine;
+	private PopupWindow menuNavegacao;
+	private boolean carregandoPreferencias = true;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
@@ -108,24 +110,8 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
-        binding.mais.setOnClickListener(v -> {
-            boolean showActions = binding.linearB.getVisibility() != View.VISIBLE;
-            binding.linearA.setVisibility(showActions ? View.GONE : View.VISIBLE);
-            binding.linearB.setVisibility(showActions ? View.VISIBLE : View.GONE);
-        });
-        findViewById(R.id.favorites).setOnClickListener(v -> abrirBiblioteca("favorites"));
-        findViewById(R.id.favorites).setOnLongClickListener(v -> { BrowserLibrary.addFavorite(this, binding.webview.getTitle(), binding.webview.getUrl()); return true; });
-        findViewById(R.id.history).setOnClickListener(v -> abrirBiblioteca("history"));
-        findViewById(R.id.downloads).setOnClickListener(v -> abrirBiblioteca("downloads"));
-		findViewById(R.id.library_back).setOnClickListener(v -> fecharBiblioteca());
-		
-		binding.imageview5.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				binding.linearA.setVisibility(View.VISIBLE);
-				binding.linearB.setVisibility(View.GONE);
-			}
-		});
+        binding.mais.setOnClickListener(v -> abrirMenuNavegacao());
+        findViewById(R.id.library_back).setOnClickListener(v -> fecharBiblioteca());
 		
 		binding.home.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -179,28 +165,20 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
-		binding.switchJavascript.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton _param1, boolean _param2) {
-				final boolean _isChecked = _param2;
-				if (_isChecked) {
-					dados.edit()
-					.putString("javascript", "ativado")
-					.commit();
-					
-					binding.webview.getSettings()
-					.setJavaScriptEnabled(true);
-					
-				} else {
-					dados.edit()
-					.putString("javascript", "desativado")
-					.commit();
-					
-					binding.webview.getSettings()
-					.setJavaScriptEnabled(false);
-				}
-			}
-		});
+		binding.switchJavascript.setOnCheckedChangeListener((button, enabled) -> {
+            binding.webview.getSettings().setJavaScriptEnabled(enabled);
+            if (!carregandoPreferencias) {
+                dados.edit().putString("javascript", enabled ? "ativado" : "desativado").apply();
+                String paginaAtual = binding.webview.getUrl();
+                if (paginaAtual != null && !paginaAtual.trim().isEmpty()) binding.webview.reload();
+                Toast.makeText(this, enabled ? "JavaScript ativado" : "JavaScript desativado", Toast.LENGTH_SHORT).show();
+            }
+        });
+        binding.switchPapelParede.setOnCheckedChangeListener((button, enabled) -> {
+            dados.edit().putBoolean("home_wallpaper", enabled).apply();
+            binding.wallpaperImage.setVisibility(enabled ? View.VISIBLE : View.GONE);
+            if (enabled) carregarPapelParede();
+        });
 		
 		binding.switchEstatisticas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
@@ -3727,7 +3705,6 @@ public class MainActivity extends AppCompatActivity {
 		// gone
 		binding.linearEstatisticas.setVisibility(View.GONE);
 		binding.linearUblock.setVisibility(View.GONE);
-		binding.linearB.setVisibility(View.GONE);
 		// dados
 		// estatísticas: ligado/desligado
 		if (dados.getString("estatisticas", "").equals("ligado")) {
@@ -3736,14 +3713,105 @@ public class MainActivity extends AppCompatActivity {
 		} else {
 			
 		}
-		if (dados.getString("estatisticas", "").equals("desligado")) {
-			binding.linearEstatisticas.setVisibility(View.GONE);
-			binding.switchEstatisticas.setChecked(false);
-		} else {
-			
-		}
-	}
+        if (dados.getString("estatisticas", "").equals("desligado")) {
+            binding.linearEstatisticas.setVisibility(View.GONE);
+            binding.switchEstatisticas.setChecked(false);
+        }
+        boolean mostrarPapelParede = dados.getBoolean("home_wallpaper", true);
+        binding.switchPapelParede.setChecked(mostrarPapelParede);
+        binding.wallpaperImage.setVisibility(mostrarPapelParede ? View.VISIBLE : View.GONE);
+        if (mostrarPapelParede) carregarPapelParede();
+        carregandoPreferencias = false;
+    }
 	
+    private int dp(float value) { return (int)(value * getResources().getDisplayMetrics().density + 0.5f); }
+    private GradientDrawable formaArredondada(int cor, int raioDp) {
+        GradientDrawable shape = new GradientDrawable();
+        shape.setColor(cor);
+        shape.setCornerRadius(dp(raioDp));
+        return shape;
+    }
+    private void abrirMenuNavegacao() {
+        if (menuNavegacao != null && menuNavegacao.isShowing()) { menuNavegacao.dismiss(); return; }
+        LinearLayout painel = new LinearLayout(this);
+        painel.setOrientation(LinearLayout.VERTICAL);
+        painel.setPadding(dp(14), dp(14), dp(14), dp(14));
+        GradientDrawable fundo = formaArredondada(Color.rgb(29,27,34), 28);
+        fundo.setStroke(dp(1), Color.rgb(73,69,79));
+        painel.setBackground(fundo);
+        TextView titulo = new TextView(this);
+        titulo.setText("Ações do navegador"); titulo.setTextColor(Color.rgb(230,224,233));
+        titulo.setTextSize(18); titulo.setTypeface(null, Typeface.BOLD);
+        titulo.setPadding(dp(6), dp(2), dp(6), dp(12)); painel.addView(titulo);
+        LinearLayout linha = null;
+        final int[] icones = {R.drawable.icon_arrow_back_ios_round,R.drawable.icon_home_round,R.drawable.icon_refresh_round,R.drawable.icon_settings_round,R.drawable.ic_library_favorite,R.drawable.ic_library_history,R.drawable.ic_library_download};
+        final String[] nomes = {"Voltar","Início","Atualizar","Configurações","Favoritos","Histórico","Downloads"};
+        for (int i=0;i<icones.length;i++) {
+            if (i%3==0) { linha=new LinearLayout(this); linha.setOrientation(LinearLayout.HORIZONTAL); LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2); lp.bottomMargin=dp(8); painel.addView(linha,lp); }
+            final int acao=i;
+            adicionarAcaoMenu(linha,icones[i],nomes[i],()->{
+                if(menuNavegacao!=null) menuNavegacao.dismiss();
+                switch(acao) {
+                    case 0: if(browserEngine!=null && browserEngine.canGoBack()) browserEngine.goBack(); else Toast.makeText(this,"Não há página anterior",Toast.LENGTH_SHORT).show(); break;
+                    case 1: binding.tela1.setVisibility(View.VISIBLE); animarEntradaExpressiva(binding.tela1); binding.tela2.setVisibility(View.GONE); binding.tela3.setVisibility(View.GONE); break;
+                    case 2: if(browserEngine!=null) browserEngine.reload(); break;
+                    case 3: binding.tela1.setVisibility(View.GONE); binding.tela2.setVisibility(View.GONE); binding.tela3.setVisibility(View.VISIBLE); animarEntradaExpressiva(binding.tela3); break;
+                    case 4: abrirBiblioteca("favorites"); break;
+                    case 5: abrirBiblioteca("history"); break;
+                    case 6: abrirBiblioteca("downloads"); break;
+                }
+            });
+        }
+        int largura=getResources().getDisplayMetrics().widthPixels-dp(28);
+        menuNavegacao=new PopupWindow(painel,largura,-2,true);
+        menuNavegacao.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        menuNavegacao.setOutsideTouchable(true); menuNavegacao.setElevation(dp(12));
+        menuNavegacao.setAnimationStyle(android.R.style.Animation_Dialog);
+        menuNavegacao.setOnDismissListener(()->menuNavegacao=null);
+        menuNavegacao.showAsDropDown(binding.mais,-largura+binding.mais.getWidth(),dp(8));
+    }
+    private void adicionarAcaoMenu(LinearLayout linha,int icone,String nome,Runnable acao) {
+        LinearLayout item=new LinearLayout(this); item.setOrientation(LinearLayout.VERTICAL);
+        item.setGravity(Gravity.CENTER); item.setPadding(dp(4),dp(10),dp(4),dp(8));
+        item.setBackground(formaArredondada(Color.rgb(48,45,55),20));
+        ImageView imagem=new ImageView(this); imagem.setImageResource(icone); imagem.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        LinearLayout.LayoutParams ip=new LinearLayout.LayoutParams(dp(26),dp(26)); ip.bottomMargin=dp(5); item.addView(imagem,ip);
+        TextView texto=new TextView(this); texto.setText(nome); texto.setTextColor(Color.rgb(230,224,233));
+        texto.setTextSize(11); texto.setGravity(Gravity.CENTER); texto.setMaxLines(1); item.addView(texto,new LinearLayout.LayoutParams(-1,-2));
+        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(0,dp(78),1f); params.setMargins(dp(3),dp(2),dp(3),dp(2));
+        linha.addView(item,params); item.setOnClickListener(v->acao.run());
+    }
+    private void carregarPapelParede() {
+        if(!dados.getBoolean("home_wallpaper",true)||isFinishing()) return;
+        final String[] imagens={
+            "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85",
+            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85",
+            "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1200&q=85",
+            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=85",
+            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=85"
+        };
+        int indice=java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR)%imagens.length;
+        final String endereco=imagens[indice];
+        new AsyncTask<Void,Void,Bitmap>() {
+            @Override protected Bitmap doInBackground(Void... params) {
+                java.net.HttpURLConnection conexao=null;
+                try {
+                    conexao=(java.net.HttpURLConnection)new java.net.URL(endereco).openConnection();
+                    conexao.setConnectTimeout(10000); conexao.setReadTimeout(15000);
+                    conexao.setInstanceFollowRedirects(true); conexao.setRequestProperty("User-Agent","DatuBrowser/1.0 Android");
+                    conexao.connect(); if(conexao.getResponseCode()!=200) return null;
+                    try(java.io.InputStream entrada=new java.io.BufferedInputStream(conexao.getInputStream())) { return BitmapFactory.decodeStream(entrada); }
+                } catch(Exception erro) { return null; }
+                finally { if(conexao!=null) conexao.disconnect(); }
+            }
+            @Override protected void onPostExecute(Bitmap bitmap) {
+                if(bitmap!=null&&!isFinishing()&&dados.getBoolean("home_wallpaper",true)) {
+                    binding.wallpaperImage.setImageBitmap(bitmap); binding.wallpaperImage.setVisibility(View.VISIBLE);
+                }
+            }
+        }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
 	private void fecharBiblioteca() {
 		findViewById(R.id.tela4).setVisibility(View.GONE);
 		findViewById(R.id.linear1).setVisibility(View.VISIBLE);

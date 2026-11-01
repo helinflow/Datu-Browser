@@ -256,7 +256,20 @@
     android:layout_marginEnd="8dp"
     android:paddingStart="16dp"
     android:paddingEnd="16dp" />
-					<ImageView
+					<TextView
+                        android:id="@+id/tab_counter"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:background="@drawable/datu_tab_counter_bg"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="#D0BCFF"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:contentDescription="Guias abertas" />
+                    <ImageView
 						android:id="@+id/mais"
 						android:layout_width="48dp"
 						android:layout_height="48dp"

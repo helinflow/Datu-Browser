@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 	private SharedPreferences dados;
 	private android.webkit.ValueCallback<android.net.Uri[]> uploadCallback;
 	private static final int FILE_CHOOSER_REQUEST = 7201;
+	private static final int LIBRARY_REQUEST = 7202;
 	private BrowserEngine browserEngine;
 	
 	@Override
@@ -3749,61 +3750,10 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	private void abrirBiblioteca(String screen) {
-		findViewById(R.id.linear1).setVisibility(View.GONE);
-		View page = findViewById(R.id.tela4);
-		page.setVisibility(View.VISIBLE);
-		TextView heading = findViewById(R.id.library_title);
-		LinearLayout content = findViewById(R.id.library_content);
-		content.removeAllViews();
-		boolean isHistory = "history".equals(screen);
-		boolean isFavorites = "favorites".equals(screen);
-		heading.setText(isFavorites ? "Favoritos" : isHistory ? "Histórico" : "Downloads");
-        ImageView sectionIcon = findViewById(R.id.library_icon);
-        sectionIcon.setImageResource(isFavorites ? R.drawable.ic_library_favorite
-            : isHistory ? R.drawable.ic_library_history : R.drawable.ic_library_download);
-        sectionIcon.setContentDescription(isFavorites ? "Favoritos"
-            : isHistory ? "Histórico" : "Downloads");
-		if (isFavorites || isHistory) {
-			String key = isHistory ? "history" : "favorites";
-			JSONArray items;
-			try { items = new JSONArray(getSharedPreferences("datu_browser_library", 0).getString(key, "[]")); }
-			catch (Exception e) { items = new JSONArray(); }
-			if (items.length() == 0) adicionarItemBiblioteca(content, isHistory ? "Seu histórico está vazio" : "Nenhum favorito salvo ainda", "", null);
-			for (int i = 0; i < items.length(); i++) {
-				JSONObject item = items.optJSONObject(i);
-				if (item == null) continue;
-				String url = item.optString("url", "");
-				adicionarItemBiblioteca(content, item.optString("title", url), url, () -> {
-					fecharBiblioteca();
-					browserEngine.loadUrl(url);
-				});
-			}
-			if (isHistory && items.length() > 0) adicionarItemBiblioteca(content, "Limpar histórico", "Apagar os registros salvos neste dispositivo", () -> {
-				getSharedPreferences("datu_browser_library", 0).edit().putString("history", "[]").apply();
-				content.removeAllViews();
-				adicionarItemBiblioteca(content, "Seu histórico está vazio", "", null);
-			});
-		} else {
-			DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-			Cursor cursor = null;
-			int count = 0;
-			try {
-				if (dm != null) cursor = dm.query(new DownloadManager.Query());
-				if (cursor != null) while (cursor.moveToNext()) {
-					long id = cursor.getLong(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_ID));
-					String name = cursor.getString(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_TITLE));
-					int status = cursor.getInt(cursor.getColumnIndexOrThrow(DownloadManager.COLUMN_STATUS));
-					String state = status == DownloadManager.STATUS_SUCCESSFUL ? "Concluído" : status == DownloadManager.STATUS_RUNNING ? "Em andamento" : status == DownloadManager.STATUS_FAILED ? "Falhou" : "Na fila";
-					final long downloadId = id;
-					adicionarItemBiblioteca(content, name + " · " + state, "Toque para abrir o arquivo", () -> abrirDownload(dm, downloadId));
-					count++;
-				}
-			} catch (Exception ignored) {
-			} finally { if (cursor != null) cursor.close(); }
-			if (count == 0) adicionarItemBiblioteca(content, "Nenhum download encontrado", "", null);
-		}
-		animarEntradaExpressiva(page);
-	}
+        Intent intent = new Intent(MainActivity.this, LibraryActivity.class);
+        intent.putExtra("screen", screen);
+        startActivityForResult(intent, LIBRARY_REQUEST);
+    }
 
 	private void adicionarItemBiblioteca(LinearLayout parent, String name, String detail, Runnable action) {
 		LinearLayout card = new LinearLayout(this);
@@ -3879,6 +3829,15 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == LIBRARY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            String url = data.getStringExtra("url");
+            if (url != null && !url.trim().isEmpty()) {
+                browserEngine.loadUrl(url);
+                binding.tela2.setVisibility(View.VISIBLE);
+                binding.tela1.setVisibility(View.GONE);
+                binding.tela3.setVisibility(View.GONE);
+            }
+        }
 		if (requestCode == FILE_CHOOSER_REQUEST && uploadCallback != null) {
 			android.net.Uri[] result = null;
 			if (resultCode == Activity.RESULT_OK && data != null) {

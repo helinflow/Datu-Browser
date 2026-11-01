@@ -83,33 +83,26 @@ public class MainActivity extends AppCompatActivity {
                 String termo = s == null ? "" : s.toString().trim().toLowerCase(Locale.ROOT);
                 boolean tudo = termo.isEmpty();
 
-                boolean navegacao = tudo || "navegação navegacao abas aba guias guia favoritos favorito histórico historico downloads download".contains(termo);
-                boolean aparencia = tudo || "aparência aparencia paisagem papel parede imagem imagens inicial fundo".contains(termo);
-                boolean sites = tudo || "sites site javascript script permissões permissao".contains(termo);
-                boolean privacidade = tudo || "privacidade segurança seguranca anuncios anúncios bloqueio bloqueador filtros filtro shields estatísticas estatisticas rastreadores".contains(termo);
+                boolean basico = tudo || "básico basico aparência aparencia imagem imagens papel parede inicial fundo".contains(termo);
+                boolean privacidade = tudo || "privacidade segurança seguranca anúncios anuncios bloqueio bloqueador filtros filtro rastreadores estatísticas estatisticas".contains(termo);
+                boolean sites = tudo || "sites site conteúdo conteudo javascript script permissões permissao".contains(termo);
                 boolean sobre = tudo || "sobre datu avisos terceiros licenças licencas licença licenca código aberto".contains(termo);
 
-                findViewById(R.id.settings_group_navigation).setVisibility(navegacao ? View.VISIBLE : View.GONE);
-                findViewById(R.id.settings_heading_navigation).setVisibility(navegacao ? View.VISIBLE : View.GONE);
-                findViewById(R.id.settings_group_appearance).setVisibility(aparencia ? View.VISIBLE : View.GONE);
-                findViewById(R.id.settings_heading_basic).setVisibility(aparencia ? View.VISIBLE : View.GONE);
-                findViewById(R.id.settings_group_site).setVisibility(sites ? View.VISIBLE : View.GONE);
-                findViewById(R.id.settings_heading_site).setVisibility(sites ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_group_appearance).setVisibility(basico ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_heading_basic).setVisibility(basico ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_group_privacy).setVisibility(privacidade ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_heading_privacy).setVisibility(privacidade ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_group_site).setVisibility(sites ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_heading_site).setVisibility(sites ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_group_about).setVisibility(sobre ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_heading_about).setVisibility(sobre ? View.VISIBLE : View.GONE);
 
-                boolean nenhum = !navegacao && !aparencia && !sites && !privacidade && !sobre;
+                boolean nenhum = !basico && !privacidade && !sites && !sobre;
                 findViewById(R.id.text_config_sem_resultados).setVisibility(nenhum ? View.VISIBLE : View.GONE);
             }
             @Override public void afterTextChanged(Editable s) { }
         });
 
-        findViewById(R.id.settings_open_tabs).setOnClickListener(v -> abrirSeletorGuias());
-        findViewById(R.id.settings_open_favorites).setOnClickListener(v -> abrirBiblioteca("favorites"));
-        findViewById(R.id.settings_open_history).setOnClickListener(v -> abrirBiblioteca("history"));
-        findViewById(R.id.settings_open_downloads).setOnClickListener(v -> abrirBiblioteca("downloads"));
         findViewById(R.id.settings_third_party_notices).setOnClickListener(v ->
             startActivity(new Intent(MainActivity.this, ThirdPartyNoticesActivity.class)));
     }
@@ -3755,55 +3748,157 @@ public class MainActivity extends AppCompatActivity {
         return shape;
     }
     private void abrirMenuNavegacao() {
-        if (menuNavegacao != null && menuNavegacao.isShowing()) { menuNavegacao.dismiss(); return; }
+        if (menuNavegacao != null && menuNavegacao.isShowing()) {
+            menuNavegacao.dismiss();
+            return;
+        }
+
         LinearLayout painel = new LinearLayout(this);
         painel.setOrientation(LinearLayout.VERTICAL);
-        painel.setPadding(dp(14), dp(14), dp(14), dp(14));
-        GradientDrawable fundo = formaArredondada(Color.rgb(29,27,34), 28);
-        fundo.setStroke(dp(1), Color.rgb(73,69,79));
-        painel.setBackground(fundo);
+        painel.setPadding(dp(18), dp(16), dp(18), dp(12));
+        painel.setBackground(formaArredondada(Color.rgb(32, 33, 36), 24));
+
+        View alca = new View(this);
+        alca.setBackground(formaArredondada(Color.rgb(95, 99, 104), 4));
+        LinearLayout.LayoutParams alcaParams = new LinearLayout.LayoutParams(dp(36), dp(4));
+        alcaParams.gravity = Gravity.CENTER_HORIZONTAL;
+        alcaParams.bottomMargin = dp(16);
+        painel.addView(alca, alcaParams);
+
         TextView titulo = new TextView(this);
-        titulo.setText("Ações do navegador"); titulo.setTextColor(Color.rgb(230,224,233));
-        titulo.setTextSize(18); titulo.setTypeface(null, Typeface.BOLD);
-        titulo.setPadding(dp(6), dp(2), dp(6), dp(12)); painel.addView(titulo);
-        LinearLayout linha = null;
-        final int[] icones = {R.drawable.icon_arrow_back_ios_round,R.drawable.icon_home_round,R.drawable.icon_refresh_round,R.drawable.icon_settings_round,R.drawable.ic_library_favorite,R.drawable.ic_library_history,R.drawable.ic_library_download};
-        final String[] nomes = {"Voltar","Início","Atualizar","Configurações","Favoritos","Histórico","Downloads"};
-        for (int i=0;i<icones.length;i++) {
-            if (i%3==0) { linha=new LinearLayout(this); linha.setOrientation(LinearLayout.HORIZONTAL); LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(-1,-2); lp.bottomMargin=dp(8); painel.addView(linha,lp); }
-            final int acao=i;
-            adicionarAcaoMenu(linha,icones[i],nomes[i],()->{
-                if(menuNavegacao!=null) menuNavegacao.dismiss();
-                switch(acao) {
-                    case 0: if(browserEngine!=null && browserEngine.canGoBack()) browserEngine.goBack(); else Toast.makeText(this,"Não há página anterior",Toast.LENGTH_SHORT).show(); break;
-                    case 1: binding.tela1.setVisibility(View.VISIBLE); animarEntradaExpressiva(binding.tela1); binding.tela2.setVisibility(View.GONE); binding.tela3.setVisibility(View.GONE); break;
-                    case 2: if(browserEngine!=null) browserEngine.reload(); break;
-                    case 3: binding.tela1.setVisibility(View.GONE); binding.tela2.setVisibility(View.GONE); binding.tela3.setVisibility(View.VISIBLE); animarEntradaExpressiva(binding.tela3); break;
-                    case 4: abrirBiblioteca("favorites"); break;
-                    case 5: abrirBiblioteca("history"); break;
-                    case 6: abrirBiblioteca("downloads"); break;
-                }
-            });
-        }
-        int largura=getResources().getDisplayMetrics().widthPixels-dp(28);
-        menuNavegacao=new PopupWindow(painel,largura,-2,true);
+        titulo.setText("Datu");
+        titulo.setTextColor(Color.rgb(232, 234, 237));
+        titulo.setTextSize(20);
+        titulo.setTypeface(null, Typeface.BOLD);
+        titulo.setPadding(dp(4), 0, dp(4), dp(14));
+        painel.addView(titulo);
+
+        LinearLayout atalhos = new LinearLayout(this);
+        atalhos.setOrientation(LinearLayout.HORIZONTAL);
+        adicionarAtalhoMenu(atalhos, R.drawable.icon_add_round, "Guias", () -> {
+            if (menuNavegacao != null) menuNavegacao.dismiss();
+            abrirSeletorGuias();
+        });
+        adicionarAtalhoMenu(atalhos, R.drawable.ic_library_favorite, "Favoritos", () -> {
+            if (menuNavegacao != null) menuNavegacao.dismiss();
+            abrirBiblioteca("favorites");
+        });
+        adicionarAtalhoMenu(atalhos, R.drawable.ic_library_history, "Histórico", () -> {
+            if (menuNavegacao != null) menuNavegacao.dismiss();
+            abrirBiblioteca("history");
+        });
+        adicionarAtalhoMenu(atalhos, R.drawable.ic_library_download, "Downloads", () -> {
+            if (menuNavegacao != null) menuNavegacao.dismiss();
+            abrirBiblioteca("downloads");
+        });
+        painel.addView(atalhos);
+
+        View divisor = new View(this);
+        divisor.setBackgroundColor(Color.rgb(60, 64, 67));
+        LinearLayout.LayoutParams divisorParams = new LinearLayout.LayoutParams(-1, dp(1));
+        divisorParams.topMargin = dp(14);
+        divisorParams.bottomMargin = dp(8);
+        painel.addView(divisor, divisorParams);
+
+        ScrollView rolagem = new ScrollView(this);
+        rolagem.setFillViewport(false);
+        LinearLayout lista = new LinearLayout(this);
+        lista.setOrientation(LinearLayout.VERTICAL);
+        rolagem.addView(lista);
+
+        adicionarLinhaMenu(lista, R.drawable.icon_arrow_back_ios_round, "Voltar", () -> {
+            if (browserEngine != null && browserEngine.canGoBack()) browserEngine.goBack();
+            else Toast.makeText(this, "Não há página anterior", Toast.LENGTH_SHORT).show();
+        });
+        adicionarLinhaMenu(lista, R.drawable.icon_home_round, "Página inicial", () -> {
+            binding.tela1.setVisibility(View.VISIBLE);
+            animarEntradaExpressiva(binding.tela1);
+            binding.tela2.setVisibility(View.GONE);
+            binding.tela3.setVisibility(View.GONE);
+        });
+        adicionarLinhaMenu(lista, R.drawable.icon_refresh_round, "Atualizar página", () -> {
+            if (browserEngine != null) browserEngine.reload();
+        });
+        adicionarLinhaMenu(lista, R.drawable.icon_settings_round, "Configurações", () -> {
+            binding.tela1.setVisibility(View.GONE);
+            binding.tela2.setVisibility(View.GONE);
+            binding.tela3.setVisibility(View.VISIBLE);
+            animarEntradaExpressiva(binding.tela3);
+        });
+        painel.addView(rolagem, new LinearLayout.LayoutParams(-1, -2));
+
+        int largura = getResources().getDisplayMetrics().widthPixels - dp(16);
+        int alturaMaxima = (int)(getResources().getDisplayMetrics().heightPixels * 0.78f);
+        menuNavegacao = new PopupWindow(painel, largura, -2, true);
         menuNavegacao.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        menuNavegacao.setOutsideTouchable(true); menuNavegacao.setElevation(dp(12));
-        menuNavegacao.setAnimationStyle(android.R.style.Animation_Dialog);
-        menuNavegacao.setOnDismissListener(()->menuNavegacao=null);
-        menuNavegacao.showAsDropDown(binding.mais,-largura+binding.mais.getWidth(),dp(8));
+        menuNavegacao.setOutsideTouchable(true);
+        menuNavegacao.setElevation(dp(18));
+        menuNavegacao.setAnimationStyle(android.R.style.Animation_InputMethod);
+        menuNavegacao.setOnDismissListener(() -> menuNavegacao = null);
+        painel.measure(View.MeasureSpec.makeMeasureSpec(largura, View.MeasureSpec.AT_MOST),
+                View.MeasureSpec.makeMeasureSpec(alturaMaxima, View.MeasureSpec.AT_MOST));
+        menuNavegacao.setHeight(Math.min(painel.getMeasuredHeight(), alturaMaxima));
+        menuNavegacao.showAtLocation(binding.getRoot(), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, dp(8));
     }
-    private void adicionarAcaoMenu(LinearLayout linha,int icone,String nome,Runnable acao) {
-        LinearLayout item=new LinearLayout(this); item.setOrientation(LinearLayout.VERTICAL);
-        item.setGravity(Gravity.CENTER); item.setPadding(dp(4),dp(10),dp(4),dp(8));
-        item.setBackground(formaArredondada(Color.rgb(48,45,55),20));
-        ImageView imagem=new ImageView(this); imagem.setImageResource(icone); imagem.setColorFilter(Color.rgb(208,188,255), android.graphics.PorterDuff.Mode.SRC_IN); imagem.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        LinearLayout.LayoutParams ip=new LinearLayout.LayoutParams(dp(26),dp(26)); ip.bottomMargin=dp(5); item.addView(imagem,ip);
-        TextView texto=new TextView(this); texto.setText(nome); texto.setTextColor(Color.rgb(230,224,233));
-        texto.setTextSize(11); texto.setGravity(Gravity.CENTER); texto.setMaxLines(1); item.addView(texto,new LinearLayout.LayoutParams(-1,-2));
-        LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(0,dp(78),1f); params.setMargins(dp(3),dp(2),dp(3),dp(2));
-        linha.addView(item,params); item.setOnClickListener(v->acao.run());
+
+    private void adicionarAtalhoMenu(LinearLayout linha, int icone, String nome, Runnable acao) {
+        LinearLayout item = new LinearLayout(this);
+        item.setOrientation(LinearLayout.VERTICAL);
+        item.setGravity(Gravity.CENTER);
+        item.setPadding(dp(2), dp(10), dp(2), dp(8));
+        item.setBackground(formaArredondada(Color.rgb(41, 42, 45), 16));
+
+        ImageView imagem = new ImageView(this);
+        imagem.setImageResource(icone);
+        imagem.setColorFilter(Color.rgb(232, 234, 237), android.graphics.PorterDuff.Mode.SRC_IN);
+        LinearLayout.LayoutParams ip = new LinearLayout.LayoutParams(dp(25), dp(25));
+        ip.bottomMargin = dp(6);
+        item.addView(imagem, ip);
+
+        TextView texto = new TextView(this);
+        texto.setText(nome);
+        texto.setTextColor(Color.rgb(232, 234, 237));
+        texto.setTextSize(11);
+        texto.setGravity(Gravity.CENTER);
+        texto.setMaxLines(1);
+        item.addView(texto, new LinearLayout.LayoutParams(-1, -2));
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(76), 1f);
+        params.setMargins(dp(3), 0, dp(3), 0);
+        linha.addView(item, params);
+        item.setOnClickListener(v -> {
+            if (menuNavegacao != null) menuNavegacao.dismiss();
+            acao.run();
+        });
     }
+
+    private void adicionarLinhaMenu(LinearLayout lista, int icone, String titulo, Runnable acao) {
+        LinearLayout item = new LinearLayout(this);
+        item.setOrientation(LinearLayout.HORIZONTAL);
+        item.setGravity(Gravity.CENTER_VERTICAL);
+        item.setPadding(dp(12), 0, dp(12), 0);
+        item.setBackgroundResource(android.R.drawable.list_selector_background);
+
+        ImageView imagem = new ImageView(this);
+        imagem.setImageResource(icone);
+        imagem.setColorFilter(Color.rgb(189, 193, 198), android.graphics.PorterDuff.Mode.SRC_IN);
+        LinearLayout.LayoutParams ip = new LinearLayout.LayoutParams(dp(22), dp(22));
+        ip.rightMargin = dp(18);
+        item.addView(imagem, ip);
+
+        TextView texto = new TextView(this);
+        texto.setText(titulo);
+        texto.setTextColor(Color.rgb(232, 234, 237));
+        texto.setTextSize(15);
+        item.addView(texto, new LinearLayout.LayoutParams(0, -1, 1));
+
+        lista.addView(item, new LinearLayout.LayoutParams(-1, dp(52)));
+        item.setOnClickListener(v -> {
+            if (menuNavegacao != null) menuNavegacao.dismiss();
+            acao.run();
+        });
+    }
+
     private void aplicarPapelParede(Bitmap original) {
         if (original == null || isFinishing()) return;
         final View area = binding.tela1;
@@ -4043,7 +4138,7 @@ public class MainActivity extends AppCompatActivity {
 		android.widget.LinearLayout raiz = new android.widget.LinearLayout(this);
 		raiz.setOrientation(android.widget.LinearLayout.VERTICAL);
 		raiz.setPadding(dpGuias(20), dpGuias(18), dpGuias(20), dpGuias(16));
-		raiz.setBackgroundColor(0xFF141218);
+		raiz.setBackgroundColor(0xFF202124);
 
 		android.widget.LinearLayout topo = new android.widget.LinearLayout(this);
 		topo.setGravity(android.view.Gravity.CENTER_VERTICAL);
@@ -4089,6 +4184,7 @@ public class MainActivity extends AppCompatActivity {
 				cartao.setOrientation(android.widget.LinearLayout.VERTICAL);
 				cartao.setPadding(dpGuias(12), dpGuias(10), dpGuias(12), dpGuias(10));
 				cartao.setBackground(fundoCardGuia(ativa));
+                cartao.setElevation(dpGuias(2));
 
 				android.widget.LinearLayout cabecalho = new android.widget.LinearLayout(this);
 				cabecalho.setGravity(android.view.Gravity.CENTER_VERTICAL);
@@ -4159,9 +4255,15 @@ public class MainActivity extends AppCompatActivity {
 		acoes.setGravity(android.view.Gravity.CENTER_VERTICAL);
 		android.widget.Button nova = new android.widget.Button(this);
 		nova.setText("+ Nova guia");
+        nova.setTextColor(0xFF202124);
+        nova.setAllCaps(false);
+        nova.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF8AB4F8));
 		acoes.addView(nova, new android.widget.LinearLayout.LayoutParams(0, dpGuias(48), 1));
 		android.widget.Button anonima = new android.widget.Button(this);
 		anonima.setText("Anônima");
+        anonima.setTextColor(0xFFE8EAED);
+        anonima.setAllCaps(false);
+        anonima.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF3C4043));
 		acoes.addView(anonima, new android.widget.LinearLayout.LayoutParams(-2, dpGuias(48)));
 		raiz.addView(acoes);
 		nova.setOnClickListener(v -> {
@@ -4180,6 +4282,10 @@ public class MainActivity extends AppCompatActivity {
 		});
 		dialog.setView(raiz);
 		dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF202124));
+            dialog.getWindow().setLayout(-1, -1);
+        }
 	}
 
 	@Override

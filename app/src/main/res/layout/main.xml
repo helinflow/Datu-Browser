@@ -585,6 +585,14 @@ android:layout_width="0dp"
                 android:background="@drawable/datu_nav_item_bg"
                 android:src="@drawable/ic_library_back"
                 android:contentDescription="Voltar" />
+            <ImageView
+                android:id="@+id/library_icon"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="12dp"
+                android:scaleType="fitCenter"
+                android:contentDescription="Seção da biblioteca" />
             <TextView
                 android:id="@+id/library_title"
                 android:layout_width="0dp"

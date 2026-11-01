@@ -3805,7 +3805,7 @@ public class MainActivity extends AppCompatActivity {
         adicionarLinhaMenu(lista, R.drawable.icon_refresh_round, "Atualizar página", () -> {
             if (browserEngine != null) browserEngine.reload();
         });
-        adicionarLinhaMenu(lista, R.drawable.icon_share_round, "Compartilhar", () -> {
+        adicionarLinhaMenu(lista, android.R.drawable.ic_menu_share, "Compartilhar", () -> {
             String url = browserEngine == null ? null : browserEngine.getUrl();
             if (url == null || url.trim().isEmpty()) return;
             Intent share = new Intent(Intent.ACTION_SEND);
@@ -3813,7 +3813,7 @@ public class MainActivity extends AppCompatActivity {
             share.putExtra(Intent.EXTRA_TEXT, url);
             startActivity(Intent.createChooser(share, "Compartilhar página"));
         });
-        adicionarLinhaMenu(lista, R.drawable.icon_search_round, "Buscar na página", () -> {
+        adicionarLinhaMenu(lista, android.R.drawable.ic_menu_search, "Buscar na página", () -> {
             EditText query = new EditText(this);
             query.setSingleLine(true);
             query.setHint("Texto para localizar");

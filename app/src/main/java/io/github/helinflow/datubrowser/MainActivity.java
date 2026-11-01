@@ -207,6 +207,26 @@ public class MainActivity extends AppCompatActivity {
 		});
 		
         binding.mais.setOnClickListener(v -> abrirMenuNavegacao());
+        View voltarPagina = findViewById(R.id.toolbar_back);
+        View avancarPagina = findViewById(R.id.toolbar_forward);
+        View abrirFavoritos = findViewById(R.id.toolbar_favorites);
+        View abrirDownloads = findViewById(R.id.toolbar_downloads);
+        if (voltarPagina != null) voltarPagina.setOnClickListener(v -> {
+            if (binding.webview.canGoBack()) binding.webview.goBack();
+        });
+        if (avancarPagina != null) avancarPagina.setOnClickListener(v -> {
+            if (binding.webview.canGoForward()) binding.webview.goForward();
+        });
+        if (abrirFavoritos != null) abrirFavoritos.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LibraryActivity.class);
+            intent.putExtra("screen", "favorites");
+            startActivityForResult(intent, LIBRARY_REQUEST);
+        });
+        if (abrirDownloads != null) abrirDownloads.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LibraryActivity.class);
+            intent.putExtra("screen", "downloads");
+            startActivity(intent);
+        });
         findViewById(R.id.library_back).setOnClickListener(v -> fecharBiblioteca());
 		
 		binding.linearAnuncios.setOnClickListener(new View.OnClickListener() {

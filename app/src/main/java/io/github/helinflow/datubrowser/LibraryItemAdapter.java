@@ -119,10 +119,10 @@ public final class LibraryItemAdapter extends RecyclerView.Adapter<LibraryItemAd
 
     @Override public void onBindViewHolder(Holder holder, int position) {
         LibraryActivity.LibraryItem item = visibleItems.get(position);
-        holder.int iconResource = "favorites".equals(screen) ? R.drawable.ic_library_favorite :
+        int iconResource = "favorites".equals(screen) ? R.drawable.ic_library_favorite :
                 "history".equals(screen) ? R.drawable.ic_library_history : R.drawable.ic_library_download;
-        icon.setText("");
-        icon.setCompoundDrawablesWithIntrinsicBounds(iconResource, 0, 0, 0);
+        holder.icon.setText("");
+        holder.icon.setCompoundDrawablesWithIntrinsicBounds(iconResource, 0, 0, 0);
         holder.title.setText(item.title);
         holder.detail.setText(item.detail);
         holder.itemView.setOnClickListener(v -> listener.onOpen(item));

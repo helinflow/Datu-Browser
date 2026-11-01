@@ -4130,139 +4130,88 @@ public class MainActivity extends AppCompatActivity {
 		if (tabManager == null) return;
 		tabManager.captureActive(binding.webview);
 
-		final android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this)
-			.create();
+		final android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(this).create();
 		android.widget.LinearLayout raiz = new android.widget.LinearLayout(this);
 		raiz.setOrientation(android.widget.LinearLayout.VERTICAL);
-		raiz.setPadding(dpGuias(20), dpGuias(18), dpGuias(20), dpGuias(16));
+		raiz.setPadding(dpGuias(16), dpGuias(12), dpGuias(16), dpGuias(16));
 		raiz.setBackgroundColor(0xFF202124);
 
 		android.widget.LinearLayout topo = new android.widget.LinearLayout(this);
 		topo.setGravity(android.view.Gravity.CENTER_VERTICAL);
 		android.widget.TextView titulo = new android.widget.TextView(this);
 		titulo.setText("Guias");
-		titulo.setTextColor(0xFFE6E0E9);
-		titulo.setTextSize(25);
+		titulo.setTextColor(0xFFE8EAED);
+		titulo.setTextSize(24);
 		titulo.setTypeface(null, android.graphics.Typeface.BOLD);
 		topo.addView(titulo, new android.widget.LinearLayout.LayoutParams(0, -2, 1));
+
 		android.widget.TextView quantidade = new android.widget.TextView(this);
 		quantidade.setText(String.valueOf(tabManager.getCount()));
-		quantidade.setTextColor(0xFFD0BCFF);
+		quantidade.setTextColor(0xFF202124);
 		quantidade.setTextSize(14);
-		quantidade.setPadding(dpGuias(12), dpGuias(7), dpGuias(12), dpGuias(7));
-		android.graphics.drawable.GradientDrawable pCount = new android.graphics.drawable.GradientDrawable();
-		pCount.setColor(0xFF302A3D);
-		pCount.setCornerRadius(dpGuias(18));
-		quantidade.setBackground(pCount);
+		quantidade.setGravity(android.view.Gravity.CENTER);
+		quantidade.setMinWidth(dpGuias(34));
+		quantidade.setPadding(dpGuias(10), dpGuias(6), dpGuias(10), dpGuias(6));
+		android.graphics.drawable.GradientDrawable countBg = new android.graphics.drawable.GradientDrawable();
+		countBg.setColor(0xFF8AB4F8);
+		countBg.setCornerRadius(dpGuias(18));
+		quantidade.setBackground(countBg);
 		topo.addView(quantidade);
 		raiz.addView(topo);
 
 		android.widget.TextView descricao = new android.widget.TextView(this);
-		descricao.setText("Selecione uma página ou abra uma nova guia.");
-		descricao.setTextColor(0xFFCAC4D0);
+		descricao.setText("Toque em uma guia para continuar navegando.");
+		descricao.setTextColor(0xFFBDC1C6);
 		descricao.setTextSize(13);
-		descricao.setPadding(0, dpGuias(5), 0, dpGuias(16));
+		descricao.setPadding(0, dpGuias(5), 0, dpGuias(14));
 		raiz.addView(descricao);
 
-		android.widget.ScrollView rolagem = new android.widget.ScrollView(this);
-		rolagem.setFillViewport(false);
-		android.widget.LinearLayout grade = new android.widget.LinearLayout(this);
-		grade.setOrientation(android.widget.LinearLayout.VERTICAL);
+		androidx.recyclerview.widget.RecyclerView grade = new androidx.recyclerview.widget.RecyclerView(this);
+		grade.setLayoutManager(new androidx.recyclerview.widget.GridLayoutManager(this, 2));
+		grade.setClipToPadding(false);
+		grade.setPadding(dpGuias(2), dpGuias(2), dpGuias(2), dpGuias(12));
 		java.util.List<BrowserTab> guias = new java.util.ArrayList<>(tabManager.getTabs());
-		for (int i = 0; i < guias.size(); i += 2) {
-			android.widget.LinearLayout linha = new android.widget.LinearLayout(this);
-			linha.setOrientation(android.widget.LinearLayout.HORIZONTAL);
-			linha.setGravity(android.view.Gravity.TOP);
-			for (int coluna = 0; coluna < 2 && i + coluna < guias.size(); coluna++) {
-				final int indice = i + coluna;
-				final BrowserTab guia = guias.get(indice);
-				final boolean ativa = indice == tabManager.getActiveIndex();
-				android.widget.LinearLayout cartao = new android.widget.LinearLayout(this);
-				cartao.setOrientation(android.widget.LinearLayout.VERTICAL);
-				cartao.setPadding(dpGuias(12), dpGuias(10), dpGuias(12), dpGuias(10));
-				cartao.setBackground(fundoCardGuia(ativa));
-                cartao.setElevation(dpGuias(2));
-
-				android.widget.LinearLayout cabecalho = new android.widget.LinearLayout(this);
-				cabecalho.setGravity(android.view.Gravity.CENTER_VERTICAL);
-				android.widget.TextView marcador = new android.widget.TextView(this);
-				marcador.setText(ativa ? "●" : "○");
-				marcador.setTextColor(ativa ? 0xFFD0BCFF : 0xFF938D99);
-				marcador.setTextSize(13);
-				cabecalho.addView(marcador);
-				android.widget.TextView fechar = new android.widget.TextView(this);
-				fechar.setText("×");
-				fechar.setTextColor(0xFFE6E0E9);
-				fechar.setTextSize(23);
-				fechar.setGravity(android.view.Gravity.CENTER);
-				cabecalho.addView(new android.view.View(this), new android.widget.LinearLayout.LayoutParams(0, 1, 1));
-				cabecalho.addView(fechar, new android.widget.LinearLayout.LayoutParams(dpGuias(30), dpGuias(30)));
-				cartao.addView(cabecalho);
-
-				android.widget.TextView nome = new android.widget.TextView(this);
-				String textoTitulo = guia.getTitle();
-				nome.setText(textoTitulo == null || textoTitulo.trim().isEmpty() ? "Nova guia" : textoTitulo);
-				nome.setTextColor(0xFFE6E0E9);
-				nome.setTextSize(14);
-				nome.setTypeface(null, android.graphics.Typeface.BOLD);
-				nome.setMaxLines(2);
-				nome.setMinHeight(dpGuias(42));
-				cartao.addView(nome);
-
-				android.widget.TextView endereco = new android.widget.TextView(this);
-				endereco.setText(formatarEndereco(guia.getUrl()));
-				endereco.setTextColor(0xFFBDB6C5);
-				endereco.setTextSize(11);
-				endereco.setMaxLines(2);
-				endereco.setEllipsize(android.text.TextUtils.TruncateAt.END);
-				cartao.addView(endereco);
-
-				android.widget.LinearLayout.LayoutParams cartaoParams =
-					new android.widget.LinearLayout.LayoutParams(0, dpGuias(142), 1);
-				cartaoParams.setMargins(dpGuias(4), dpGuias(4), dpGuias(4), dpGuias(8));
-				linha.addView(cartao, cartaoParams);
-				cartao.setOnClickListener(v -> {
+		grade.setAdapter(new TabGridAdapter(this, guias, tabManager.getActiveIndex(),
+			new TabGridAdapter.Listener() {
+				@Override
+				public void onSelect(int indice) {
 					tabManager.select(indice, binding.webview);
 					atualizarContadorGuias();
 					binding.tela1.setVisibility(View.GONE);
 					binding.tela2.setVisibility(View.VISIBLE);
 					binding.tela3.setVisibility(View.GONE);
 					dialog.dismiss();
-				});
-				fechar.setOnClickListener(v -> {
+				}
+
+				@Override
+				public void onClose(int indice) {
 					tabManager.close(indice, binding.webview);
 					atualizarContadorGuias();
 					dialog.dismiss();
 					abrirSeletorGuias();
-				});
-			}
-			if (guias.size() % 2 != 0 && i + 1 >= guias.size()) {
-				android.view.View espaco = new android.view.View(this);
-				linha.addView(espaco, new android.widget.LinearLayout.LayoutParams(0, 1, 1));
-			}
-			grade.addView(linha);
-		}
-		rolagem.addView(grade);
-		android.widget.LinearLayout.LayoutParams scrollParams =
-			new android.widget.LinearLayout.LayoutParams(-1, dpGuias(360));
-		scrollParams.bottomMargin = dpGuias(12);
-		raiz.addView(rolagem, scrollParams);
+				}
+			}));
+		raiz.addView(grade, new android.widget.LinearLayout.LayoutParams(-1, 0, 1));
 
 		android.widget.LinearLayout acoes = new android.widget.LinearLayout(this);
 		acoes.setGravity(android.view.Gravity.CENTER_VERTICAL);
 		android.widget.Button nova = new android.widget.Button(this);
-		nova.setText("+ Nova guia");
-        nova.setTextColor(0xFF202124);
-        nova.setAllCaps(false);
-        nova.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF8AB4F8));
+		nova.setText("Nova guia");
+		nova.setAllCaps(false);
+		nova.setTextColor(0xFF202124);
+		nova.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF8AB4F8));
 		acoes.addView(nova, new android.widget.LinearLayout.LayoutParams(0, dpGuias(48), 1));
 		android.widget.Button anonima = new android.widget.Button(this);
 		anonima.setText("Anônima");
-        anonima.setTextColor(0xFFE8EAED);
-        anonima.setAllCaps(false);
-        anonima.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF3C4043));
-		acoes.addView(anonima, new android.widget.LinearLayout.LayoutParams(-2, dpGuias(48)));
+		anonima.setAllCaps(false);
+		anonima.setTextColor(0xFFE8EAED);
+		anonima.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF3C4043));
+		android.widget.LinearLayout.LayoutParams privateParams =
+			new android.widget.LinearLayout.LayoutParams(0, dpGuias(48), 1);
+		privateParams.leftMargin = dpGuias(8);
+		acoes.addView(anonima, privateParams);
 		raiz.addView(acoes);
+
 		nova.setOnClickListener(v -> {
 			tabManager.create(binding.webview, "https://search.brave.com/");
 			binding.webview.loadUrl("https://search.brave.com/");
@@ -4274,23 +4223,14 @@ public class MainActivity extends AppCompatActivity {
 		});
 		anonima.setOnClickListener(v -> {
 			dialog.dismiss();
-			Intent privateIntent = new Intent(MainActivity.this, PrivateBrowserActivity.class);
-			startActivity(privateIntent);
+			startActivity(new Intent(MainActivity.this, PrivateBrowserActivity.class));
 		});
+
 		dialog.setView(raiz);
 		dialog.show();
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF202124));
-            dialog.getWindow().setLayout(-1, -1);
-        }
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (binding != null && dados != null) {
-			String javascript = dados.getString("javascript", "ativado");
-			binding.webview.getSettings().setJavaScriptEnabled(!"desativado".equals(javascript));
+		if (dialog.getWindow() != null) {
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF202124));
+			dialog.getWindow().setLayout(-1, -1);
 		}
 	}
 

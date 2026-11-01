@@ -59,7 +59,7 @@ public class DatuSettingsActivity extends AppCompatActivity {
             setPreferenceScreen(screen);
 
             android.content.SharedPreferences data =
-                    context.getSharedPreferences("dados", MODE_PRIVATE);
+                    context.getSharedPreferences("dados", android.content.Context.MODE_PRIVATE);
 
             PreferenceCategory basics = new PreferenceCategory(context);
             basics.setTitle("Básico");

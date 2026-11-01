@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
 	private SharedPreferences dados;
 	private android.webkit.ValueCallback<android.net.Uri[]> uploadCallback;
 	private static final int FILE_CHOOSER_REQUEST = 7201;
+	private static final int LIBRARY_REQUEST = 7202;
 	private BrowserEngine browserEngine;
 	
 	@Override
@@ -106,28 +107,14 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
-		binding.mais.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				binding.linearA.setVisibility(View.GONE);
-				binding.linearB.setVisibility(View.VISIBLE);
-				android.widget.PopupMenu menu = new android.widget.PopupMenu(MainActivity.this, binding.mais);
-				menu.getMenu().add(0, 1, 0, "Favoritos");
-				menu.getMenu().add(0, 2, 1, "Histórico");
-				menu.getMenu().add(0, 3, 2, "Downloads");
-				menu.getMenu().add(0, 4, 3, "Salvar página nos favoritos");
-				menu.setOnMenuItemClickListener(item -> {
-					switch (item.getItemId()) {
-						case 1: BrowserLibrary.showFavorites(MainActivity.this, binding.webview); return true;
-						case 2: BrowserLibrary.showHistory(MainActivity.this, binding.webview); return true;
-						case 3: BrowserLibrary.showDownloads(MainActivity.this); return true;
-						case 4: BrowserLibrary.addFavorite(MainActivity.this, binding.webview.getTitle(), binding.webview.getUrl()); return true;
-					}
-					return false;
-				});
-				menu.show();
-			}
-		});
+        binding.mais.setOnClickListener(v -> {
+            boolean showActions = binding.linearB.getVisibility() != View.VISIBLE;
+            binding.linearA.setVisibility(showActions ? View.GONE : View.VISIBLE);
+            binding.linearB.setVisibility(showActions ? View.VISIBLE : View.GONE);
+        });
+        findViewById(R.id.favorites).setOnClickListener(v -> abrirBiblioteca("favorites"));
+        findViewById(R.id.history).setOnClickListener(v -> abrirBiblioteca("history"));
+        findViewById(R.id.downloads).setOnClickListener(v -> abrirBiblioteca("downloads"));
 		
 		binding.imageview5.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -841,9 +828,7 @@ public class MainActivity extends AppCompatActivity {
 				
 				if (progress < 100) {  
 					
-					text_barra.setText(  
-					progress + "%"  
-					);  
+					text_barra.setText(formatarEndereco(view.getUrl()));  
 					
 				} else {  
 					
@@ -853,9 +838,7 @@ public class MainActivity extends AppCompatActivity {
 					if (title != null  
 					&& !title.isEmpty()) {  
 						
-						text_barra.setText(  
-						title  
-						);  
+						text_barra.setText(formatarEndereco(view.getUrl()));  
 					}  
 				}  
 			}  
@@ -874,9 +857,7 @@ public class MainActivity extends AppCompatActivity {
 				if (title != null  
 				&& !title.isEmpty()) {  
 					
-					text_barra.setText(  
-					title  
-					);  
+					text_barra.setText(formatarEndereco(view.getUrl()));  
 				}  
 			}  
 			
@@ -3760,6 +3741,21 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 	
+	private void abrirBiblioteca(String screen) {
+		Intent intent = new Intent(this, LibraryActivity.class);
+		intent.putExtra("screen", screen);
+		startActivityForResult(intent, LIBRARY_REQUEST);
+	}
+
+	private String formatarEndereco(String url) {
+		if (url == null || url.trim().isEmpty()) return "Pesquisar ou digitar endereço";
+		try {
+			String host = android.net.Uri.parse(url).getHost();
+			if (host != null && !host.isEmpty()) return host.replaceFirst("^www\\.", "");
+		} catch (Exception ignored) {}
+		return url;
+	}
+
 	private void animarEntradaExpressiva(android.view.View view) {
 		if (view == null) return;
 		float deslocamento = 14f * getResources().getDisplayMetrics().density;
@@ -3783,7 +3779,10 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == FILE_CHOOSER_REQUEST && uploadCallback != null) {
+		if (requestCode == LIBRARY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+			String url = data.getStringExtra("url");
+			if (url != null && !url.isEmpty()) browserEngine.loadUrl(url);
+		} else if (requestCode == FILE_CHOOSER_REQUEST && uploadCallback != null) {
 			android.net.Uri[] result = null;
 			if (resultCode == Activity.RESULT_OK && data != null) {
 				if (data.getClipData() != null) {

@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.switchPapelParede.setOnCheckedChangeListener((button, enabled) -> {
             dados.edit().putBoolean("home_wallpaper", enabled).apply();
-            binding.wallpaperImage.setVisibility(enabled ? View.VISIBLE : View.GONE);
+            if (!enabled) binding.tela1.setBackgroundColor(Color.rgb(14, 13, 18));
             if (enabled) carregarPapelParede();
         });
 		
@@ -3692,7 +3692,7 @@ public class MainActivity extends AppCompatActivity {
         }
         boolean mostrarPapelParede = dados.getBoolean("home_wallpaper", true);
         binding.switchPapelParede.setChecked(mostrarPapelParede);
-        binding.wallpaperImage.setVisibility(mostrarPapelParede ? View.VISIBLE : View.GONE);
+        if (!mostrarPapelParede) binding.tela1.setBackgroundColor(Color.rgb(14, 13, 18));
         if (mostrarPapelParede) carregarPapelParede();
         carregandoPreferencias = false;
     }
@@ -3754,32 +3754,80 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(0,dp(78),1f); params.setMargins(dp(3),dp(2),dp(3),dp(2));
         linha.addView(item,params); item.setOnClickListener(v->acao.run());
     }
+    private void aplicarPapelParede(Bitmap bitmap) {
+        if (bitmap == null || isFinishing()) return;
+        android.graphics.drawable.BitmapDrawable fundo =
+            new android.graphics.drawable.BitmapDrawable(getResources(), bitmap);
+        fundo.setGravity(android.view.Gravity.FILL);
+        binding.tela1.setBackground(fundo);
+    }
+
     private void carregarPapelParede() {
-        if(!dados.getBoolean("home_wallpaper",true)||isFinishing()) return;
-        final String[] imagens={
-            "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85",
-            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85",
-            "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1200&q=85",
-            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1200&q=85",
-            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=85"
+        if (!dados.getBoolean("home_wallpaper", true) || isFinishing()) return;
+
+        final java.io.File arquivo = new java.io.File(getFilesDir(), "datu_home_wallpaper.jpg");
+        final String hoje = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US)
+            .format(new java.util.Date());
+
+        // Mostra o último wallpaper salvo imediatamente: funciona offline.
+        if (arquivo.exists() && arquivo.length() > 0) {
+            Bitmap salvo = BitmapFactory.decodeFile(arquivo.getAbsolutePath());
+            if (salvo != null) aplicarPapelParede(salvo);
+        }
+
+        // Cada abertura tenta atualizar; se falhar, o cache anterior permanece.
+        final String[] imagens = {
+            "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=85",
+            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=85",
+            "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1600&q=85",
+            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=85",
+            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=85"
         };
-        int indice=java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR)%imagens.length;
-        final String endereco=imagens[indice];
-        new AsyncTask<Void,Void,Bitmap>() {
+        int dia = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR);
+        final String endereco = imagens[dia % imagens.length];
+
+        new AsyncTask<Void, Void, Bitmap>() {
             @Override protected Bitmap doInBackground(Void... params) {
-                java.net.HttpURLConnection conexao=null;
+                java.net.HttpURLConnection conexao = null;
+                java.io.File temporario = new java.io.File(getFilesDir(), "datu_home_wallpaper.tmp");
                 try {
-                    conexao=(java.net.HttpURLConnection)new java.net.URL(endereco).openConnection();
-                    conexao.setConnectTimeout(10000); conexao.setReadTimeout(15000);
-                    conexao.setInstanceFollowRedirects(true); conexao.setRequestProperty("User-Agent","DatuBrowser/1.0 Android");
-                    conexao.connect(); if(conexao.getResponseCode()!=200) return null;
-                    try(java.io.InputStream entrada=new java.io.BufferedInputStream(conexao.getInputStream())) { return BitmapFactory.decodeStream(entrada); }
-                } catch(Exception erro) { return null; }
-                finally { if(conexao!=null) conexao.disconnect(); }
+                    conexao = (java.net.HttpURLConnection) new java.net.URL(endereco).openConnection();
+                    conexao.setConnectTimeout(12000);
+                    conexao.setReadTimeout(20000);
+                    conexao.setInstanceFollowRedirects(true);
+                    conexao.setRequestProperty("User-Agent", "DatuBrowser/1.0 Android");
+                    if (conexao.getResponseCode() != 200) return null;
+
+                    try (java.io.InputStream entrada = new java.io.BufferedInputStream(conexao.getInputStream());
+                         java.io.FileOutputStream saida = new java.io.FileOutputStream(temporario)) {
+                        byte[] buffer = new byte[8192];
+                        int lidos;
+                        while ((lidos = entrada.read(buffer)) != -1) saida.write(buffer, 0, lidos);
+                        saida.flush();
+                    }
+
+                    Bitmap bitmap = BitmapFactory.decodeFile(temporario.getAbsolutePath());
+                    if (bitmap == null) { temporario.delete(); return null; }
+                    if (arquivo.exists()) arquivo.delete();
+                    if (!temporario.renameTo(arquivo)) {
+                        temporario.delete();
+                        return bitmap;
+                    }
+                    getSharedPreferences("dados", MODE_PRIVATE).edit()
+                        .putString("home_wallpaper_last_update", hoje).apply();
+                    return bitmap;
+                } catch (Exception erro) {
+                    temporario.delete();
+                    return null;
+                } finally {
+                    if (conexao != null) conexao.disconnect();
+                }
             }
+
             @Override protected void onPostExecute(Bitmap bitmap) {
-                if(bitmap!=null&&!isFinishing()&&dados.getBoolean("home_wallpaper",true)) {
-                    binding.wallpaperImage.setImageBitmap(bitmap); binding.wallpaperImage.setVisibility(View.VISIBLE);
+                if (bitmap != null && !isFinishing()
+                    && dados.getBoolean("home_wallpaper", true)) {
+                    aplicarPapelParede(bitmap);
                 }
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);

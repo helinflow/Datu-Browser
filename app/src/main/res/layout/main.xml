@@ -323,7 +323,7 @@
                 android:layout_marginTop="8dp"
                 android:text="Configurações"
                 android:textColor="#E6E0E9"
-                android:textSize="26sp"
+                android:textSize="28sp"
                 android:includeFontPadding="true"
                 android:breakStrategy="simple"
                 android:textStyle="bold" />
@@ -333,7 +333,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="12dp"
-                android:text="Personalize sua navegação"
+                android:text="Controle sua experiência de navegação"
                 android:textColor="#CAC4D0"
                 android:textSize="14sp" />
 			<LinearLayout
@@ -359,7 +359,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
-                android:text="Aparência"
+                android:text="◈  Aparência"
                 android:textColor="#D0BCFF"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -398,7 +398,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="4dp"
-                android:text="Privacidade e segurança"
+                android:text="◉  Privacidade e segurança"
                 android:textColor="#D0BCFF"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -429,7 +429,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="4dp"
-                android:text="Bloqueio de anúncios"
+                android:text="✦  Proteção e desempenho"
                 android:textColor="#D0BCFF"
                 android:textSize="14sp"
                 android:textStyle="bold" />

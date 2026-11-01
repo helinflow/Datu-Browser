@@ -25,6 +25,8 @@ import android.widget.Toast;
 public final class PrivateBrowserActivity extends Activity {
     private WebView webView;
     private EditText address;
+    private TabManager tabManager;
+    private TextView tabCount;
 
     @Override
     protected void onCreate(Bundle state) {
@@ -36,10 +38,14 @@ public final class PrivateBrowserActivity extends Activity {
         }
         WebView.setDataDirectorySuffix("datu_private");
         super.onCreate(state);
+        tabManager = new TabManager();
         buildInterface();
         configurePrivateWebView();
         String initial = getIntent().getStringExtra("url");
-        loadAddress(initial == null ? "https://search.brave.com/" : initial);
+        String start = initial == null ? "https://search.brave.com/" : initial;
+        tabManager.create(webView, start);
+        loadAddress(start);
+        atualizarContadorGuias();
     }
 
     private void buildInterface() {
@@ -56,6 +62,15 @@ public final class PrivateBrowserActivity extends Activity {
         label.setTextSize(17);
         label.setPadding(dp(8), dp(8), dp(8), dp(8));
         header.addView(label, new LinearLayout.LayoutParams(0, -2, 1));
+        tabCount = new TextView(this);
+        tabCount.setText("1");
+        tabCount.setTextColor(0xFFD0BCFF);
+        tabCount.setTextSize(14);
+        tabCount.setGravity(Gravity.CENTER);
+        tabCount.setBackgroundColor(0xFF302A3D);
+        tabCount.setPadding(dp(12), dp(6), dp(12), dp(6));
+        tabCount.setOnClickListener(v -> abrirGuiasPrivadas());
+        header.addView(tabCount, new LinearLayout.LayoutParams(dp(42), dp(40)));
         Button close = new Button(this);
         close.setText("Fechar");
         close.setOnClickListener(v -> finish());
@@ -120,9 +135,48 @@ public final class PrivateBrowserActivity extends Activity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 if (url != null) address.setText(url);
+                if (tabManager != null) tabManager.captureActive(view);
             }
         });
         webView.setWebChromeClient(new WebChromeClient());
+    }
+
+    private void atualizarContadorGuias() {
+        if (tabCount != null && tabManager != null) {
+            tabCount.setText(String.valueOf(tabManager.getCount()));
+            tabCount.setContentDescription(tabManager.getCount() + " guias anônimas");
+        }
+    }
+
+    private void abrirGuiasPrivadas() {
+        if (tabManager == null) return;
+        tabManager.captureActive(webView);
+        java.util.List<BrowserTab> tabs = tabManager.getTabs();
+        String[] labels = new String[tabs.size()];
+        for (int i = 0; i < tabs.size(); i++) {
+            BrowserTab tab = tabs.get(i);
+            String title = tab.getTitle();
+            if (title == null || title.trim().isEmpty()) title = "Nova guia anônima";
+            labels[i] = title + "\\n" + tab.getUrl();
+        }
+        new android.app.AlertDialog.Builder(this)
+            .setTitle("Guias anônimas")
+            .setItems(labels, (dialog, which) -> {
+                tabManager.select(which, webView);
+                atualizarContadorGuias();
+            })
+            .setPositiveButton("Nova guia", (dialog, which) -> {
+                tabManager.create(webView, "https://search.brave.com/");
+                loadAddress("https://search.brave.com/");
+                atualizarContadorGuias();
+            })
+            .setNegativeButton("Fechar guia atual", (dialog, which) -> {
+                tabManager.close(tabManager.getActiveIndex(), webView);
+                BrowserTab active = tabManager.getActive();
+                if (active != null) address.setText(active.getUrl());
+                atualizarContadorGuias();
+            })
+            .show();
     }
 
     private void navigate() {

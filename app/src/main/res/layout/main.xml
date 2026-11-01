@@ -308,35 +308,38 @@ android:layout_width="0dp"
 						android:scaleY="0.62"
 						android:layout_gravity="center"
 						android:src="@drawable/icon_settings_round" />
-                    <TextView
+                    <ImageView
                         android:id="@+id/favorites"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="48dp"
-                        android:gravity="center"
-                        android:text="☆"
-                        android:textSize="25sp"
-                        android:textColor="#FFFFB0C8"
+                        android:layout_gravity="center"
+                        android:padding="12dp"
+                        android:background="@drawable/datu_nav_item_bg"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_library_favorite"
                         android:contentDescription="Favoritos" />
-                    <TextView
+                    <ImageView
                         android:id="@+id/history"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="48dp"
-                        android:gravity="center"
-                        android:text="◷"
-                        android:textSize="24sp"
-                        android:textColor="#FFFFB0C8"
+                        android:layout_gravity="center"
+                        android:padding="12dp"
+                        android:background="@drawable/datu_nav_item_bg"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_library_history"
                         android:contentDescription="Histórico" />
-                    <TextView
+                    <ImageView
                         android:id="@+id/downloads"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="48dp"
-                        android:gravity="center"
-                        android:text="↓"
-                        android:textSize="26sp"
-                        android:textColor="#FFFFB0C8"
+                        android:layout_gravity="center"
+                        android:padding="12dp"
+                        android:background="@drawable/datu_nav_item_bg"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_library_download"
                         android:contentDescription="Downloads" />
 
 				</LinearLayout>
@@ -561,8 +564,7 @@ android:layout_width="0dp"
     <LinearLayout
         android:id="@+id/tela4"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="#141214"
         android:paddingStart="20dp"
@@ -574,14 +576,15 @@ android:layout_width="0dp"
             android:layout_height="58dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
-            <TextView
+            <ImageView
                 android:id="@+id/library_back"
                 android:layout_width="48dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="‹"
-                android:textSize="34sp"
-                android:textColor="#FFFFB0C8" />
+                android:layout_height="48dp"
+                android:layout_gravity="center_vertical"
+                android:padding="12dp"
+                android:background="@drawable/datu_nav_item_bg"
+                android:src="@drawable/ic_library_back"
+                android:contentDescription="Voltar" />
             <TextView
                 android:id="@+id/library_title"
                 android:layout_width="0dp"

@@ -50,7 +50,7 @@ public final class TabGridAdapter extends RecyclerView.Adapter<TabGridAdapter.Ta
     private GradientDrawable shape(int color, int stroke) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(color);
-        drawable.setCornerRadius(dp(12));
+        drawable.setCornerRadius(dp(16));
         if (stroke > 0) drawable.setStroke(dp(2), stroke);
         return drawable;
     }
@@ -67,7 +67,7 @@ public final class TabGridAdapter extends RecyclerView.Adapter<TabGridAdapter.Ta
         card.setPadding(dp(8), dp(8), dp(8), dp(10));
 
         FrameLayout previewFrame = new FrameLayout(context);
-        previewFrame.setBackground(shape(0xFF303134, 0));
+        previewFrame.setBackground(shape(0xFF29252F, 0));
         previewFrame.setClipToOutline(true);
 
         ImageView preview = new ImageView(context);
@@ -76,14 +76,14 @@ public final class TabGridAdapter extends RecyclerView.Adapter<TabGridAdapter.Ta
 
         TextView emptyPreview = new TextView(context);
         emptyPreview.setText("Prévia da página");
-        emptyPreview.setTextColor(0xFFBDC1C6);
+        emptyPreview.setTextColor(0xFFCAC4D0);
         emptyPreview.setTextSize(12);
         emptyPreview.setGravity(Gravity.CENTER);
         previewFrame.addView(emptyPreview, new FrameLayout.LayoutParams(-1, -1));
 
         ImageButton close = new ImageButton(context);
         close.setImageResource(android.R.drawable.ic_menu_close_clear_cancel);
-        close.setColorFilter(0xFFE8EAED);
+        close.setColorFilter(0xFFE6E0E9);
         close.setBackground(shape(0xCC202124, 0));
         close.setContentDescription("Fechar guia");
         FrameLayout.LayoutParams closeParams = new FrameLayout.LayoutParams(dp(34), dp(34), Gravity.END | Gravity.TOP);
@@ -91,7 +91,7 @@ public final class TabGridAdapter extends RecyclerView.Adapter<TabGridAdapter.Ta
         previewFrame.addView(close, closeParams);
 
         TextView title = new TextView(context);
-        title.setTextColor(0xFFE8EAED);
+        title.setTextColor(0xFFE6E0E9);
         title.setTextSize(14);
         title.setTypeface(Typeface.DEFAULT, Typeface.BOLD);
         title.setMaxLines(2);
@@ -99,7 +99,7 @@ public final class TabGridAdapter extends RecyclerView.Adapter<TabGridAdapter.Ta
         title.setPadding(dp(4), dp(8), dp(4), 0);
 
         TextView url = new TextView(context);
-        url.setTextColor(0xFFBDC1C6);
+        url.setTextColor(0xFFCAC4D0);
         url.setTextSize(11);
         url.setMaxLines(1);
         url.setEllipsize(android.text.TextUtils.TruncateAt.END);
@@ -116,8 +116,8 @@ public final class TabGridAdapter extends RecyclerView.Adapter<TabGridAdapter.Ta
     public void onBindViewHolder(TabHolder holder, int position) {
         BrowserTab tab = tabs.get(position);
         boolean active = position == activeIndex;
-        holder.itemView.setBackground(shape(active ? 0xFF303134 : 0xFF292A2D,
-                active ? 0xFF8AB4F8 : 0x00000000));
+        holder.itemView.setBackground(shape(active ? 0xFF29252F : 0xFF141218,
+                active ? 0xFFD0BCFF : 0x00000000));
         holder.title.setText(tab.getTitle() == null || tab.getTitle().trim().isEmpty()
                 ? "Nova guia" : tab.getTitle());
         holder.url.setText(tab.getUrl() == null ? "" : tab.getUrl());

@@ -54,6 +54,7 @@
 					</LinearLayout>
 					<ImageView
                         android:id="@+id/wallpaper_image"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="176dp"
                         android:layout_marginStart="16dp"

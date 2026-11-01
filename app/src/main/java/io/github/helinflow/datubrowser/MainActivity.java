@@ -113,33 +113,6 @@ public class MainActivity extends AppCompatActivity {
         binding.mais.setOnClickListener(v -> abrirMenuNavegacao());
         findViewById(R.id.library_back).setOnClickListener(v -> fecharBiblioteca());
 		
-		binding.home.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				binding.tela1.setVisibility(View.VISIBLE);
-				animarEntradaExpressiva(binding.tela1);
-				binding.tela2.setVisibility(View.GONE);
-				binding.tela3.setVisibility(View.GONE);
-			}
-		});
-		
-		binding.recharge.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				browserEngine.reload();
-			}
-		});
-		
-		binding.settings.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				binding.tela1.setVisibility(View.GONE);
-				binding.tela2.setVisibility(View.GONE);
-				binding.tela3.setVisibility(View.VISIBLE);
-				animarEntradaExpressiva(binding.tela3);
-			}
-		});
-		
 		binding.linearAnuncios.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {

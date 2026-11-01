@@ -3747,44 +3747,60 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout item=new LinearLayout(this); item.setOrientation(LinearLayout.VERTICAL);
         item.setGravity(Gravity.CENTER); item.setPadding(dp(4),dp(10),dp(4),dp(8));
         item.setBackground(formaArredondada(Color.rgb(48,45,55),20));
-        ImageView imagem=new ImageView(this); imagem.setImageResource(icone); imagem.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        ImageView imagem=new ImageView(this); imagem.setImageResource(icone); imagem.setColorFilter(Color.rgb(208,188,255), android.graphics.PorterDuff.Mode.SRC_IN); imagem.setScaleType(ImageView.ScaleType.FIT_CENTER);
         LinearLayout.LayoutParams ip=new LinearLayout.LayoutParams(dp(26),dp(26)); ip.bottomMargin=dp(5); item.addView(imagem,ip);
         TextView texto=new TextView(this); texto.setText(nome); texto.setTextColor(Color.rgb(230,224,233));
         texto.setTextSize(11); texto.setGravity(Gravity.CENTER); texto.setMaxLines(1); item.addView(texto,new LinearLayout.LayoutParams(-1,-2));
         LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(0,dp(78),1f); params.setMargins(dp(3),dp(2),dp(3),dp(2));
         linha.addView(item,params); item.setOnClickListener(v->acao.run());
     }
-    private void aplicarPapelParede(Bitmap bitmap) {
-        if (bitmap == null || isFinishing()) return;
-        android.graphics.drawable.BitmapDrawable fundo =
-            new android.graphics.drawable.BitmapDrawable(getResources(), bitmap);
-        fundo.setGravity(android.view.Gravity.FILL);
-        binding.tela1.setBackground(fundo);
+    private void aplicarPapelParede(Bitmap original) {
+        if (original == null || isFinishing()) return;
+        final View area = binding.tela1;
+        area.post(() -> {
+            int largura = area.getWidth();
+            int altura = area.getHeight();
+            if (largura <= 0 || altura <= 0) return;
+
+            // Center-crop: mantém a proporção e corta as bordas, sem deformar a paisagem.
+            float escala = Math.max((float) largura / original.getWidth(),
+                                    (float) altura / original.getHeight());
+            int larguraEscalada = Math.round(original.getWidth() * escala);
+            int alturaEscalada = Math.round(original.getHeight() * escala);
+            Bitmap escalada = Bitmap.createScaledBitmap(original, larguraEscalada, alturaEscalada, true);
+            int x = Math.max(0, (larguraEscalada - largura) / 2);
+            int y = Math.max(0, (alturaEscalada - altura) / 2);
+            Bitmap recorte = Bitmap.createBitmap(escalada, x, y,
+                Math.min(largura, escalada.getWidth() - x),
+                Math.min(altura, escalada.getHeight() - y));
+            area.setBackground(new BitmapDrawable(getResources(), recorte));
+            if (escalada != original && !escalada.isRecycled()) escalada.recycle();
+        });
     }
 
     private void carregarPapelParede() {
         if (!dados.getBoolean("home_wallpaper", true) || isFinishing()) return;
 
         final java.io.File arquivo = new java.io.File(getFilesDir(), "datu_home_wallpaper.jpg");
-        final String hoje = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.US)
-            .format(new java.util.Date());
-
-        // Mostra o último wallpaper salvo imediatamente: funciona offline.
         if (arquivo.exists() && arquivo.length() > 0) {
             Bitmap salvo = BitmapFactory.decodeFile(arquivo.getAbsolutePath());
             if (salvo != null) aplicarPapelParede(salvo);
         }
 
-        // Cada abertura tenta atualizar; se falhar, o cache anterior permanece.
+        // Seleciona uma paisagem diferente da última imagem salva a cada abertura.
         final String[] imagens = {
-            "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1600&q=85",
-            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1600&q=85",
-            "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1600&q=85",
-            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=85",
-            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1600&q=85"
+            "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1800&q=88",
+            "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1800&q=88",
+            "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1800&q=88",
+            "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1800&q=88",
+            "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1800&q=88"
         };
-        int dia = java.util.Calendar.getInstance().get(java.util.Calendar.DAY_OF_YEAR);
-        final String endereco = imagens[dia % imagens.length];
+        int anterior = dados.getInt("home_wallpaper_index", -1);
+        java.util.Random sorteio = new java.util.Random();
+        int indice = sorteio.nextInt(imagens.length);
+        if (imagens.length > 1 && indice == anterior) indice = (indice + 1 + sorteio.nextInt(imagens.length - 1)) % imagens.length;
+        final int indiceEscolhido = indice;
+        final String endereco = imagens[indiceEscolhido] + "&datu_refresh=" + System.currentTimeMillis();
 
         new AsyncTask<Void, Void, Bitmap>() {
             @Override protected Bitmap doInBackground(Void... params) {
@@ -3793,8 +3809,9 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     conexao = (java.net.HttpURLConnection) new java.net.URL(endereco).openConnection();
                     conexao.setConnectTimeout(12000);
-                    conexao.setReadTimeout(20000);
-                    conexao.setInstanceFollowRedirects(true);
+                    conexao.setReadTimeout(25000);
+                    conexao.setUseCaches(false);
+                    conexao.setRequestProperty("Cache-Control", "no-cache");
                     conexao.setRequestProperty("User-Agent", "DatuBrowser/1.0 Android");
                     if (conexao.getResponseCode() != 200) return null;
 
@@ -3808,13 +3825,22 @@ public class MainActivity extends AppCompatActivity {
 
                     Bitmap bitmap = BitmapFactory.decodeFile(temporario.getAbsolutePath());
                     if (bitmap == null) { temporario.delete(); return null; }
-                    if (arquivo.exists()) arquivo.delete();
-                    if (!temporario.renameTo(arquivo)) {
+
+                    // Substituição atômica: nunca perde o cache antigo se o download falhar.
+                    java.io.File backup = new java.io.File(getFilesDir(), "datu_home_wallpaper.old");
+                    if (backup.exists()) backup.delete();
+                    if (arquivo.exists() && !arquivo.renameTo(backup)) {
                         temporario.delete();
-                        return bitmap;
+                        return null;
                     }
-                    getSharedPreferences("dados", MODE_PRIVATE).edit()
-                        .putString("home_wallpaper_last_update", hoje).apply();
+                    if (!temporario.renameTo(arquivo)) {
+                        if (backup.exists()) backup.renameTo(arquivo);
+                        temporario.delete();
+                        return null;
+                    }
+                    if (backup.exists()) backup.delete();
+                    dados.edit().putInt("home_wallpaper_index", indiceEscolhido)
+                        .putLong("home_wallpaper_last_update", System.currentTimeMillis()).apply();
                     return bitmap;
                 } catch (Exception erro) {
                     temporario.delete();
@@ -3826,9 +3852,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override protected void onPostExecute(Bitmap bitmap) {
                 if (bitmap != null && !isFinishing()
-                    && dados.getBoolean("home_wallpaper", true)) {
-                    aplicarPapelParede(bitmap);
-                }
+                    && dados.getBoolean("home_wallpaper", true)) aplicarPapelParede(bitmap);
             }
         }.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }

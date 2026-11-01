@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
             binding.linearB.setVisibility(showActions ? View.VISIBLE : View.GONE);
         });
         findViewById(R.id.favorites).setOnClickListener(v -> abrirBiblioteca("favorites"));
+        findViewById(R.id.favorites).setOnLongClickListener(v -> { BrowserLibrary.addFavorite(this, binding.webview.getTitle(), binding.webview.getUrl()); return true; });
         findViewById(R.id.history).setOnClickListener(v -> abrirBiblioteca("history"));
         findViewById(R.id.downloads).setOnClickListener(v -> abrirBiblioteca("downloads"));
 		findViewById(R.id.library_back).setOnClickListener(v -> fecharBiblioteca());

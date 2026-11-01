@@ -1516,6 +1516,29 @@ public class MainActivity extends AppCompatActivity {
 			// PERTENCE AO DOMÍNIO
 			// --------------------------------------------------------
 			
+			String dominioRegistravelAproximado(String host) {
+				if (host == null || host.trim().isEmpty()) return "";
+				String[] partes = host.toLowerCase(java.util.Locale.ROOT).split("\\.");
+				if (partes.length < 2) return host.toLowerCase(java.util.Locale.ROOT);
+				String sufixoDuplo = partes[partes.length - 2] + "." + partes[partes.length - 1];
+				java.util.HashSet<String> sufixosCompostos = new java.util.HashSet<String>(java.util.Arrays.asList(
+					"com.br", "net.br", "org.br", "edu.br", "gov.br", "com.au", "net.au", "org.au",
+					"co.uk", "org.uk", "gov.uk", "ac.uk", "co.jp", "co.nz", "com.mx", "co.in"));
+				int quantidade = sufixosCompostos.contains(sufixoDuplo) ? 3 : 2;
+				if (partes.length < quantidade) return host.toLowerCase(java.util.Locale.ROOT);
+				StringBuilder base = new StringBuilder();
+				for (int i = partes.length - quantidade; i < partes.length; i++) {
+					if (base.length() > 0) base.append('.');
+					base.append(partes[i]);
+				}
+				return base.toString();
+			}
+
+			boolean mesmoSite(String hostA, String hostB) {
+				if (hostA == null || hostB == null || hostA.isEmpty() || hostB.isEmpty()) return false;
+				return dominioRegistravelAproximado(hostA).equals(dominioRegistravelAproximado(hostB));
+			}
+
 			boolean pertenceDominio(
 			String host,
 			String dominio) {
@@ -2887,15 +2910,9 @@ public class MainActivity extends AppCompatActivity {
 					}
 					
 					
-					if (
-					shields.pertenceDominio(
-					hostRecurso,
-					hostPagina
-					)
-					) {
-						
+					if (shields.mesmoSite(hostRecurso, hostPagina)) {
 						return false;
-					}
+					}}
 				}
 				
 				
@@ -3296,10 +3313,7 @@ public class MainActivity extends AppCompatActivity {
 							&&
 							host.length() > 0
 							&&
-							!shields.pertenceDominio(
-							host,
-							hostPaginaAtual
-							)
+							!shields.mesmoSite(host, hostPaginaAtual)
 							) {
 								
 								bloquear =

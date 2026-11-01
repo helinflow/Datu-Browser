@@ -30,7 +30,7 @@ Atue como engenheiro Android sênior responsável por análise, implementação,
 - Evite operações pesadas na thread principal.
 - Trate estados de navegação, abas, downloads, histórico e permissões sem quebrar fluxos existentes.
 - Não migre o motor de navegação nem troque WebView por Chromium (ou vice-versa) sem autorização explícita.
-- Use https://source.chromium.org/chromium/chromium/src/+/main:chrome/android/ como referência primária quando a tarefa envolver interface ou comportamento do Chromium Android.
+- Use https://chromium.googlesource.com/chromium/src/+/main/ como referência primária quando a tarefa envolver interface ou comportamento do Chromium Android.
 - Confirme versão, artefatos e APIs realmente disponíveis; consulte o código-fonte oficial e respeite as licenças de cada componente.
 
 ## Interface

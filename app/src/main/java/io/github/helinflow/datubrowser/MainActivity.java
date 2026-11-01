@@ -4235,6 +4235,15 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		if (binding != null && dados != null) {
+			String javascript = dados.getString("javascript", "ativado");
+			binding.webview.getSettings().setJavaScriptEnabled(!"desativado".equals(javascript));
+		}
+	}
+
+	@Override
 	public void onBackPressed() {
 		if (findViewById(R.id.tela4).getVisibility() == View.VISIBLE) {
 			fecharBiblioteca();

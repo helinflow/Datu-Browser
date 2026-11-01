@@ -107,6 +107,57 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, ThirdPartyNoticesActivity.class)));
     }
 
+	private void abrirEditorEndereco() {
+		final EditText campo = new EditText(this);
+		campo.setSingleLine(true);
+		campo.setSelectAllOnFocus(true);
+		campo.setTextSize(16);
+		campo.setInputType(android.text.InputType.TYPE_CLASS_TEXT
+			| android.text.InputType.TYPE_TEXT_VARIATION_URI);
+		campo.setImeOptions(android.view.inputmethod.EditorInfo.IME_ACTION_GO);
+		campo.setHint("Pesquisar ou digitar endereço");
+		String atual = binding.webview.getUrl();
+		if (atual != null && !atual.trim().isEmpty()
+				&& !"about:blank".equals(atual)) campo.setText(atual);
+		campo.setSelection(campo.length());
+		int margem = (int) (20 * getResources().getDisplayMetrics().density + 0.5f);
+		android.widget.FrameLayout container = new android.widget.FrameLayout(this);
+		container.setPadding(margem, 0, margem, 0);
+		container.addView(campo, new android.widget.FrameLayout.LayoutParams(-1, -2));
+		AlertDialog dialog = new AlertDialog.Builder(this)
+			.setTitle("Pesquisar ou digitar endereço")
+			.setView(container)
+			.setNegativeButton("Cancelar", null)
+			.setPositiveButton("Ir", (d, which) -> {
+				String entrada = campo.getText().toString().trim();
+				if (entrada.isEmpty()) return;
+				String destino = entrada.matches("^(?i)(https?|file)://.*")
+					? entrada : buildSearchUrl(entrada);
+				binding.webview.loadUrl(destino);
+				binding.textBarra.setText(formatarEndereco(destino));
+				binding.tela1.setVisibility(View.GONE);
+				binding.tela2.setVisibility(View.VISIBLE);
+				binding.tela3.setVisibility(View.GONE);
+			})
+			.create();
+		campo.setOnEditorActionListener((v, actionId, event) -> {
+			if (actionId == android.view.inputmethod.EditorInfo.IME_ACTION_GO
+					|| actionId == android.view.inputmethod.EditorInfo.IME_ACTION_SEARCH) {
+				dialog.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+				return true;
+			}
+			return false;
+		});
+		dialog.getWindow();
+		dialog.show();
+		campo.requestFocus();
+		campo.postDelayed(() -> {
+			android.view.inputmethod.InputMethodManager imm =
+			(android.view.inputmethod.InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+			if (imm != null) imm.showSoftInput(campo, android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT);
+		}, 180);
+	}
+
 	private void initialize(Bundle _savedInstanceState) {
 		dados = getSharedPreferences("dados", Activity.MODE_PRIVATE);
 		
@@ -143,14 +194,16 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		
-		binding.textBarra.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				binding.tela1.setVisibility(View.VISIBLE);
-				animarEntradaExpressiva(binding.tela1);
-				binding.tela2.setVisibility(View.GONE);
-				binding.tela3.setVisibility(View.GONE);
+		binding.textBarra.setOnClickListener(v -> abrirEditorEndereco());
+		binding.textBarra.setOnLongClickListener(v -> {
+			String endereco = binding.webview.getUrl();
+			if (endereco != null && !endereco.trim().isEmpty()) {
+				android.content.ClipboardManager clipboard =
+				(android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+				clipboard.setPrimaryClip(ClipData.newPlainText("Endereço", endereco));
+				Toast.makeText(this, "Endereço copiado", Toast.LENGTH_SHORT).show();
 			}
+			return true;
 		});
 		
         binding.mais.setOnClickListener(v -> abrirMenuNavegacao());

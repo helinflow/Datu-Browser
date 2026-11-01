@@ -84,14 +84,14 @@ public class LibraryActivity extends Activity {
     private void buildPage() {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(0xFF202124);
+        root.setBackgroundColor(0xFF0E0D12);
         root.setPadding(dp(16), dp(12), dp(16), dp(12));
 
         LinearLayout header = new LinearLayout(this);
         header.setGravity(Gravity.CENTER_VERTICAL);
-        TextView back = text("‹", 34, 0xFFE8EAED, false);
+        TextView back = text("‹", 34, 0xFFE6E0E9, false);
         back.setGravity(Gravity.CENTER);
-        back.setBackground(shape(0xFF303134, 24));
+        back.setBackground(shape(0xFF29252F, 24));
         back.setContentDescription("Voltar");
         header.addView(back, new LinearLayout.LayoutParams(dp(48), dp(48)));
         back.setOnClickListener(v -> finish());
@@ -104,7 +104,7 @@ public class LibraryActivity extends Activity {
         header.addView(heading, hp);
         root.addView(header);
 
-        TextView subtitle = text("Sua biblioteca no Datu", 13, 0xFF9AA0A6, false);
+        TextView subtitle = text("Sua biblioteca no Datu", 13, 0xFFCAC4D0, false);
         LinearLayout.LayoutParams subtitleParams = new LinearLayout.LayoutParams(-1, dp(28));
         subtitleParams.leftMargin = dp(62);
         root.addView(subtitle, subtitleParams);
@@ -116,16 +116,16 @@ public class LibraryActivity extends Activity {
         search.setHintTextColor(0xFF9AA0A6);
         search.setHint("Pesquisar em " + title.toLowerCase(java.util.Locale.ROOT));
         search.setPadding(dp(18), 0, dp(16), 0);
-        search.setBackground(shape(0xFF303134, 28));
+        search.setBackground(shape(0xFF1D1B20, 24));
         LinearLayout.LayoutParams searchParams = new LinearLayout.LayoutParams(-1, dp(50));
         searchParams.topMargin = dp(12);
         searchParams.bottomMargin = dp(10);
         root.addView(search, searchParams);
 
         if ("history".equals(screen)) {
-            clearHistory = text("Limpar histórico", 14, 0xFFFFB1C8, true);
+            clearHistory = text("Limpar histórico", 14, 0xFFD0BCFF, true);
             clearHistory.setGravity(Gravity.CENTER);
-            clearHistory.setBackground(shape(0xFF49303A, 18));
+            clearHistory.setBackground(shape(0xFF4F378B, 18));
             LinearLayout.LayoutParams clearParams = new LinearLayout.LayoutParams(-1, dp(44));
             clearParams.bottomMargin = dp(10);
             root.addView(clearHistory, clearParams);
@@ -156,7 +156,7 @@ public class LibraryActivity extends Activity {
         list.setAdapter(adapter);
         root.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
 
-        emptyState = text("", 15, 0xFFBDC1C6, false);
+        emptyState = text("", 15, 0xFFCAC4D0, false);
         emptyState.setGravity(Gravity.CENTER);
         emptyState.setPadding(dp(24), dp(24), dp(24), dp(24));
         root.addView(emptyState, new LinearLayout.LayoutParams(-1, dp(100)));

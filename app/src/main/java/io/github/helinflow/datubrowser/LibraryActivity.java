@@ -11,6 +11,11 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+import java.util.ArrayList;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -22,6 +27,8 @@ import org.json.JSONObject;
 public class LibraryActivity extends Activity {
     private LinearLayout content;
     private String screen;
+    private final ArrayList<View> searchableCards = new ArrayList<>();
+    private final ArrayList<String> searchableText = new ArrayList<>();
 
     @Override protected void onCreate(Bundle state) {
         super.onCreate(state);
@@ -54,8 +61,8 @@ public class LibraryActivity extends Activity {
     private void buildPage() {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(Color.rgb(20,18,20));
-        root.setPadding(dp(18), dp(12), dp(18), dp(16));
+        root.setBackgroundColor(Color.rgb(32, 33, 36));
+        root.setPadding(dp(16), dp(12), dp(16), dp(12));
 
         LinearLayout header = new LinearLayout(this);
         header.setGravity(Gravity.CENTER_VERTICAL);
@@ -63,40 +70,54 @@ public class LibraryActivity extends Activity {
 
         ImageView back = new ImageView(this);
         back.setImageResource(R.drawable.ic_library_back);
+        back.setColorFilter(Color.rgb(232, 234, 237));
         back.setContentDescription("Voltar");
         back.setPadding(dp(12), dp(12), dp(12), dp(12));
-        back.setBackground(shape(Color.rgb(36,32,34), 16));
+        back.setBackground(shape(Color.rgb(48, 49, 52), 24));
         header.addView(back, new LinearLayout.LayoutParams(dp(48), dp(48)));
         back.setOnClickListener(v -> finish());
 
         String title = "favorites".equals(screen) ? "Favoritos" :
                 "history".equals(screen) ? "Histórico" : "Downloads";
-        ImageView sectionIcon = new ImageView(this);
-        int iconRes = "favorites".equals(screen) ? R.drawable.ic_library_favorite
-                : "history".equals(screen) ? R.drawable.ic_library_history
-                : R.drawable.ic_library_download;
-        sectionIcon.setImageResource(iconRes);
-        sectionIcon.setContentDescription(title);
-        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(dp(28), dp(28));
-        iconParams.leftMargin = dp(12);
-        header.addView(sectionIcon, iconParams);
-
-        TextView heading = text(title, 26, Color.rgb(245,238,241), true);
+        TextView heading = text(title, 23, Color.rgb(232, 234, 237), true);
         LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(0, dp(52), 1);
-        hp.leftMargin = dp(10);
+        hp.leftMargin = dp(14);
         header.addView(heading, hp);
         root.addView(header);
 
-        TextView subtitle = text("Sua biblioteca no Datu", 14, Color.rgb(208,196,200), false);
-        subtitle.setPadding(dp(56), 0, 0, dp(18));
-        root.addView(subtitle);
+        EditText search = new EditText(this);
+        search.setSingleLine(true);
+        search.setTextSize(15);
+        search.setTextColor(Color.rgb(232, 234, 237));
+        search.setHintTextColor(Color.rgb(154, 160, 166));
+        search.setHint("Pesquisar em " + title.toLowerCase());
+        search.setPadding(dp(18), 0, dp(16), 0);
+        search.setBackground(shape(Color.rgb(48, 49, 52), 26));
+        LinearLayout.LayoutParams searchParams = new LinearLayout.LayoutParams(-1, dp(50));
+        searchParams.topMargin = dp(16);
+        searchParams.bottomMargin = dp(16);
+        root.addView(search, searchParams);
 
         ScrollView scroll = new ScrollView(this);
         scroll.setFillViewport(true);
+        scroll.setClipToPadding(false);
         content = new LinearLayout(this);
         content.setOrientation(LinearLayout.VERTICAL);
-        scroll.addView(content);
+        content.setPadding(0, 0, 0, dp(24));
+        scroll.addView(content, new ScrollView.LayoutParams(-1, -2));
         root.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s == null ? "" : s.toString().trim().toLowerCase(java.util.Locale.ROOT);
+                for (int i = 0; i < searchableCards.size(); i++) {
+                    searchableCards.get(i).setVisibility(searchableText.get(i).contains(query) ? View.VISIBLE : View.GONE);
+                }
+            }
+            @Override public void afterTextChanged(Editable s) { }
+        });
+
         setContentView(root);
     }
 
@@ -188,24 +209,47 @@ public class LibraryActivity extends Activity {
 
     private void addCard(String title, String detail, Runnable action) {
         LinearLayout card = new LinearLayout(this);
-        card.setOrientation(LinearLayout.VERTICAL);
-        card.setPadding(dp(16), dp(12), dp(16), dp(12));
-        card.setBackground(shape(Color.rgb(36,32,34), 20));
-        TextView name = text(title, 16, Color.rgb(245,238,241), true);
+        card.setOrientation(LinearLayout.HORIZONTAL);
+        card.setGravity(Gravity.CENTER_VERTICAL);
+        card.setPadding(dp(14), dp(10), dp(12), dp(10));
+        card.setBackground(shape(Color.rgb(41, 42, 45), 16));
+
+        TextView symbol = text("favorites".equals(screen) ? "★" :
+                "history".equals(screen) ? "◷" : "↓", 21,
+                Color.rgb(138, 180, 248), true);
+        symbol.setGravity(Gravity.CENTER);
+        card.addView(symbol, new LinearLayout.LayoutParams(dp(36), dp(42)));
+
+        LinearLayout labels = new LinearLayout(this);
+        labels.setOrientation(LinearLayout.VERTICAL);
+        labels.setPadding(dp(12), dp(2), dp(8), dp(2));
+        TextView name = text(title, 15, Color.rgb(232, 234, 237), false);
         name.setMaxLines(2);
-        TextView url = text(detail, 12, Color.rgb(208,196,200), false);
-        url.setMaxLines(2);
-        card.addView(name, new LinearLayout.LayoutParams(-1, -2));
-        LinearLayout.LayoutParams b = new LinearLayout.LayoutParams(-1, -2);
-        b.topMargin = dp(4);
-        card.addView(url, b);
+        TextView url = text(detail, 12, Color.rgb(154, 160, 166), false);
+        url.setMaxLines(1);
+        url.setSingleLine(true);
+        url.setEllipsize(android.text.TextUtils.TruncateAt.END);
+        labels.addView(name, new LinearLayout.LayoutParams(-1, -2));
+        LinearLayout.LayoutParams detailParams = new LinearLayout.LayoutParams(-1, -2);
+        detailParams.topMargin = dp(4);
+        labels.addView(url, detailParams);
+        card.addView(labels, new LinearLayout.LayoutParams(0, -2, 1));
+
+        TextView arrow = text("›", 25, Color.rgb(154, 160, 166), false);
+        arrow.setGravity(Gravity.CENTER);
+        card.addView(arrow, new LinearLayout.LayoutParams(dp(24), dp(42)));
+
         LinearLayout.LayoutParams p = new LinearLayout.LayoutParams(-1, -2);
-        p.bottomMargin = dp(10);
+        p.bottomMargin = dp(8);
         content.addView(card, p);
+        searchableCards.add(card);
+        searchableText.add((title + " " + detail).toLowerCase(java.util.Locale.ROOT));
         card.setOnClickListener(v -> action.run());
     }
 
     private void addEmpty(String message) {
+        searchableCards.clear();
+        searchableText.clear();
         TextView empty = text(message, 16, Color.rgb(208,196,200), false);
         empty.setGravity(Gravity.CENTER);
         empty.setPadding(dp(20), dp(28), dp(20), dp(28));

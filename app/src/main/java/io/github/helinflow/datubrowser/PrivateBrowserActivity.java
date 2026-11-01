@@ -112,7 +112,7 @@ public final class PrivateBrowserActivity extends Activity {
     private void configurePrivateWebView() {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
-        settings.setDomStorageEnabled(false);
+        settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(false);
         settings.setSaveFormData(false);
         settings.setSavePassword(false);

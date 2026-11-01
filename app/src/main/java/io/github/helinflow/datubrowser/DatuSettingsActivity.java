@@ -109,6 +109,27 @@ public class DatuSettingsActivity extends AppCompatActivity {
             });
             privacy.addPreference(javascript);
 
+            Preference clearData = new Preference(context);
+            clearData.setTitle("Limpar dados de navegação");
+            clearData.setSummary("Apagar histórico, cookies e dados armazenados por sites");
+            clearData.setOnPreferenceClickListener(preference -> {
+                new AlertDialog.Builder(context)
+                        .setTitle("Limpar dados de navegação?")
+                        .setMessage("Isso apagará o histórico salvo pelo Datu, cookies e dados locais de sites. Você poderá sair das suas contas.")
+                        .setNegativeButton("Cancelar", null)
+                        .setPositiveButton("Limpar", (dialog, which) -> {
+                            context.getSharedPreferences("datu_browser_library", android.content.Context.MODE_PRIVATE)
+                                    .edit().putString("history", "[]").apply();
+                            android.webkit.CookieManager cookies = android.webkit.CookieManager.getInstance();
+                            cookies.removeAllCookies(value -> cookies.flush());
+                            android.webkit.WebStorage.getInstance().deleteAllData();
+                            android.widget.Toast.makeText(context, "Dados de navegação apagados.", android.widget.Toast.LENGTH_SHORT).show();
+                        })
+                        .show();
+                return true;
+            });
+            privacy.addPreference(clearData);
+
             PreferenceCategory advanced = new PreferenceCategory(context);
             advanced.setTitle("Avançado");
             screen.addPreference(advanced);

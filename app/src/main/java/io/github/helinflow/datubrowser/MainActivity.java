@@ -116,14 +116,12 @@ public class MainActivity extends AppCompatActivity {
 				menu.getMenu().add(0, 2, 1, "Histórico");
 				menu.getMenu().add(0, 3, 2, "Downloads");
 				menu.getMenu().add(0, 4, 3, "Salvar página nos favoritos");
-				menu.getMenu().add(0, 5, 4, "Enviar arquivo");
 				menu.setOnMenuItemClickListener(item -> {
 					switch (item.getItemId()) {
 						case 1: BrowserLibrary.showFavorites(MainActivity.this, binding.webview); return true;
 						case 2: BrowserLibrary.showHistory(MainActivity.this, binding.webview); return true;
 						case 3: BrowserLibrary.showDownloads(MainActivity.this); return true;
 						case 4: BrowserLibrary.addFavorite(MainActivity.this, binding.webview.getTitle(), binding.webview.getUrl()); return true;
-						case 5: abrirSeletorDeArquivo(); return true;
 					}
 					return false;
 				});
@@ -3796,17 +3794,6 @@ public class MainActivity extends AppCompatActivity {
 			}
 			uploadCallback.onReceiveValue(result);
 			uploadCallback = null;
-		}
-	}
-
-	private void abrirSeletorDeArquivo() {
-		try {
-			Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-			intent.addCategory(Intent.CATEGORY_OPENABLE);
-			intent.setType("*/*");
-			startActivityForResult(intent, FILE_CHOOSER_REQUEST);
-		} catch (Exception e) {
-			Toast.makeText(this, "Seletor de arquivos indisponível.", Toast.LENGTH_SHORT).show();
 		}
 	}
 

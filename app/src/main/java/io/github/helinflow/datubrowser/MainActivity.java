@@ -3805,6 +3805,7 @@ public class MainActivity extends AppCompatActivity {
         adicionarLinhaMenu(lista, R.drawable.icon_refresh_round, "Atualizar página", () -> {
             if (browserEngine != null) browserEngine.reload();
         });
+        adicionarLinhaMenu(lista, R.drawable.datu_icon_bookmark, "Adicionar aos favoritos", () -> salvarFavoritoAtual());
         adicionarLinhaMenu(lista, android.R.drawable.ic_menu_share, "Compartilhar", () -> {
             String url = browserEngine == null ? null : browserEngine.getUrl();
             if (url == null || url.trim().isEmpty()) return;
@@ -3881,6 +3882,41 @@ public class MainActivity extends AppCompatActivity {
             if (menuNavegacao != null) menuNavegacao.dismiss();
             acao.run();
         });
+    }
+
+    private void salvarFavoritoAtual() {
+        String url = browserEngine == null ? null : browserEngine.getUrl();
+        if (url == null || url.trim().isEmpty()) {
+            Toast.makeText(this, "Não há página para salvar.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        SharedPreferences library = getSharedPreferences("datu_browser_library", MODE_PRIVATE);
+        JSONArray favorites;
+        try {
+            favorites = new JSONArray(library.getString("favorites", "[]"));
+        } catch (Exception e) {
+            favorites = new JSONArray();
+        }
+
+        for (int i = 0; i < favorites.length(); i++) {
+            JSONObject saved = favorites.optJSONObject(i);
+            if (saved != null && url.equals(saved.optString("url", ""))) {
+                Toast.makeText(this, "Esta página já está nos favoritos.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        JSONObject favorite = new JSONObject();
+        try {
+            favorite.put("title", binding.webview.getTitle() == null ? url : binding.webview.getTitle());
+            favorite.put("url", url);
+            favorites.put(favorite);
+            library.edit().putString("favorites", favorites.toString()).apply();
+            Toast.makeText(this, "Adicionado aos favoritos.", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Não foi possível salvar o favorito.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void aplicarPapelParede(Bitmap original) {

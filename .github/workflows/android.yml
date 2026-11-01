@@ -10,6 +10,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -87,7 +91,7 @@ jobs:
             --out "$RUNNER_TEMP/datu-browser-release.apk" \
             "$RUNNER_TEMP/datu-release-aligned.apk"
 
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify "$RUNNER_TEMP/datu-browser-release.apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify "$RUNNER_TEMP/datu-browser-release.apk"
           echo "signed=true" >> "$GITHUB_OUTPUT"
 
       - name: Upload signed release APK

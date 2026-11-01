@@ -21,7 +21,15 @@ License: Apache License 2.0
 Project: https://github.com/material-components/material-components-android
 License text: https://www.apache.org/licenses/LICENSE-2.0
 
-3. ANDROIDX DYNAMIC ANIMATION
+3. ANDROIDX PREFERENCE
+-----------------------
+Artifact: androidx.preference:preference
+Version declared: 1.2.1
+License: Apache License 2.0
+Project: https://developer.android.com/jetpack/androidx
+License text: https://www.apache.org/licenses/LICENSE-2.0
+
+4. ANDROIDX DYNAMIC ANIMATION
 -----------------------------
 Artifact: androidx.dynamicanimation:dynamicanimation
 Version declared: 1.0.0
@@ -29,7 +37,7 @@ License: Apache License 2.0
 Project: https://developer.android.com/jetpack/androidx
 License text: https://www.apache.org/licenses/LICENSE-2.0
 
-4. ANDROID GRADLE PLUGIN (BUILD-TIME)
+5. ANDROID GRADLE PLUGIN (BUILD-TIME)
 -------------------------------------
 Artifact: com.android.tools.build:gradle
 Version declared: 8.12.0
@@ -37,7 +45,7 @@ License: Apache License 2.0
 Project: https://developer.android.com/build
 License text: https://www.apache.org/licenses/LICENSE-2.0
 
-5. GOOGLE SERVICES GRADLE PLUGIN (BUILD-TIME)
+6. GOOGLE SERVICES GRADLE PLUGIN (BUILD-TIME)
 ---------------------------------------------
 Artifact: com.google.gms:google-services
 Version declared: 4.4.3
@@ -48,7 +56,7 @@ License text: https://www.apache.org/licenses/LICENSE-2.0
 Note: the Google Services plugin is declared in the root build script. It is not
 applied by the app module's current build.gradle configuration.
 
-6. UBLOCK ORIGIN FILTER DATA
+7. UBLOCK ORIGIN FILTER DATA
 ----------------------------
 Data: uBlock filters, uBlock Privacy, Quick Fixes and Unbreak lists.
 Source: https://github.com/uBlockOrigin/uAssets
@@ -60,7 +68,7 @@ These are filter-list data files, not the uBlock Origin browser extension.
 Datu's filter implementation is separate and should not be represented as an
 official uBlock Origin product or endorsed by its maintainers.
 
-7. EASYLIST AND EASYPRIVACY FILTER DATA
+8. EASYLIST AND EASYPRIVACY FILTER DATA
 ---------------------------------------
 Data: EasyList and EasyPrivacy filter lists.
 Source: https://easylist.to/
@@ -74,7 +82,7 @@ The terms above apply to the listed EasyList repository material. Other
 externally hosted subscriptions may have separate terms; Datu does not claim
 that every third-party list has the same license.
 
-8. ANDROID SYSTEM WEBVIEW
+9. ANDROID SYSTEM WEBVIEW
 -------------------------
 Datu currently uses the Android platform API android.webkit.WebView. The
 actual WebView implementation/provider is supplied and updated by the Android

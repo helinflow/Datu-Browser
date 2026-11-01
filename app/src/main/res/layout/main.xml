@@ -407,7 +407,6 @@
                             android:layout_height="1dp"
                             android:layout_marginStart="72dp"
                             android:background="#49454F"/>
-                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/settings_search_engine"
                         android:layout_width="match_parent"
@@ -416,7 +415,6 @@
                         android:paddingStart="24dp"
                         android:paddingEnd="20dp"
                         android:orientation="vertical"
-                        android:background="@drawable/datu_chromium_profile_bg"
                         android:clickable="true"
                         android:focusable="true"
                         android:foreground="?android:attr/selectableItemBackground">
@@ -434,6 +432,7 @@
                             android:text="Brave Search"
                             android:textColor="#938F99"
                             android:textSize="13sp"/>
+                    </LinearLayout>
                     </LinearLayout>
 
                     <TextView

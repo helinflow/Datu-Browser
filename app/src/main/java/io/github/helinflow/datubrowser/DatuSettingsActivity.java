@@ -33,7 +33,9 @@ public class DatuSettingsActivity extends AppCompatActivity {
         toolbar.setTitle("Configurações");
         toolbar.setTitleTextColor(0xFFE8EAED);
         toolbar.setNavigationIcon(R.drawable.icon_arrow_back_ios_round);
-        toolbar.setNavigationIconTint(0xFFE8EAED);
+        if (toolbar.getNavigationIcon() != null) {
+            toolbar.getNavigationIcon().mutate().setTint(0xFFE8EAED);
+        }
         toolbar.setNavigationContentDescription("Voltar");
         toolbar.setBackgroundColor(0xFF202124);
         toolbar.setNavigationOnClickListener(v -> finish());

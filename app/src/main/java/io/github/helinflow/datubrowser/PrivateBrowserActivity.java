@@ -44,8 +44,8 @@ public final class PrivateBrowserActivity extends Activity {
         String initial = getIntent().getStringExtra("url");
         String start = initial == null ? "https://search.brave.com/" : initial;
         tabManager.create(webView, start);
-        loadAddress(start);
         atualizarContadorGuias();
+        iniciarSessaoPrivada(start);
     }
 
     private void buildInterface() {
@@ -139,6 +139,20 @@ public final class PrivateBrowserActivity extends Activity {
             }
         });
         webView.setWebChromeClient(new WebChromeClient());
+    }
+
+    private void iniciarSessaoPrivada(String urlInicial) {
+        // Se o Android encerrou o processo sem chamar onDestroy, a próxima
+        // sessão limpa os dados antigos antes de carregar qualquer página.
+        webView.clearCache(true);
+        webView.clearHistory();
+        webView.clearFormData();
+        android.webkit.WebStorage.getInstance().deleteAllData();
+        CookieManager cookies = CookieManager.getInstance();
+        cookies.removeAllCookies(removidos -> {
+            cookies.flush();
+            if (!isFinishing() && webView != null) loadAddress(urlInicial);
+        });
     }
 
     private void atualizarContadorGuias() {

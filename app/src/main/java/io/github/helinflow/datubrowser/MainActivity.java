@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 		initializeLogic();
         configurarBuscaConfiguracoes();
 		tabManager = new TabManager();
-		tabManager.create(binding.webview, "https://search.brave.com/");
+		tabManager.create(binding.webview, getSearchEngineHomeUrl());
 		tabManager.captureActive(binding.webview);
 		atualizarContadorGuias();
 		View contadorGuias = findViewById(R.id.tab_counter);
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 		binding.add.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				browserEngine.loadUrl("https://search.brave.com/");
+				browserEngine.loadUrl(getSearchEngineHomeUrl());
 			}
 		});
 		
@@ -1065,24 +1065,7 @@ public class MainActivity extends AppCompatActivity {
 					// BRAVE SEARCH  
 					// ================================  
 					
-					try {  
-						
-						url =  
-						"https://search.brave.com/search?q="  
-						+ java.net.URLEncoder.encode(  
-						input,  
-						"UTF-8"  
-						);  
-						
-					} catch (Exception e) {  
-						
-						url =  
-						"https://search.brave.com/search?q="  
-						+ input.replace(  
-						" ",  
-						"+"  
-						);  
-					}  
+                    url = buildSearchUrl(input);  
 				}  
 				
 				
@@ -1122,7 +1105,7 @@ public class MainActivity extends AppCompatActivity {
 		}
 		
 		);
-		binding.webview.loadUrl("https://search.brave.com");
+		binding.webview.loadUrl(getSearchEngineHomeUrl());
 		// anúncios
 		// ============================================================
 		// DATU BROWSER - SHIELDS V3.5
@@ -3777,8 +3760,8 @@ public class MainActivity extends AppCompatActivity {
 
         adicionarLinhaMenu(lista, R.drawable.icon_add_round, "Nova guia", () -> {
             if (tabManager != null) {
-                tabManager.create(binding.webview, "https://search.brave.com/");
-                browserEngine.loadUrl("https://search.brave.com/");
+                tabManager.create(binding.webview, getSearchEngineHomeUrl());
+                browserEngine.loadUrl(getSearchEngineHomeUrl());
                 atualizarContadorGuias();
             }
         });
@@ -3882,6 +3865,27 @@ public class MainActivity extends AppCompatActivity {
             if (menuNavegacao != null) menuNavegacao.dismiss();
             acao.run();
         });
+    }
+
+    private String getSearchEngineHomeUrl() {
+        String engine = getSharedPreferences("dados", MODE_PRIVATE)
+                .getString("search_engine", "brave");
+        if ("duckduckgo".equals(engine)) return "https://duckduckgo.com/";
+        if ("google".equals(engine)) return "https://www.google.com/";
+        return "https://search.brave.com/";
+    }
+
+    private String buildSearchUrl(String query) {
+        String engine = getSharedPreferences("dados", MODE_PRIVATE)
+                .getString("search_engine", "brave");
+        String base = "duckduckgo".equals(engine) ? "https://duckduckgo.com/?q="
+                : "google".equals(engine) ? "https://www.google.com/search?q="
+                : "https://search.brave.com/search?q=";
+        try {
+            return base + java.net.URLEncoder.encode(query, "UTF-8");
+        } catch (Exception ignored) {
+            return base + query.replace(" ", "+");
+        }
     }
 
     private void salvarFavoritoAtual() {
@@ -4236,8 +4240,8 @@ public class MainActivity extends AppCompatActivity {
 		raiz.addView(acoes);
 
 		nova.setOnClickListener(v -> {
-			tabManager.create(binding.webview, "https://search.brave.com/");
-			binding.webview.loadUrl("https://search.brave.com/");
+			tabManager.create(binding.webview, getSearchEngineHomeUrl());
+			binding.webview.loadUrl(getSearchEngineHomeUrl());
 			atualizarContadorGuias();
 			binding.tela1.setVisibility(View.GONE);
 			binding.tela2.setVisibility(View.VISIBLE);

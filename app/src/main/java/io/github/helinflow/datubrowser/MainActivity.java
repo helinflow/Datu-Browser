@@ -3972,9 +3972,6 @@ public class MainActivity extends AppCompatActivity {
 		}
 	}
 
-	@Override
-	public void onBackPressed() {
-		
 	private void atualizarContadorGuias() {
 		View contador = findViewById(R.id.tab_counter);
 		if (contador instanceof TextView) {
@@ -3992,7 +3989,7 @@ public class MainActivity extends AppCompatActivity {
 			String titulo = guia.getTitle();
 			String endereco = guia.getUrl();
 			if (titulo == null || titulo.trim().isEmpty()) titulo = "Nova guia";
-			nomes[i] = titulo + "\\n" + (endereco == null ? "" : endereco);
+			nomes[i] = titulo + "\n" + (endereco == null ? "" : endereco);
 		}
 		new android.app.AlertDialog.Builder(this)
 			.setTitle("Guias abertas")
@@ -4019,7 +4016,9 @@ public class MainActivity extends AppCompatActivity {
 			.show();
 	}
 	
-if (findViewById(R.id.tela4).getVisibility() == View.VISIBLE) {
+	@Override
+	public void onBackPressed() {
+		if (findViewById(R.id.tela4).getVisibility() == View.VISIBLE) {
 			fecharBiblioteca();
 			return;
 		}

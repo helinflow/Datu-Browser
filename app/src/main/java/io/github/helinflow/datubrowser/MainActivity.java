@@ -4012,7 +4012,10 @@ public class MainActivity extends AppCompatActivity {
 				tabManager.close(tabManager.getActiveIndex(), binding.webview);
 				atualizarContadorGuias();
 			})
-			.setNeutralButton("Cancelar", null)
+			.setNeutralButton("Guia anônima", (dialog, which) -> {
+                Intent privateIntent = new Intent(MainActivity.this, PrivateBrowserActivity.class);
+                startActivity(privateIntent);
+            })
 			.show();
 	}
 	

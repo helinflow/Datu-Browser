@@ -108,7 +108,8 @@
 							android:layout_gravity="center_horizontal|center_vertical"
     android:background="@drawable/datu_nav_item_bg"
     android:padding="12dp"
-    android:contentDescription="Pesquisar" />
+    android:contentDescription="Pesquisar" android:tint="#D0BCFF"
+/>
 					</LinearLayout>
 					<LinearLayout
 						android:id="@+id/linear_estatisticas"
@@ -235,7 +236,8 @@
 						android:layout_gravity="center_horizontal|center_vertical"
     android:background="@drawable/datu_nav_item_bg"
     android:padding="12dp"
-    android:contentDescription="Nova pesquisa" />
+    android:contentDescription="Nova pesquisa" android:tint="#D0BCFF"
+/>
 					<TextView
 						android:id="@+id/text_barra"
 						android:layout_width="0dp"
@@ -265,7 +267,8 @@
 						android:layout_gravity="center_horizontal|center_vertical"
     android:background="@drawable/datu_nav_item_bg"
     android:padding="12dp"
-    android:contentDescription="Abrir navegação" />
+    android:contentDescription="Abrir navegação" android:tint="#D0BCFF"
+/>
 				</LinearLayout>
 			</LinearLayout>
 			<android.webkit.WebView
@@ -334,7 +337,8 @@
 					android:src="@drawable/icon_arrow_back_ios_round"
 					android:scaleType="fitCenter"
 					android:scaleX="0.5"
-					android:scaleY="0.5" />
+					android:scaleY="0.5" android:tint="#D0BCFF"
+/>
 			</LinearLayout>
 			<TextView
                 android:layout_width="match_parent"
@@ -446,7 +450,8 @@
 					android:src="@drawable/icon_keyboard_arrow_up_round"
 					android:scaleType="fitCenter"
 					android:scaleX="0.5"
-					android:scaleY="0.5" />
+					android:scaleY="0.5" android:tint="#D0BCFF"
+/>
 			</LinearLayout>
 			<LinearLayout
 				android:id="@+id/linear_ublock"
@@ -567,7 +572,8 @@
                 android:padding="12dp"
                 android:background="@drawable/datu_nav_item_bg"
                 android:src="@drawable/ic_library_back"
-                android:contentDescription="Voltar" />
+                android:contentDescription="Voltar" android:tint="#D0BCFF"
+/>
             <ImageView
                 android:id="@+id/library_icon"
                 android:layout_width="28dp"

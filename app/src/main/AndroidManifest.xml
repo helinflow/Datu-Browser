@@ -22,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LibraryActivity" android:screenOrientation="portrait" android:exported="false" />
         <activity
             android:name=".DebugActivity"
             android:screenOrientation="portrait"

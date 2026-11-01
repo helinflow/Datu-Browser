@@ -3819,12 +3819,7 @@ public class MainActivity extends AppCompatActivity {
         adicionarLinhaMenu(lista, R.drawable.icon_refresh_round, "Atualizar página", () -> {
             if (browserEngine != null) browserEngine.reload();
         });
-        adicionarLinhaMenu(lista, R.drawable.icon_settings_round, "Configurações", () -> {
-            binding.tela1.setVisibility(View.GONE);
-            binding.tela2.setVisibility(View.GONE);
-            binding.tela3.setVisibility(View.VISIBLE);
-            animarEntradaExpressiva(binding.tela3);
-        });
+        adicionarLinhaMenu(lista, R.drawable.icon_settings_round, "Configurações", () -> {\n            startActivity(new Intent(MainActivity.this, DatuSettingsActivity.class));\n        });
         painel.addView(rolagem, new LinearLayout.LayoutParams(-1, -2));
 
         int largura = getResources().getDisplayMetrics().widthPixels - dp(16);
@@ -4289,7 +4284,7 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	@Override
-	public void onBackPressed() {
+	\t@Override\n\tprotected void onResume() {\n\t\tsuper.onResume();\n\t\tif (binding != null && dados != null) {\n\t\t\tString javascript = dados.getString("javascript", "ativado");\n\t\t\tbinding.webview.getSettings().setJavaScriptEnabled(!"desativado".equals(javascript));\n\t\t}\n\t}\n\n\tpublic void onBackPressed() {
 		if (findViewById(R.id.tela4).getVisibility() == View.VISIBLE) {
 			fecharBiblioteca();
 			return;

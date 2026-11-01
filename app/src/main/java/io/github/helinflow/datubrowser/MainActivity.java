@@ -581,7 +581,7 @@ public class MainActivity extends AppCompatActivity {
 		new android.graphics.drawable.GradientDrawable();
 		
 		fundoPesquisa.setColor(
-		android.graphics.Color.parseColor("#7A163D")
+		android.graphics.Color.parseColor("#24212B")
 		);
 		
 		fundoPesquisa.setCornerRadius(raio);
@@ -596,7 +596,7 @@ public class MainActivity extends AppCompatActivity {
 		new android.graphics.drawable.GradientDrawable();
 		
 		fundoBarra.setColor(
-		android.graphics.Color.parseColor("#7A163D")
+		android.graphics.Color.parseColor("#24212B")
 		);
 		
 		fundoBarra.setCornerRadius(raio);

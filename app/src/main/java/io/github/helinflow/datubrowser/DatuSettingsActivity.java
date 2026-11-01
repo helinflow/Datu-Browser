@@ -10,6 +10,7 @@ package io.github.helinflow.datubrowser;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.Preference;
@@ -70,8 +71,26 @@ public class DatuSettingsActivity extends AppCompatActivity {
 
             Preference search = new Preference(context);
             search.setTitle("Mecanismo de pesquisa");
-            search.setSummary("Brave Search");
-            search.setSelectable(false);
+            String selectedEngine = data.getString("search_engine", "brave");
+            search.setSummary(searchEngineLabel(selectedEngine));
+            search.setOnPreferenceClickListener(preference -> {
+                String[] labels = {"Brave Search", "DuckDuckGo", "Google"};
+                String[] values = {"brave", "duckduckgo", "google"};
+                int selected = 0;
+                for (int i = 0; i < values.length; i++) {
+                    if (values[i].equals(data.getString("search_engine", "brave"))) selected = i;
+                }
+                new AlertDialog.Builder(context)
+                        .setTitle("Mecanismo de pesquisa")
+                        .setSingleChoiceItems(labels, selected, (dialog, which) -> {
+                            data.edit().putString("search_engine", values[which]).apply();
+                            search.setSummary(labels[which]);
+                            dialog.dismiss();
+                        })
+                        .setNegativeButton("Cancelar", null)
+                        .show();
+                return true;
+            });
             basics.addPreference(search);
 
             PreferenceCategory privacy = new PreferenceCategory(context);
@@ -121,6 +140,12 @@ public class DatuSettingsActivity extends AppCompatActivity {
                 return true;
             });
             about.addPreference(notices);
+        }
+
+        private String searchEngineLabel(String value) {
+            if ("duckduckgo".equals(value)) return "DuckDuckGo";
+            if ("google".equals(value)) return "Google";
+            return "Brave Search";
         }
 
         private void addLibraryPreference(PreferenceCategory category, String title, String screen) {

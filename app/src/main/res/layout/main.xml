@@ -9,7 +9,7 @@
 		android:id="@+id/linear1"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="#141214"
+		android:background="#0E0D12"
 		android:orientation="horizontal"
 		android:layout_weight="1">
 		<LinearLayout
@@ -49,7 +49,7 @@
 							android:text="@string/app_name"
 							android:textSize="34sp"
 							android:textStyle="bold"
-							android:textColor="#F5EEF1"
+							android:textColor="#E6E0E9"
 							android:layout_gravity="center_horizontal|center_vertical" />
 					</LinearLayout>
 					<ImageView
@@ -92,9 +92,9 @@
 								android:gravity="center_vertical"
 								android:textSize="15sp"
 					android:includeFontPadding="true"
-								android:textColor="#F5EEF1"
+								android:textColor="#E6E0E9"
 								android:hint="Pesquise ou digite um endereço"
-								android:textColorHint="#D0C4C8"
+								android:textColorHint="#CAC4D0"
 								android:layout_gravity="center_horizontal|center_vertical" />
 						</LinearLayout>
 						<ImageView
@@ -138,7 +138,7 @@
 								android:padding="8dp"
 								android:text="●●●"
 								android:textSize="16sp"
-								android:textColor="#F5EEF1" />
+								android:textColor="#E6E0E9" />
 							<TextView
 								android:id="@+id/text3"
 								android:layout_width="match_parent"
@@ -146,7 +146,7 @@
 								android:padding="3dp"
 								android:text="Rastreadores bloqueados"
 								android:textSize="11sp"
-								android:textColor="#FFB0C8" android:gravity="center"
+								android:textColor="#D0BCFF" android:gravity="center"
 								android:textAlignment="center"
 								android:maxLines="2"
 								android:includeFontPadding="true" />
@@ -169,7 +169,7 @@
 								android:padding="8dp"
 								android:text="●●●"
 								android:textSize="16sp"
-								android:textColor="#F5EEF1" />
+								android:textColor="#E6E0E9" />
 							<TextView
 								android:id="@+id/text5"
 								android:layout_width="match_parent"
@@ -177,7 +177,7 @@
 								android:padding="3dp"
 								android:text="Dados poupados"
 								android:textSize="11sp"
-								android:textColor="#FFB0C8" android:gravity="center"
+								android:textColor="#D0BCFF" android:gravity="center"
 								android:textAlignment="center"
 								android:maxLines="2"
 								android:includeFontPadding="true" />
@@ -228,7 +228,7 @@
 						android:gravity="center_vertical"
 						android:text="Pesquisar ou digitar endereço"
 						android:textSize="16sp"
-						android:textColor="#F5EEF1"
+						android:textColor="#E6E0E9"
 						android:layout_gravity="center_horizontal|center_vertical"
 						android:layout_weight="1"
 						android:maxLines="1"
@@ -289,7 +289,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="8dp"
                 android:text="Configurações"
-                android:textColor="#F5EEF1"
+                android:textColor="#E6E0E9"
                 android:textSize="26sp"
                 android:includeFontPadding="true"
                 android:breakStrategy="simple"
@@ -301,7 +301,7 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginBottom="12dp"
                 android:text="Personalize sua navegação"
-                android:textColor="#D0C4C8"
+                android:textColor="#CAC4D0"
                 android:textSize="14sp" />
 			<LinearLayout
 				android:id="@+id/linear_voltar"
@@ -385,7 +385,7 @@
 					android:gravity="left"
 					android:text="JavaScript"
 					android:textSize="16sp"
-					android:textColor="#F5EEF1"
+					android:textColor="#E6E0E9"
 					android:checked="true"
 					android:layout_gravity="center_horizontal|center_vertical" />
 			</LinearLayout>
@@ -419,7 +419,7 @@
 					android:breakStrategy="simple"
 					android:text="Anúncios"
 					android:textSize="16sp"
-					android:textColor="#F5EEF1"
+					android:textColor="#E6E0E9"
 					android:layout_gravity="center_horizontal|center_vertical"
 					android:layout_weight="1" />
 				<ImageView
@@ -455,7 +455,7 @@
 						android:gravity="left"
 						android:text="Bloqueio de anúncios"
 						android:textSize="16sp"
-						android:textColor="#F5EEF1"
+						android:textColor="#E6E0E9"
 						android:layout_gravity="center_horizontal|center_vertical" />
 				</LinearLayout>
 				<LinearLayout
@@ -473,7 +473,7 @@
 						android:gravity="left"
 						android:text="Status"
 						android:textSize="16sp"
-						android:textColor="#F5EEF1"
+						android:textColor="#E6E0E9"
 						android:layout_gravity="center_horizontal|center_vertical" />
 				</LinearLayout>
 				<LinearLayout
@@ -490,7 +490,7 @@
 						android:gravity="left"
 						android:text="Filtros"
 						android:textSize="16sp"
-						android:textColor="#F5EEF1"
+						android:textColor="#E6E0E9"
 						android:layout_gravity="center_horizontal|center_vertical"
 						android:layout_weight="1" />
 					<TextView
@@ -501,7 +501,7 @@
 						android:gravity="center_horizontal|center_vertical"
 						android:text="0%"
 						android:textSize="12sp"
-						android:textColor="#F5EEF1"
+						android:textColor="#E6E0E9"
 						android:layout_gravity="center_horizontal|center_vertical" />
 					<TextView
 						android:id="@+id/text_atualize"
@@ -511,7 +511,7 @@
 						android:gravity="center_horizontal|center_vertical"
 						android:text="Atualizar"
 						android:textSize="16sp"
-						android:textColor="#F5EEF1"
+						android:textColor="#E6E0E9"
 						android:layout_gravity="center_horizontal|center_vertical" />
 				</LinearLayout>
 				<TextView
@@ -522,7 +522,7 @@
 					android:layout_marginRight="15dp"
 					android:padding="8dp"
 					android:textSize="16sp"
-					android:textColor="#F5EEF1" />
+					android:textColor="#E6E0E9" />
 			</LinearLayout>
                 </LinearLayout>
             </ScrollView>
@@ -532,7 +532,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="#141214"
+        android:background="#0E0D12"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
         android:paddingTop="12dp"

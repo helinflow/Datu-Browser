@@ -412,6 +412,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/settings_heading_basic"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="24dp"
@@ -475,6 +476,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/settings_heading_privacy"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="24dp"
@@ -619,6 +621,7 @@
                     </LinearLayout>
 
                     <TextView
+                        android:id="@+id/settings_heading_site"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingStart="24dp"

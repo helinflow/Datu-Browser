@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,16 +61,29 @@ public class LibraryActivity extends Activity {
         header.setGravity(Gravity.CENTER_VERTICAL);
         header.setOrientation(LinearLayout.HORIZONTAL);
 
-        TextView back = text("‹", 34, Color.rgb(255,176,200), false);
-        back.setGravity(Gravity.CENTER);
-        header.addView(back, new LinearLayout.LayoutParams(dp(48), dp(52)));
+        ImageView back = new ImageView(this);
+        back.setImageResource(R.drawable.ic_library_back);
+        back.setContentDescription("Voltar");
+        back.setPadding(dp(12), dp(12), dp(12), dp(12));
+        back.setBackground(shape(Color.rgb(36,32,34), 16));
+        header.addView(back, new LinearLayout.LayoutParams(dp(48), dp(48)));
         back.setOnClickListener(v -> finish());
 
         String title = "favorites".equals(screen) ? "Favoritos" :
                 "history".equals(screen) ? "Histórico" : "Downloads";
+        ImageView sectionIcon = new ImageView(this);
+        int iconRes = "favorites".equals(screen) ? R.drawable.ic_library_favorite
+                : "history".equals(screen) ? R.drawable.ic_library_history
+                : R.drawable.ic_library_download;
+        sectionIcon.setImageResource(iconRes);
+        sectionIcon.setContentDescription(title);
+        LinearLayout.LayoutParams iconParams = new LinearLayout.LayoutParams(dp(28), dp(28));
+        iconParams.leftMargin = dp(12);
+        header.addView(sectionIcon, iconParams);
+
         TextView heading = text(title, 26, Color.rgb(245,238,241), true);
         LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(0, dp(52), 1);
-        hp.leftMargin = dp(8);
+        hp.leftMargin = dp(10);
         header.addView(heading, hp);
         root.addView(header);
 

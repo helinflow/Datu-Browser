@@ -39,6 +39,7 @@ public final class TabManager {
         if (tabs.isEmpty()) {
             activeIndex = -1;
             create(webView, "https://search.brave.com/");
+            webView.loadUrl("https://search.brave.com/");
             return true;
         }
         if (index < activeIndex) activeIndex--;

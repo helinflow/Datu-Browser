@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
 	private static final int FILE_CHOOSER_REQUEST = 7201;
 	private static final int LIBRARY_REQUEST = 7202;
 	private BrowserEngine browserEngine;
+	private TabManager tabManager;
 	private PopupWindow menuNavegacao;
 	private boolean carregandoPreferencias = true;
 	
@@ -62,6 +63,12 @@ public class MainActivity extends AppCompatActivity {
 		browserEngine = new WebViewBrowserEngine(binding.webview);
 		initialize(_savedInstanceState);
 		initializeLogic();
+		tabManager = new TabManager();
+		tabManager.create(binding.webview, "https://search.brave.com/");
+		tabManager.captureActive(binding.webview);
+		atualizarContadorGuias();
+		View contadorGuias = findViewById(R.id.tab_counter);
+		if (contadorGuias != null) contadorGuias.setOnClickListener(v -> abrirSeletorGuias());
 	}
 	
 	private void initialize(Bundle _savedInstanceState) {
@@ -3967,7 +3974,52 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public void onBackPressed() {
-		if (findViewById(R.id.tela4).getVisibility() == View.VISIBLE) {
+		
+	private void atualizarContadorGuias() {
+		View contador = findViewById(R.id.tab_counter);
+		if (contador instanceof TextView) {
+			((TextView) contador).setText(String.valueOf(tabManager == null ? 1 : tabManager.getCount()));
+		}
+	}
+
+	private void abrirSeletorGuias() {
+		if (tabManager == null) return;
+		tabManager.captureActive(binding.webview);
+		java.util.List<BrowserTab> guias = tabManager.getTabs();
+		String[] nomes = new String[guias.size()];
+		for (int i = 0; i < guias.size(); i++) {
+			BrowserTab guia = guias.get(i);
+			String titulo = guia.getTitle();
+			String endereco = guia.getUrl();
+			if (titulo == null || titulo.trim().isEmpty()) titulo = "Nova guia";
+			nomes[i] = titulo + "\\n" + (endereco == null ? "" : endereco);
+		}
+		new android.app.AlertDialog.Builder(this)
+			.setTitle("Guias abertas")
+			.setItems(nomes, (dialog, which) -> {
+				tabManager.select(which, binding.webview);
+				atualizarContadorGuias();
+				binding.tela1.setVisibility(View.GONE);
+				binding.tela2.setVisibility(View.VISIBLE);
+				binding.tela3.setVisibility(View.GONE);
+			})
+			.setPositiveButton("Nova guia", (dialog, which) -> {
+				tabManager.create(binding.webview, "https://search.brave.com/");
+				binding.webview.loadUrl("https://search.brave.com/");
+				atualizarContadorGuias();
+				binding.tela1.setVisibility(View.GONE);
+				binding.tela2.setVisibility(View.VISIBLE);
+				binding.tela3.setVisibility(View.GONE);
+			})
+			.setNegativeButton("Fechar guia atual", (dialog, which) -> {
+				tabManager.close(tabManager.getActiveIndex(), binding.webview);
+				atualizarContadorGuias();
+			})
+			.setNeutralButton("Cancelar", null)
+			.show();
+	}
+	
+if (findViewById(R.id.tela4).getVisibility() == View.VISIBLE) {
 			fecharBiblioteca();
 			return;
 		}

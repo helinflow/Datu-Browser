@@ -46,12 +46,16 @@ public class MainActivity extends AppCompatActivity {
 	
 	private TimerTask timer;
 	private SharedPreferences dados;
+	private android.webkit.ValueCallback<android.net.Uri[]> uploadCallback;
+	private static final int FILE_CHOOSER_REQUEST = 7201;
+	private BrowserEngine browserEngine;
 	
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
 		binding = MainBinding.inflate(getLayoutInflater());
 		setContentView(binding.getRoot());
+		browserEngine = new WebViewBrowserEngine(binding.webview);
 		initialize(_savedInstanceState);
 		initializeLogic();
 	}
@@ -88,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
 		binding.add.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				binding.webview.loadUrl("https://search.brave.com/");
+				browserEngine.loadUrl("https://search.brave.com/");
 			}
 		});
 		
@@ -107,6 +111,23 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View _view) {
 				binding.linearA.setVisibility(View.GONE);
 				binding.linearB.setVisibility(View.VISIBLE);
+				android.widget.PopupMenu menu = new android.widget.PopupMenu(MainActivity.this, binding.mais);
+				menu.getMenu().add(0, 1, 0, "Favoritos");
+				menu.getMenu().add(0, 2, 1, "Histórico");
+				menu.getMenu().add(0, 3, 2, "Downloads");
+				menu.getMenu().add(0, 4, 3, "Salvar página nos favoritos");
+				menu.getMenu().add(0, 5, 4, "Enviar arquivo");
+				menu.setOnMenuItemClickListener(item -> {
+					switch (item.getItemId()) {
+						case 1: BrowserLibrary.showFavorites(MainActivity.this, binding.webview); return true;
+						case 2: BrowserLibrary.showHistory(MainActivity.this, binding.webview); return true;
+						case 3: BrowserLibrary.showDownloads(MainActivity.this); return true;
+						case 4: BrowserLibrary.addFavorite(MainActivity.this, binding.webview.getTitle(), binding.webview.getUrl()); return true;
+						case 5: abrirSeletorDeArquivo(); return true;
+					}
+					return false;
+				});
+				menu.show();
 			}
 		});
 		
@@ -131,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 		binding.recharge.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View _view) {
-				binding.webview.loadUrl(binding.webview.getUrl());
+				browserEngine.reload();
 			}
 		});
 		
@@ -866,6 +887,23 @@ public class MainActivity extends AppCompatActivity {
 			// FULLSCREEN  
 			// ================================  
 			
+			@Override
+			public boolean onShowFileChooser(android.webkit.WebView webView, android.webkit.ValueCallback<android.net.Uri[]> callback, android.webkit.WebChromeClient.FileChooserParams params) {
+				if (uploadCallback != null) uploadCallback.onReceiveValue(null);
+				uploadCallback = callback;
+				try {
+					Intent intent = params != null ? params.createIntent() : new Intent(Intent.ACTION_OPEN_DOCUMENT);
+					intent.addCategory(Intent.CATEGORY_OPENABLE);
+					intent.setType("*/*");
+					startActivityForResult(intent, FILE_CHOOSER_REQUEST);
+					return true;
+				} catch (Exception e) {
+					uploadCallback = null;
+					Toast.makeText(MainActivity.this, "Não foi possível abrir os arquivos.", Toast.LENGTH_SHORT).show();
+					return false;
+				}
+			}
+
 			@Override  
 			public void onShowCustomView(  
 			android.view.View view,  
@@ -3333,6 +3371,7 @@ public class MainActivity extends AppCompatActivity {
 				
 				atualizarShieldsTextosUI
 				.run();
+				BrowserLibrary.recordVisit(MainActivity.this, view.getTitle(), url);
 			}
 			
 			
@@ -3744,9 +3783,37 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == FILE_CHOOSER_REQUEST && uploadCallback != null) {
+			android.net.Uri[] result = null;
+			if (resultCode == Activity.RESULT_OK && data != null) {
+				if (data.getClipData() != null) {
+					int count = data.getClipData().getItemCount();
+					result = new android.net.Uri[count];
+					for (int i = 0; i < count; i++) result[i] = data.getClipData().getItemAt(i).getUri();
+				} else if (data.getData() != null) result = new android.net.Uri[]{data.getData()};
+			}
+			uploadCallback.onReceiveValue(result);
+			uploadCallback = null;
+		}
+	}
+
+	private void abrirSeletorDeArquivo() {
+		try {
+			Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+			intent.addCategory(Intent.CATEGORY_OPENABLE);
+			intent.setType("*/*");
+			startActivityForResult(intent, FILE_CHOOSER_REQUEST);
+		} catch (Exception e) {
+			Toast.makeText(this, "Seletor de arquivos indisponível.", Toast.LENGTH_SHORT).show();
+		}
+	}
+
+	@Override
 	public void onBackPressed() {
-		if (binding.webview.canGoBack()) {
-			binding.webview.goBack();
+		if (browserEngine != null && browserEngine.canGoBack()) {
+			browserEngine.goBack();
 		} else {
 			binding.tela1.setVisibility(View.VISIBLE);
 				animarEntradaExpressiva(binding.tela1);

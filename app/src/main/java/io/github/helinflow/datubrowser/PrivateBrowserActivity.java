@@ -28,9 +28,13 @@ public final class PrivateBrowserActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle state) {
-        if (Build.VERSION.SDK_INT >= 28) {
-            WebView.setDataDirectorySuffix("datu_private");
+        if (Build.VERSION.SDK_INT < 28) {
+            super.onCreate(state);
+            Toast.makeText(this, "A navegação anônima isolada requer Android 9 ou superior.", Toast.LENGTH_LONG).show();
+            finish();
+            return;
         }
+        WebView.setDataDirectorySuffix("datu_private");
         super.onCreate(state);
         buildInterface();
         configurePrivateWebView();

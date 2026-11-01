@@ -2631,7 +2631,6 @@ public class MainActivity extends AppCompatActivity {
 				synchronized (shieldsCache) { shieldsCache.clear(); }
 				runOnUiThread(() -> {
 					if (binding != null && binding.webview != null) {
-						shields.injetarCss(binding.webview);
 						if (binding.webview.getUrl() != null) binding.webview.reload();
 					}
 					android.widget.TextView info = findViewById(R.id.text_informacao);

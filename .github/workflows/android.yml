@@ -2,7 +2,7 @@ name: Android CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, chromium-engine]
   pull_request:
     branches: [main, master]
   workflow_dispatch:

@@ -55,6 +55,22 @@ public class MainActivity extends AppCompatActivity {
 	private PopupWindow menuNavegacao;
 	private boolean carregandoPreferencias = true;
 	
+	private void atualizarBarrasInferiores() {
+		android.view.View barraA = findViewById(R.id.linear_A);
+		android.view.View barraB = findViewById(R.id.linear_B);
+		android.view.View inicio = findViewById(R.id.tela1);
+		android.view.View navegador = findViewById(R.id.tela2);
+		android.view.View configuracoes = findViewById(R.id.tela3);
+		android.view.View biblioteca = findViewById(R.id.tela4);
+		boolean mostrar = (inicio != null && inicio.getVisibility() == View.VISIBLE)
+			|| (navegador != null && navegador.getVisibility() == View.VISIBLE);
+		if (configuracoes != null && configuracoes.getVisibility() == View.VISIBLE) mostrar = false;
+		if (biblioteca != null && biblioteca.getVisibility() == View.VISIBLE) mostrar = false;
+		int visibilidade = mostrar ? View.VISIBLE : View.GONE;
+		if (barraA != null) barraA.setVisibility(visibilidade);
+		if (barraB != null) barraB.setVisibility(visibilidade);
+	}
+
 	@Override
 	protected void onCreate(Bundle _savedInstanceState) {
 		super.onCreate(_savedInstanceState);
@@ -136,8 +152,11 @@ public class MainActivity extends AppCompatActivity {
 				binding.webview.loadUrl(destino);
 				binding.textBarra.setText(formatarEndereco(destino));
 				binding.tela1.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 				binding.tela2.setVisibility(View.VISIBLE);
+				atualizarBarrasInferiores();
 				binding.tela3.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 			})
 			.create();
 		campo.setOnEditorActionListener((v, actionId, event) -> {
@@ -181,9 +200,12 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				binding.tela1.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 				binding.tela2.setVisibility(View.VISIBLE);
+				atualizarBarrasInferiores();
 				animarEntradaExpressiva(binding.tela2);
 				binding.tela3.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 			}
 		});
 		
@@ -264,9 +286,12 @@ public class MainActivity extends AppCompatActivity {
 			@Override
 			public void onClick(View _view) {
 				binding.tela1.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 				binding.tela2.setVisibility(View.VISIBLE);
+				atualizarBarrasInferiores();
 				animarEntradaExpressiva(binding.tela2);
 				binding.tela3.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 			}
 		});
 		
@@ -1172,15 +1197,18 @@ public class MainActivity extends AppCompatActivity {
 				
 				tela1.setVisibility(  
 				android.view.View.GONE  
-				);  
+				);
+				atualizarBarrasInferiores();  
 				
 				tela2.setVisibility(  
 				android.view.View.VISIBLE  
-				);  
+				);
+				atualizarBarrasInferiores();  
 				
 				tela3.setVisibility(  
 				android.view.View.GONE  
-				);  
+				);
+				atualizarBarrasInferiores();  
 				
 				
 				// ================================  
@@ -3871,9 +3899,12 @@ public class MainActivity extends AppCompatActivity {
         });
         adicionarLinhaMenu(lista, android.R.drawable.ic_menu_view, "Página inicial", () -> {
             binding.tela1.setVisibility(View.VISIBLE);
+				atualizarBarrasInferiores();
             animarEntradaExpressiva(binding.tela1);
             binding.tela2.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
             binding.tela3.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
         });
         adicionarLinhaMenu(lista, android.R.drawable.ic_popup_sync, "Atualizar página", () -> {
             if (browserEngine != null) browserEngine.reload();
@@ -4206,8 +4237,11 @@ public class MainActivity extends AppCompatActivity {
             if (url != null && !url.trim().isEmpty()) {
                 browserEngine.loadUrl(url);
                 binding.tela2.setVisibility(View.VISIBLE);
+				atualizarBarrasInferiores();
                 binding.tela1.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
                 binding.tela3.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
             }
         }
 		if (requestCode == FILE_CHOOSER_REQUEST && uploadCallback != null) {
@@ -4295,8 +4329,11 @@ public class MainActivity extends AppCompatActivity {
 					tabManager.select(indice, binding.webview);
 					atualizarContadorGuias();
 					binding.tela1.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 					binding.tela2.setVisibility(View.VISIBLE);
+				atualizarBarrasInferiores();
 					binding.tela3.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 					dialog.dismiss();
 				}
 
@@ -4334,8 +4371,11 @@ public class MainActivity extends AppCompatActivity {
 			binding.webview.loadUrl(getSearchEngineHomeUrl());
 			atualizarContadorGuias();
 			binding.tela1.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 			binding.tela2.setVisibility(View.VISIBLE);
+				atualizarBarrasInferiores();
 			binding.tela3.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 			dialog.dismiss();
 		});
 		anonima.setOnClickListener(v -> {
@@ -4370,9 +4410,12 @@ public class MainActivity extends AppCompatActivity {
 			browserEngine.goBack();
 		} else {
 			binding.tela1.setVisibility(View.VISIBLE);
+				atualizarBarrasInferiores();
 				animarEntradaExpressiva(binding.tela1);
 			binding.tela2.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 			binding.tela3.setVisibility(View.GONE);
+				atualizarBarrasInferiores();
 			click++;
 			if (click == 1) {
 				timer = new TimerTask() {

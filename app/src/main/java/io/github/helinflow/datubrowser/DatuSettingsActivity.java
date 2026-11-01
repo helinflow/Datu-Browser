@@ -33,7 +33,7 @@ public class DatuSettingsActivity extends AppCompatActivity {
         Toolbar toolbar = new Toolbar(this);
         toolbar.setTitle("Configurações");
         toolbar.setTitleTextColor(0xFFE8EAED);
-        toolbar.setNavigationIcon(R.drawable.icon_arrow_back_ios_round);
+        toolbar.setNavigationIcon(R.drawable.ic_library_back);
         if (toolbar.getNavigationIcon() != null) {
             toolbar.getNavigationIcon().mutate().setTint(0xFFE8EAED);
         }

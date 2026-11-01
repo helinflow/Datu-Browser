@@ -3076,7 +3076,8 @@ public class MainActivity extends AppCompatActivity {
 					
 					
 					if (excecao) {
-						continue;
+						// Exceções @@ têm precedência sobre todas as listas.
+						return false;
 					}
 					
 					

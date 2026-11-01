@@ -297,276 +297,410 @@
             android:id="@+id/tela3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingStart="20dp"
-            android:paddingEnd="20dp"
-            android:paddingTop="12dp"
-            android:clipToPadding="false"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="#202124"
+            android:visibility="gone">
             <ScrollView
                 android:id="@+id/scroll_configuracoes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="true"
-                android:clipToPadding="false"
                 android:scrollbars="none">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:paddingBottom="28dp">
+                    android:paddingBottom="32dp">
 
-            <LinearLayout
-				android:id="@+id/linear_voltar"
-				android:layout_width="match_parent"
-				android:layout_height="44dp"
-				android:layout_marginStart="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="4dp"
-				android:padding="0dp"
-				android:orientation="horizontal">
-				<ImageView
-					android:id="@+id/voltar"
-					android:layout_width="44dp"
-					android:layout_height="44dp"
-					android:src="@drawable/icon_arrow_back_ios_round"
-					android:scaleType="fitCenter"
-					android:scaleX="0.5"
-					android:scaleY="0.5" android:tint="#D0BCFF"
-/>
-			</LinearLayout>
-            <TextView
-                android:id="@+id/text_config_titulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="8dp"
-                android:text="Configurações"
-                android:textColor="#E6E0E9"
-                android:textSize="28sp"
-                android:includeFontPadding="true"
-                android:breakStrategy="simple"
-                android:textStyle="bold" />
-            <TextView
-                android:id="@+id/text_config_subtitulo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginBottom="12dp"
-                android:text="Controle sua experiência de navegação"
-                android:textColor="#CAC4D0"
-                android:textSize="14sp" />
-			
-			<TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp"
-                android:text="◈  Aparência"
-                android:textColor="#D0BCFF"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-            <LinearLayout
-                android:id="@+id/linear_papel_parede"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/datu_stat_bg"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="12dp"
-                android:padding="8dp"
-                android:orientation="vertical">
-                <Switch
-                    android:id="@+id/switch_papel_parede"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Imagens de paisagens na tela inicial"
-                    android:textSize="16sp"
-                    android:textColor="#E6E0E9"
-                    android:checked="true" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:paddingBottom="6dp"
-                    android:text="Imagens da internet, sem chave de API."
-                    android:textColor="#CAC4D0"
-                    android:textSize="12sp" />
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="4dp"
-                android:text="◉  Privacidade e segurança"
-                android:textColor="#D0BCFF"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-            <LinearLayout
-                android:id="@+id/linear_javascript"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@drawable/datu_stat_bg"
-				android:layout_margin="15dp"
-				android:padding="8dp"
-				android:gravity="center_horizontal|center_vertical"
-				android:orientation="horizontal">
-				<Switch
-					android:id="@+id/switch_javascript"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:gravity="left"
-					android:text="JavaScript"
-					android:textSize="16sp"
-					android:textColor="#E6E0E9"
-					android:checked="true"
-					android:layout_gravity="center_horizontal|center_vertical" />
-			</LinearLayout>
-			<TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="4dp"
-                android:text="✦  Proteção e desempenho"
-                android:textColor="#D0BCFF"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-            <LinearLayout
-                android:id="@+id/linear_anuncios"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@drawable/datu_stat_bg"
-				android:layout_marginLeft="15dp"
-				android:layout_marginTop="15dp"
-				android:layout_marginRight="15dp"
-				android:padding="8dp"
-				android:gravity="center_horizontal|center_vertical"
-				android:orientation="horizontal">
-				<TextView
-					android:id="@+id/text1"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:padding="10dp"
-					android:gravity="left|center_vertical"
-					android:breakStrategy="simple"
-					android:text="Anúncios"
-					android:textSize="16sp"
-					android:textColor="#E6E0E9"
-					android:layout_gravity="center_horizontal|center_vertical"
-					android:layout_weight="1" />
-				<ImageView
-					android:id="@+id/abrir"
-					android:layout_width="50dp"
-					android:layout_height="50dp"
-					android:src="@drawable/icon_keyboard_arrow_up_round"
-					android:scaleType="fitCenter"
-					android:scaleX="0.5"
-					android:scaleY="0.5" android:tint="#D0BCFF"
-/>
-			</LinearLayout>
-			<LinearLayout
-				android:id="@+id/linear_ublock"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:background="@drawable/datu_stat_bg"
-				android:layout_marginLeft="15dp"
-				android:layout_marginRight="15dp"
-				android:layout_marginBottom="15dp"
-				android:padding="8dp"
-				android:orientation="vertical">
-				<LinearLayout
-					android:id="@+id/linear_bloqueio_de_anuncios"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:orientation="horizontal">
-					<Switch
-						android:id="@+id/switch_bloqueio_de_anuncios"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:padding="8dp"
-						android:gravity="left"
-						android:text="Bloqueio de anúncios"
-						android:textSize="16sp"
-						android:textColor="#E6E0E9"
-						android:layout_gravity="center_horizontal|center_vertical" />
-				</LinearLayout>
-				<LinearLayout
-					android:id="@+id/linear_estatist"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:gravity="left"
-					android:orientation="vertical">
-					<Switch
-						android:id="@+id/switch_estatisticas"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:padding="8dp"
-						android:gravity="left"
-						android:text="Status"
-						android:textSize="16sp"
-						android:textColor="#E6E0E9"
-						android:layout_gravity="center_horizontal|center_vertical" />
-				</LinearLayout>
-				<LinearLayout
-					android:id="@+id/linear15"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:padding="8dp"
-					android:orientation="horizontal">
-					<TextView
-						android:id="@+id/text_ublock"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:padding="8dp"
-						android:gravity="left"
-						android:text="Filtros"
-						android:textSize="16sp"
-						android:textColor="#E6E0E9"
-						android:layout_gravity="center_horizontal|center_vertical"
-						android:layout_weight="1" />
-					<TextView
-						android:id="@+id/text_porcentagem"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:padding="8dp"
-						android:gravity="center_horizontal|center_vertical"
-						android:text="0%"
-						android:textSize="12sp"
-						android:textColor="#E6E0E9"
-						android:layout_gravity="center_horizontal|center_vertical" />
-					<TextView
-						android:id="@+id/text_atualize"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:padding="8dp"
-						android:gravity="center_horizontal|center_vertical"
-						android:text="Atualizar"
-						android:textSize="16sp"
-						android:textColor="#E6E0E9"
-						android:layout_gravity="center_horizontal|center_vertical" />
-				</LinearLayout>
-				<TextView
-					android:id="@+id/text_informacao"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginLeft="15dp"
-					android:layout_marginRight="15dp"
-					android:padding="8dp"
-					android:textSize="16sp"
-					android:textColor="#E6E0E9" />
-			</LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="64dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="20dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/voltar"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:padding="14dp"
+                            android:src="@drawable/icon_arrow_back_ios_round"
+                            android:tint="#E8EAED"
+                            android:contentDescription="Voltar"/>
+                        <TextView
+                            android:id="@+id/text_config_titulo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:text="Configurações"
+                            android:textColor="#E8EAED"
+                            android:textSize="22sp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="18dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:background="@drawable/datu_chromium_search_bg">
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginStart="16dp"
+                            android:src="@drawable/ic_settings_search"
+                            android:tint="#BDC1C6"/>
+                        <EditText
+                            android:id="@+id/config_search"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginEnd="14dp"
+                            android:background="@android:color/transparent"
+                            android:singleLine="true"
+                            android:textSize="16sp"
+                            android:textColor="#E8EAED"
+                            android:textColorHint="#9AA0A6"
+                            android:hint="Pesquisar nas configurações"
+                            android:imeOptions="actionSearch"
+                            android:inputType="text"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="18dp"
+                        android:padding="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:background="@drawable/datu_chromium_profile_bg">
+                        <TextView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:gravity="center"
+                            android:text="D"
+                            android:textSize="23sp"
+                            android:textStyle="bold"
+                            android:textColor="#202124"
+                            android:background="@drawable/datu_chromium_brand_bg"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="14dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Datu Browser"
+                                android:textSize="16sp"
+                                android:textColor="#E8EAED"
+                                android:textStyle="bold"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="3dp"
+                                android:text="Personalize sua experiência"
+                                android:textSize="13sp"
+                                android:textColor="#9AA0A6"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="Básico"
+                        android:textColor="#8AB4F8"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:id="@+id/settings_group_appearance"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/linear_papel_parede"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="76dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="24dp"
+                            android:paddingEnd="20dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_settings_image"
+                                android:tint="#BDC1C6"/>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="24dp"
+                                android:orientation="vertical">
+                                <Switch
+                                    android:id="@+id/switch_papel_parede"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="0dp"
+                                    android:text="Imagens na página inicial"
+                                    android:textSize="16sp"
+                                    android:textColor="#E8EAED"
+                                    android:buttonTint="#8AB4F8"
+                                    android:checked="true"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="Mostrar paisagens como plano de fundo"
+                                    android:textSize="13sp"
+                                    android:textColor="#9AA0A6"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="72dp"
+                            android:background="#3C4043"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="8dp"
+                        android:text="Privacidade e segurança"
+                        android:textColor="#8AB4F8"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:id="@+id/settings_group_privacy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/linear_anuncios"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="72dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="24dp"
+                            android:paddingEnd="20dp"
+                            android:orientation="horizontal"
+                            android:background="?android:attr/selectableItemBackground">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_settings_shield"
+                                android:tint="#BDC1C6"/>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="24dp"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:id="@+id/text1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Proteção contra anúncios"
+                                    android:textSize="16sp"
+                                    android:textColor="#E8EAED"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="Bloqueio, filtros e estatísticas"
+                                    android:textSize="13sp"
+                                    android:textColor="#9AA0A6"/>
+                            </LinearLayout>
+                            <ImageView
+                                android:id="@+id/abrir"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/icon_keyboard_arrow_down_round"
+                                android:tint="#9AA0A6"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/linear_ublock"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="72dp"
+                            android:paddingEnd="20dp"
+                            android:paddingTop="4dp"
+                            android:paddingBottom="12dp"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+                            <LinearLayout
+                                android:id="@+id/linear_bloqueio_de_anuncios"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:minHeight="58dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <Switch
+                                    android:id="@+id/switch_bloqueio_de_anuncios"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Bloquear anúncios e rastreadores"
+                                    android:textSize="15sp"
+                                    android:textColor="#E8EAED"
+                                    android:buttonTint="#8AB4F8"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/linear_estatist"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:minHeight="54dp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+                                <Switch
+                                    android:id="@+id/switch_estatisticas"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Mostrar estatísticas de bloqueio"
+                                    android:textSize="15sp"
+                                    android:textColor="#E8EAED"
+                                    android:buttonTint="#8AB4F8"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:id="@+id/linear15"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:minHeight="52dp"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/text_ublock"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="Listas de filtros"
+                                    android:textSize="14sp"
+                                    android:textColor="#E8EAED"/>
+                                <TextView
+                                    android:id="@+id/text_porcentagem"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
+                                    android:text="0%"
+                                    android:textSize="12sp"
+                                    android:textColor="#9AA0A6"/>
+                                <TextView
+                                    android:id="@+id/text_atualize"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp"
+                                    android:text="Atualizar"
+                                    android:textSize="14sp"
+                                    android:textColor="#8AB4F8"/>
+                            </LinearLayout>
+                            <TextView
+                                android:id="@+id/text_informacao"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingTop="4dp"
+                                android:textSize="13sp"
+                                android:textColor="#9AA0A6"/>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="24dp"
+                        android:paddingEnd="24dp"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="8dp"
+                        android:text="Configurações de sites"
+                        android:textColor="#8AB4F8"
+                        android:textSize="14sp"
+                        android:textStyle="bold"/>
+
+                    <LinearLayout
+                        android:id="@+id/settings_group_site"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:id="@+id/linear_javascript"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="76dp"
+                            android:gravity="center_vertical"
+                            android:paddingStart="24dp"
+                            android:paddingEnd="20dp"
+                            android:orientation="horizontal">
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_settings_tune"
+                                android:tint="#BDC1C6"/>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:layout_marginStart="24dp"
+                                android:orientation="vertical">
+                                <Switch
+                                    android:id="@+id/switch_javascript"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="0dp"
+                                    android:text="JavaScript"
+                                    android:textSize="16sp"
+                                    android:textColor="#E8EAED"
+                                    android:buttonTint="#8AB4F8"
+                                    android:checked="true"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="3dp"
+                                    android:text="Permitir que sites executem JavaScript"
+                                    android:textSize="13sp"
+                                    android:textColor="#9AA0A6"/>
+                            </LinearLayout>
+                        </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginStart="72dp"
+                            android:background="#3C4043"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/text_config_sem_resultados"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="32dp"
+                        android:text="Nenhuma configuração encontrada"
+                        android:textColor="#9AA0A6"
+                        android:textSize="14sp"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:id="@+id/text_config_subtitulo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:text=""/>
                 </LinearLayout>
             </ScrollView>
-		</LinearLayout>
-    <LinearLayout
+        </LinearLayout>
+<LinearLayout
         android:id="@+id/tela4"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

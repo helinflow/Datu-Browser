@@ -161,11 +161,11 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View _view) {
 				click++;
 				if ((click % 2) == 1) {
-					binding.abrir.setImageResource(R.drawable.icon_keyboard_arrow_down_round);
+					binding.abrir.setImageResource(android.R.drawable.arrow_down_float);
 					binding.linearUblock.setVisibility(View.VISIBLE);
 					animarEntradaExpressiva(binding.linearUblock);
 				} else {
-					binding.abrir.setImageResource(R.drawable.icon_keyboard_arrow_up_round);
+					binding.abrir.setImageResource(android.R.drawable.arrow_up_float);
 					binding.linearUblock.setVisibility(View.GONE);
 				}
 			}
@@ -3758,14 +3758,14 @@ public class MainActivity extends AppCompatActivity {
         lista.setOrientation(LinearLayout.VERTICAL);
         rolagem.addView(lista);
 
-        adicionarLinhaMenu(lista, R.drawable.icon_add_round, "Nova guia", () -> {
+        adicionarLinhaMenu(lista, android.R.drawable.ic_menu_add, "Nova guia", () -> {
             if (tabManager != null) {
                 tabManager.create(binding.webview, getSearchEngineHomeUrl());
                 browserEngine.loadUrl(getSearchEngineHomeUrl());
                 atualizarContadorGuias();
             }
         });
-        adicionarLinhaMenu(lista, R.drawable.icon_add_round, "Nova guia anônima", () -> {
+        adicionarLinhaMenu(lista, android.R.drawable.ic_menu_add, "Nova guia anônima", () -> {
             startActivity(new Intent(MainActivity.this, PrivateBrowserActivity.class));
         });
         adicionarDivisorMenu(lista);
@@ -3775,17 +3775,17 @@ public class MainActivity extends AppCompatActivity {
         adicionarLinhaMenu(lista, R.drawable.ic_library_download, "Downloads", () -> abrirBiblioteca("downloads"));
         adicionarDivisorMenu(lista);
 
-        adicionarLinhaMenu(lista, R.drawable.icon_arrow_back_ios_round, "Voltar", () -> {
+        adicionarLinhaMenu(lista, android.R.drawable.ic_media_previous, "Voltar", () -> {
             if (browserEngine != null && browserEngine.canGoBack()) browserEngine.goBack();
             else Toast.makeText(this, "Não há página anterior", Toast.LENGTH_SHORT).show();
         });
-        adicionarLinhaMenu(lista, R.drawable.icon_home_round, "Página inicial", () -> {
+        adicionarLinhaMenu(lista, android.R.drawable.ic_menu_view, "Página inicial", () -> {
             binding.tela1.setVisibility(View.VISIBLE);
             animarEntradaExpressiva(binding.tela1);
             binding.tela2.setVisibility(View.GONE);
             binding.tela3.setVisibility(View.GONE);
         });
-        adicionarLinhaMenu(lista, R.drawable.icon_refresh_round, "Atualizar página", () -> {
+        adicionarLinhaMenu(lista, android.R.drawable.ic_popup_sync, "Atualizar página", () -> {
             if (browserEngine != null) browserEngine.reload();
         });
         adicionarLinhaMenu(lista, R.drawable.datu_icon_bookmark, "Adicionar aos favoritos", () -> salvarFavoritoAtual());
@@ -3812,7 +3812,7 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         });
         adicionarDivisorMenu(lista);
-        adicionarLinhaMenu(lista, R.drawable.icon_settings_round, "Configurações", () -> {
+        adicionarLinhaMenu(lista, android.R.drawable.ic_menu_preferences, "Configurações", () -> {
             startActivity(new Intent(MainActivity.this, DatuSettingsActivity.class));
         });
 

@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 		browserEngine = new WebViewBrowserEngine(binding.webview);
 		initialize(_savedInstanceState);
 		initializeLogic();
+        atualizarBarrasInferiores();
         configurarBuscaConfiguracoes();
 		tabManager = new TabManager();
 		tabManager.create(binding.webview, getSearchEngineHomeUrl());
@@ -1791,25 +1792,17 @@ public class MainActivity extends AppCompatActivity {
 				}
 				
 				
-				// --------------------------------------------
-				// Recursos que não devemos bloquear
-				// genericamente porque podem quebrar o site
-				// --------------------------------------------
-				
-				if (
-				u.contains(".css")
-				||
-				u.contains(".woff")
-				||
-				u.contains(".woff2")
-				||
-				u.contains(".ttf")
-				||
-				u.contains(".otf")
-				||
-				u.contains(".eot")
-				) {
-					
+				// CSS e fontes só podem ser bloqueados quando a URL
+				// contém sinais explícitos de publicidade. Isso evita
+				// derrubar estilos e fontes legítimos de terceiros.
+				boolean recursoVisual =
+				u.contains(".css") ||
+				u.contains(".woff") ||
+				u.contains(".woff2") ||
+				u.contains(".ttf") ||
+				u.contains(".otf") ||
+				u.contains(".eot");
+				if (recursoVisual && !parecePublicidade(url)) {
 					return false;
 				}
 				

@@ -47,12 +47,20 @@ public final class PrivateBrowserActivity extends Activity {
         root.setOrientation(LinearLayout.VERTICAL);
         root.setBackgroundColor(0xFF0E0D12);
 
+        LinearLayout header = new LinearLayout(this);
+        header.setGravity(Gravity.CENTER_VERTICAL);
+        header.setPadding(dp(8), dp(4), dp(8), dp(4));
         TextView label = new TextView(this);
         label.setText("◉  Navegação anônima");
         label.setTextColor(0xFFD0BCFF);
         label.setTextSize(17);
-        label.setPadding(dp(16), dp(12), dp(16), dp(8));
-        root.addView(label, new LinearLayout.LayoutParams(-1, -2));
+        label.setPadding(dp(8), dp(8), dp(8), dp(8));
+        header.addView(label, new LinearLayout.LayoutParams(0, -2, 1));
+        Button close = new Button(this);
+        close.setText("Fechar");
+        close.setOnClickListener(v -> finish());
+        header.addView(close, new LinearLayout.LayoutParams(-2, dp(44)));
+        root.addView(header, new LinearLayout.LayoutParams(-1, -2));
 
         LinearLayout bar = new LinearLayout(this);
         bar.setGravity(Gravity.CENTER_VERTICAL);

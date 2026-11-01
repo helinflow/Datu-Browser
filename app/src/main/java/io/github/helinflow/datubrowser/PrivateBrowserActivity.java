@@ -311,7 +311,7 @@ public final class PrivateBrowserActivity extends Activity {
             if (title == null || title.trim().isEmpty()) {
                 title = "Nova guia anônima";
             }
-            labels[i] = title + "\\n" + tab.getUrl();
+            labels[i] = title + "\n" + tab.getUrl();
         }
 
         new android.app.AlertDialog.Builder(this)

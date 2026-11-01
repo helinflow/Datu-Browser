@@ -95,7 +95,7 @@ public final class LibraryItemAdapter extends RecyclerView.Adapter<LibraryItemAd
         TextView title = new TextView(context);
         title.setTextColor(0xFFE8EAED);
         title.setTextSize(15);
-        title.setTypeface(Typeface.DEFAULT, Typeface.MEDIUM);
+        title.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         title.setMaxLines(2);
         TextView detail = new TextView(context);
         detail.setTextColor(0xFF9AA0A6);

@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
 	private PopupWindow menuNavegacao;
 	private boolean carregandoPreferencias = true;
 	private boolean wallpaperAtivoNaTela = false;
+	private boolean shieldsDetalhesExpandidos = false;
+	private Runnable recarregarFiltrosShields;
 	
 	private void atualizarBarrasInferiores() {
 		android.view.View barraA = findViewById(R.id.linear_A);
@@ -269,19 +271,11 @@ public class MainActivity extends AppCompatActivity {
         });
         findViewById(R.id.library_back).setOnClickListener(v -> fecharBiblioteca());
 		
-		binding.linearAnuncios.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View _view) {
-				click++;
-				if ((click % 2) == 1) {
-					binding.abrir.setImageResource(android.R.drawable.arrow_down_float);
-					binding.linearUblock.setVisibility(View.VISIBLE);
-					animarEntradaExpressiva(binding.linearUblock);
-				} else {
-					binding.abrir.setImageResource(android.R.drawable.arrow_up_float);
-					binding.linearUblock.setVisibility(View.GONE);
-				}
-			}
+		binding.linearAnuncios.setOnClickListener(v -> {
+			shieldsDetalhesExpandidos = !shieldsDetalhesExpandidos;
+			binding.linearUblock.setVisibility(shieldsDetalhesExpandidos ? View.VISIBLE : View.GONE);
+			binding.abrir.animate().rotation(shieldsDetalhesExpandidos ? 180f : 0f).setDuration(180).start();
+			if (shieldsDetalhesExpandidos) animarEntradaExpressiva(binding.linearUblock);
 		});
 		
 		binding.voltar.setOnClickListener(new View.OnClickListener() {
@@ -668,14 +662,10 @@ public class MainActivity extends AppCompatActivity {
 					protected void onPostExecute(String resultado) {
 						
 						if ("FINALIZADO".equals(resultado)) {
-							
 							tvPorcentagem.setText("100%");
-							
-							tvInformacao.setText(
-							"Atualização concluída!"
-							);
-							
-						} else if ("ERRO_PASTA".equals(resultado)) {
+							tvInformacao.setText("Download concluído. Aplicando filtros...");
+							if (recarregarFiltrosShields != null) recarregarFiltrosShields.run();
+						}} else if ("ERRO_PASTA".equals(resultado)) {
 							
 							tvPorcentagem.setText("0%");
 							
@@ -2552,6 +2542,37 @@ public class MainActivity extends AppCompatActivity {
 		
 		final ShieldsLoader shieldsLoader =
 		new ShieldsLoader();
+
+		// Recarrega as listas baixadas sem reiniciar a Activity.
+		recarregarFiltrosShields = () -> {
+			shieldsPronto.set(false);
+			synchronized (shieldsCache) { shieldsCache.clear(); }
+			new Thread(() -> {
+				for (ShieldsCategoria categoria : shieldsCategorias.values()) {
+					categoria.exatos.clear();
+					categoria.parciais.clear();
+					categoria.excecoes.clear();
+					categoria.cosmeticos.setLength(0);
+					categoria.contagemCss = 0;
+				}
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "filters.min.txt"), categoriaPrincipal);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "privacy.min.txt"), categoriaPrivacidade);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "quick-fixes.txt"), categoriaCorrecoes);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "unbreak.txt"), categoriaCompatibilidade);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "easylist.txt"), categoriaEasyList);
+				shieldsLoader.carregar(new java.io.File(shieldsPasta, "easyprivacy.txt"), categoriaEasyPrivacy);
+				shieldsPronto.set(true);
+				synchronized (shieldsCache) { shieldsCache.clear(); }
+				runOnUiThread(() -> {
+					if (binding != null && binding.webview != null) {
+						injetarCss(binding.webview);
+						if (binding.webview.getUrl() != null) binding.webview.reload();
+					}
+					android.widget.TextView info = findViewById(R.id.text_informacao);
+					if (info != null) info.setText("Filtros atualizados e aplicados.");
+				});
+			}, "DatuShieldsReload").start();
+		};
 		
 		
 		// ============================================================
@@ -2954,28 +2975,15 @@ public class MainActivity extends AppCompatActivity {
 				
 				
 				// --------------------------------------------
-				// NÃO INTERCEPTAR CSS/FONTES
-				// --------------------------------------------
-				
-				if (
-				u.contains(".css")
-				||
-				u.contains(".woff")
-				||
-				u.contains(".woff2")
-				||
-				u.contains(".ttf")
-				||
-				u.contains(".otf")
-				||
-				u.contains(".eot")
-				) {
-					
-					return false;
-				}
+				// CSS/fontes legítimos são preservados; os explicitamente publicitários
+				// podem ser bloqueados pelas regras de rede.
+				boolean recursoVisual =
+					u.contains(".css") || u.contains(".woff") || u.contains(".woff2")
+					|| u.contains(".ttf") || u.contains(".otf") || u.contains(".eot");
+				if (recursoVisual && !shields.parecePublicidade(url)) return false;
+
 				
 				
-				// --------------------------------------------
 				// CACHE
 				// --------------------------------------------
 				

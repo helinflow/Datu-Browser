@@ -27,4 +27,16 @@
     <color name="colorAccent">#D0BCFF</color>
     <color name="colorControlHighlight">#66D0BCFF</color>
     <color name="colorControlNormal">#CAC4D0</color>
+    <color name="md_sys_color_surface_dim">#0E0D12</color>
+    <color name="md_sys_color_surface_bright">#39363F</color>
+    <color name="md_sys_color_surface_container_lowest">#0A090D</color>
+    <color name="md_sys_color_surface_container_low">#141218</color>
+    <color name="md_sys_color_surface_container">#1D1B20</color>
+    <color name="md_sys_color_surface_container_high">#28252D</color>
+    <color name="md_sys_color_surface_container_highest">#333039</color>
+    <color name="md_sys_color_inverse_surface">#E6E0E9</color>
+    <color name="md_sys_color_inverse_on_surface">#313036</color>
+    <color name="md_sys_color_inverse_primary">#6750A4</color>
+    <color name="md_sys_color_scrim">#000000</color>
+    <color name="md_sys_color_shadow">#000000</color>
 </resources>

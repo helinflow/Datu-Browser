@@ -83,22 +83,35 @@ public class MainActivity extends AppCompatActivity {
                 String termo = s == null ? "" : s.toString().trim().toLowerCase(Locale.ROOT);
                 boolean tudo = termo.isEmpty();
 
-                boolean aparencia = tudo || "aparência paisagem papel parede imagem imagens inicial fundo".contains(termo);
+                boolean navegacao = tudo || "navegação navegacao abas aba guias guia favoritos favorito histórico historico downloads download".contains(termo);
+                boolean aparencia = tudo || "aparência aparencia paisagem papel parede imagem imagens inicial fundo".contains(termo);
                 boolean sites = tudo || "sites site javascript script permissões permissao".contains(termo);
-                boolean privacidade = tudo || "privacidade segurança anuncios anúncios bloqueio bloqueador filtros filtro shields estatísticas rastreadores".contains(termo);
+                boolean privacidade = tudo || "privacidade segurança seguranca anuncios anúncios bloqueio bloqueador filtros filtro shields estatísticas estatisticas rastreadores".contains(termo);
+                boolean sobre = tudo || "sobre datu avisos terceiros licenças licencas licença licenca código aberto".contains(termo);
 
+                findViewById(R.id.settings_group_navigation).setVisibility(navegacao ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_heading_navigation).setVisibility(navegacao ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_group_appearance).setVisibility(aparencia ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_heading_basic).setVisibility(aparencia ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_group_site).setVisibility(sites ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_heading_site).setVisibility(sites ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_group_privacy).setVisibility(privacidade ? View.VISIBLE : View.GONE);
                 findViewById(R.id.settings_heading_privacy).setVisibility(privacidade ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_group_about).setVisibility(sobre ? View.VISIBLE : View.GONE);
+                findViewById(R.id.settings_heading_about).setVisibility(sobre ? View.VISIBLE : View.GONE);
 
-                boolean nenhum = !aparencia && !sites && !privacidade;
+                boolean nenhum = !navegacao && !aparencia && !sites && !privacidade && !sobre;
                 findViewById(R.id.text_config_sem_resultados).setVisibility(nenhum ? View.VISIBLE : View.GONE);
             }
             @Override public void afterTextChanged(Editable s) { }
         });
+
+        findViewById(R.id.settings_open_tabs).setOnClickListener(v -> abrirSeletorGuias());
+        findViewById(R.id.settings_open_favorites).setOnClickListener(v -> abrirBiblioteca("favorites"));
+        findViewById(R.id.settings_open_history).setOnClickListener(v -> abrirBiblioteca("history"));
+        findViewById(R.id.settings_open_downloads).setOnClickListener(v -> abrirBiblioteca("downloads"));
+        findViewById(R.id.settings_third_party_notices).setOnClickListener(v ->
+            startActivity(new Intent(MainActivity.this, ThirdPartyNoticesActivity.class)));
     }
 
 	private void initialize(Bundle _savedInstanceState) {

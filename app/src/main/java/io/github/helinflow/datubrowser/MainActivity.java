@@ -158,6 +158,22 @@ public class MainActivity extends AppCompatActivity {
 		}, 180);
 	}
 
+	private void atualizarEstadoNavegacao() {
+		if (binding == null || binding.webview == null) return;
+		View voltar = findViewById(R.id.toolbar_back);
+		View avancar = findViewById(R.id.toolbar_forward);
+		if (voltar != null) {
+			boolean disponivel = binding.webview.canGoBack();
+			voltar.setEnabled(disponivel);
+			voltar.setAlpha(disponivel ? 1f : 0.38f);
+		}
+		if (avancar != null) {
+			boolean disponivel = binding.webview.canGoForward();
+			avancar.setEnabled(disponivel);
+			avancar.setAlpha(disponivel ? 1f : 0.38f);
+		}
+	}
+
 	private void initialize(Bundle _savedInstanceState) {
 		dados = getSharedPreferences("dados", Activity.MODE_PRIVATE);
 		
@@ -895,6 +911,7 @@ public class MainActivity extends AppCompatActivity {
 			android.webkit.WebView view,  
 			int progress  
 			) {  
+				atualizarEstadoNavegacao();  
 				
 				if (progress < 100) {  
 					

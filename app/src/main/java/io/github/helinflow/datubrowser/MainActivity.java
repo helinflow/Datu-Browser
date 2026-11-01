@@ -302,8 +302,12 @@ public class MainActivity extends AppCompatActivity {
         });
         binding.switchPapelParede.setOnCheckedChangeListener((button, enabled) -> {
             dados.edit().putBoolean("home_wallpaper", enabled).apply();
-            if (!enabled) binding.tela1.setBackgroundColor(Color.rgb(14, 13, 18));
-            if (enabled) carregarPapelParede();
+            if (!enabled) {
+                wallpaperAtivoNaTela = false;
+                binding.tela1.setBackgroundColor(Color.rgb(14, 13, 18));
+            } else {
+                carregarPapelParede();
+            }
         });
 		
 		binding.switchEstatisticas.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -1375,7 +1379,7 @@ public class MainActivity extends AppCompatActivity {
 		+ "div[class*='ad-banner'],"
 		+ "div[class*='ads-'],"
 		+ "div[class^='ad-'],"
-		+ "aside[class*='ad'],"
+
 		+ "ins[class*='ad'],"
 		+ "div[data-ad-slot],"
 		+ "div[data-ad-client]"
@@ -1838,8 +1842,6 @@ public class MainActivity extends AppCompatActivity {
 					"advertisement",
 					"ads.",
 					"/ads/",
-					"/ad/",
-					"banner",
 					"prebid",
 					"adnxs",
 					"outbrain",
@@ -1849,7 +1851,10 @@ public class MainActivity extends AppCompatActivity {
 					"rubiconproject",
 					"openx",
 					"amazon-adsystem",
-					"googletagmanager"
+					"adsrvr.org",
+					"adform.net",
+					"smartadserver.com",
+					"serving-sys.com"
 				};
 				
 				

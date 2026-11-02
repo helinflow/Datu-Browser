@@ -65,7 +65,7 @@ public final class PrivateBrowserActivity extends Activity {
     private void buildInterface() {
         LinearLayout root = new LinearLayout(this);
         root.setOrientation(LinearLayout.VERTICAL);
-        root.setBackgroundColor(0xFF0E0D12);
+        root.setBackgroundColor(0xFF000000);
 
         LinearLayout header = new LinearLayout(this);
         header.setGravity(Gravity.CENTER_VERTICAL);
@@ -75,17 +75,17 @@ public final class PrivateBrowserActivity extends Activity {
         label.setText(privateShieldsEnabled
             ? "◉  Navegação anônima · Shields"
             : "◉  Navegação anônima");
-        label.setTextColor(0xFFD0BCFF);
+        label.setTextColor(0xFFFFFFFF);
         label.setTextSize(17);
         label.setPadding(dp(8), dp(8), dp(8), dp(8));
         header.addView(label, new LinearLayout.LayoutParams(0, -2, 1));
 
         tabCount = new TextView(this);
         tabCount.setText("1");
-        tabCount.setTextColor(0xFFD0BCFF);
+        tabCount.setTextColor(0xFFFFFFFF);
         tabCount.setTextSize(14);
         tabCount.setGravity(Gravity.CENTER);
-        tabCount.setBackgroundColor(0xFF302A3D);
+        tabCount.setBackgroundColor(0xFF242424);
         tabCount.setPadding(dp(12), dp(6), dp(12), dp(6));
         tabCount.setOnClickListener(v -> abrirGuiasPrivadas());
         header.addView(tabCount, new LinearLayout.LayoutParams(dp(42), dp(40)));
@@ -103,9 +103,9 @@ public final class PrivateBrowserActivity extends Activity {
         address = new EditText(this);
         address.setSingleLine(true);
         address.setHint("Pesquisar ou digitar endereço");
-        address.setTextColor(0xFFE6E0E9);
-        address.setHintTextColor(0xFFCAC4D0);
-        address.setBackgroundColor(0xFF24212B);
+        address.setTextColor(0xFFF5F5F5);
+        address.setHintTextColor(0xFFA6A6A6);
+        address.setBackgroundColor(0xFF191919);
         address.setPadding(dp(12), 0, dp(12), 0);
         address.setImeOptions(EditorInfo.IME_ACTION_GO);
         bar.addView(address, new LinearLayout.LayoutParams(0, dp(48), 1));

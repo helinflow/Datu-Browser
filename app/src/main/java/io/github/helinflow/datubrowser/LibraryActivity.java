@@ -67,7 +67,7 @@ public class LibraryActivity extends Activity {
     private GradientDrawable shape(int color, int radius) {
         GradientDrawable d = new GradientDrawable();
         d.setColor(color);
-        d.setCornerRadius(dp(radius));
+        d.setCornerRadius(dp(Math.min(radius, 12)));
         return d;
     }
 
@@ -89,16 +89,16 @@ public class LibraryActivity extends Activity {
 
         LinearLayout header = new LinearLayout(this);
         header.setGravity(Gravity.CENTER_VERTICAL);
-        TextView back = text("‹", 34, 0xFFF5F5F5, false);
+        TextView back = text("‹", 30, 0xFFF5F5F5, false);
         back.setGravity(Gravity.CENTER);
         back.setBackground(shape(0xFF191919, 24));
         back.setContentDescription("Voltar");
-        header.addView(back, new LinearLayout.LayoutParams(dp(48), dp(48)));
+        header.addView(back, new LinearLayout.LayoutParams(dp(44), dp(44)));
         back.setOnClickListener(v -> finish());
 
         String title = "favorites".equals(screen) ? "Favoritos" :
                 "history".equals(screen) ? "Histórico" : "Downloads";
-        TextView heading = text(title, 23, 0xFFE8EAED, true);
+        TextView heading = text(title, 22, 0xFFE8EAED, true);
         LinearLayout.LayoutParams hp = new LinearLayout.LayoutParams(0, dp(52), 1);
         hp.leftMargin = dp(14);
         header.addView(heading, hp);
@@ -117,7 +117,7 @@ public class LibraryActivity extends Activity {
         search.setHint("Pesquisar em " + title.toLowerCase(java.util.Locale.ROOT));
         search.setPadding(dp(18), 0, dp(16), 0);
         search.setBackground(shape(0xFF151515, 24));
-        LinearLayout.LayoutParams searchParams = new LinearLayout.LayoutParams(-1, dp(50));
+        LinearLayout.LayoutParams searchParams = new LinearLayout.LayoutParams(-1, dp(48));
         searchParams.topMargin = dp(12);
         searchParams.bottomMargin = dp(10);
         root.addView(search, searchParams);

@@ -795,7 +795,7 @@ public class MainActivity extends AppCompatActivity {
 		new android.graphics.drawable.GradientDrawable();
 		
 		fundoPesquisa.setColor(
-		android.graphics.Color.parseColor("#24212B")
+		android.graphics.Color.parseColor("#191919")
 		);
 		
 		fundoPesquisa.setCornerRadius(raio);
@@ -810,7 +810,7 @@ public class MainActivity extends AppCompatActivity {
 		new android.graphics.drawable.GradientDrawable();
 		
 		fundoBarra.setColor(
-		android.graphics.Color.parseColor("#24212B")
+		android.graphics.Color.parseColor("#191919")
 		);
 		
 		fundoBarra.setCornerRadius(raio);
@@ -3829,14 +3829,14 @@ public class MainActivity extends AppCompatActivity {
          * ==========================================
          */
 				
-				// Surface: #242022
+				// Surface: #151515
 				GradientDrawable background =
 				new GradientDrawable();
 				
 				background.setColor(0xFF242022);
 				background.setCornerRadius(20);
 				
-				// Borda: #3A3235
+				// Borda: #292929
 				background.setStroke(
 				1,
 				0xFF3A3235
@@ -3851,7 +3851,7 @@ public class MainActivity extends AppCompatActivity {
 					.setDimAmount(0.7f);
 				}
 				
-				// Texto principal: #F5EEF1
+				// Texto principal: #F5F5F5
 				TextView message =
 				dialog.findViewById(
 				android.R.id.message
@@ -3864,7 +3864,7 @@ public class MainActivity extends AppCompatActivity {
 					);
 				}
 				
-				// Título: #F5EEF1
+				// Título: #F5F5F5
 				int titleId =
 				getResources().getIdentifier(
 				"alertTitle",
@@ -3885,14 +3885,14 @@ public class MainActivity extends AppCompatActivity {
 					}
 				}
 				
-				// Botão "Baixar" — Primary Light: #FFB0C8
+				// Botão "Baixar" — Primary Light: #FFFFFF
 				dialog.getButton(
 				DialogInterface.BUTTON_POSITIVE
 				).setTextColor(
 				0xFFFFB0C8
 				);
 				
-				// Botão "Cancelar" — Text Secondary: #D0C4C8
+				// Botão "Cancelar" — Text Secondary: #A6A6A6
 				dialog.getButton(
 				DialogInterface.BUTTON_NEGATIVE
 				).setTextColor(

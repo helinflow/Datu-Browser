@@ -80,25 +80,25 @@ public final class LibraryItemAdapter extends RecyclerView.Adapter<LibraryItemAd
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(dp(14), dp(9), dp(8), dp(9));
-        row.setBackground(rounded(0xFF1D1B20, 18));
+        row.setBackground(rounded(0xFF151515, 18));
 
         TextView icon = new TextView(context);
         icon.setGravity(Gravity.CENTER);
         icon.setTextSize(20);
-        icon.setTextColor(0xFFCAC4D0);
-        icon.setBackground(rounded(0xFF333039, 14));
+        icon.setTextColor(0xFFA6A6A6);
+        icon.setBackground(rounded(0xFF292929, 14));
         row.addView(icon, new LinearLayout.LayoutParams(dp(44), dp(44)));
 
         LinearLayout labels = new LinearLayout(context);
         labels.setOrientation(LinearLayout.VERTICAL);
         labels.setPadding(dp(13), dp(2), dp(6), dp(2));
         TextView title = new TextView(context);
-        title.setTextColor(0xFFE6E0E9);
+        title.setTextColor(0xFFF5F5F5);
         title.setTextSize(15);
         title.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         title.setMaxLines(2);
         TextView detail = new TextView(context);
-        detail.setTextColor(0xFFCAC4D0);
+        detail.setTextColor(0xFFA6A6A6);
         detail.setTextSize(12);
         detail.setMaxLines(1);
         detail.setEllipsize(android.text.TextUtils.TruncateAt.END);
@@ -110,7 +110,7 @@ public final class LibraryItemAdapter extends RecyclerView.Adapter<LibraryItemAd
 
         ImageButton more = new ImageButton(context);
         more.setImageResource(android.R.drawable.ic_menu_more);
-        more.setColorFilter(0xFFBDC1C6);
+        more.setColorFilter(0xFFA6A6A6);
         more.setBackground(rounded(0x001D1B20, 22));
         more.setContentDescription("Mais opções");
         row.addView(more, new LinearLayout.LayoutParams(dp(42), dp(44)));

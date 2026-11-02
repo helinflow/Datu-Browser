@@ -63,7 +63,7 @@
 
 - Use a implementação Android do Chromium como referência visual e funcional quando isso fizer parte do pedido.
 - Priorize fidelidade estrutural ao padrão solicitado, adaptando-o à arquitetura e identidade do DATU sem inventar telas ou fluxos desnecessários.
-- Siga Material 3 Expressive somente quando solicitado e compatível com as dependências reais.
+- Siga a identidade Datu Minimal: superfícies pretas/grafite, tipografia clara, bordas discretas e componentes AppCompat/nativos. Não adicione Material 3 Expressive ou Material Components sem solicitação explícita.
 - Mantenha hierarquia visual, tipografia, espaçamento, alinhamento, acessibilidade e suporte aos temas existentes.
 - Ícones, menus, botões e controles devem ter significado e ações reais.
 - Implemente estados de carregamento, vazio, erro e sucesso quando aplicável.

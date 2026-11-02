@@ -50,8 +50,8 @@ public final class TabGridAdapter extends RecyclerView.Adapter<TabGridAdapter.Ta
     private GradientDrawable shape(int color, int stroke) {
         GradientDrawable drawable = new GradientDrawable();
         drawable.setColor(color);
-        drawable.setCornerRadius(dp(16));
-        if (stroke > 0) drawable.setStroke(dp(2), stroke);
+        drawable.setCornerRadius(dp(12));
+        if (stroke > 0) drawable.setStroke(dp(1), stroke);
         return drawable;
     }
 
@@ -105,7 +105,7 @@ public final class TabGridAdapter extends RecyclerView.Adapter<TabGridAdapter.Ta
         url.setEllipsize(android.text.TextUtils.TruncateAt.END);
         url.setPadding(dp(4), dp(3), dp(4), 0);
 
-        card.addView(previewFrame, new LinearLayout.LayoutParams(-1, dp(132)));
+        card.addView(previewFrame, new LinearLayout.LayoutParams(-1, dp(120)));
         card.addView(title, new LinearLayout.LayoutParams(-1, -2));
         card.addView(url, new LinearLayout.LayoutParams(-1, -2));
 

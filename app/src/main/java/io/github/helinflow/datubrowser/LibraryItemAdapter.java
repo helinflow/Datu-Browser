@@ -66,7 +66,7 @@ public final class LibraryItemAdapter extends RecyclerView.Adapter<LibraryItemAd
     private GradientDrawable rounded(int color, int radius) {
         GradientDrawable d = new GradientDrawable();
         d.setColor(color);
-        d.setCornerRadius(dp(radius));
+        d.setCornerRadius(dp(Math.min(radius, 12)));
         return d;
     }
 
@@ -87,7 +87,7 @@ public final class LibraryItemAdapter extends RecyclerView.Adapter<LibraryItemAd
         icon.setTextSize(20);
         icon.setTextColor(0xFFA6A6A6);
         icon.setBackground(rounded(0xFF292929, 14));
-        row.addView(icon, new LinearLayout.LayoutParams(dp(44), dp(44)));
+        row.addView(icon, new LinearLayout.LayoutParams(dp(40), dp(40)));
 
         LinearLayout labels = new LinearLayout(context);
         labels.setOrientation(LinearLayout.VERTICAL);

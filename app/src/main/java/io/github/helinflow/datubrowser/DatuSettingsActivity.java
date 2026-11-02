@@ -32,18 +32,18 @@ public class DatuSettingsActivity extends AppCompatActivity {
 
         android.widget.LinearLayout root = new android.widget.LinearLayout(this);
         root.setOrientation(android.widget.LinearLayout.VERTICAL);
-        root.setBackgroundColor(0xFF0E0D12);
+        root.setBackgroundColor(0xFF000000);
 
         Toolbar toolbar = new Toolbar(this);
         toolbar.setTitle("Configurações");
         toolbar.setElevation(0f);
-        toolbar.setTitleTextColor(0xFFE6E0E9);
+        toolbar.setTitleTextColor(0xFFF5F5F5);
         toolbar.setNavigationIcon(R.drawable.ic_library_back);
         if (toolbar.getNavigationIcon() != null) {
-            toolbar.getNavigationIcon().mutate().setTint(0xFFE6E0E9);
+            toolbar.getNavigationIcon().mutate().setTint(0xFFF5F5F5);
         }
         toolbar.setNavigationContentDescription("Voltar");
-        toolbar.setBackgroundColor(0xFF141218);
+        toolbar.setBackgroundColor(0xFF000000);
         toolbar.setNavigationOnClickListener(v -> finish());
         root.addView(toolbar, new android.widget.LinearLayout.LayoutParams(
                 -1, (int) (56 * getResources().getDisplayMetrics().density + 0.5f)));
@@ -51,15 +51,15 @@ public class DatuSettingsActivity extends AppCompatActivity {
         EditText search = new EditText(this);
         search.setSingleLine(true);
         search.setTextSize(15);
-        search.setTextColor(0xFFE6E0E9);
-        search.setHintTextColor(0xFF938F99);
+        search.setTextColor(0xFFF5F5F5);
+        search.setHintTextColor(0xFF777777);
         search.setHint("Pesquisar nas configurações");
         search.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_search, 0, 0, 0);
         search.setCompoundDrawablePadding((int) (12 * getResources().getDisplayMetrics().density + 0.5f));
         search.setPadding((int) (16 * getResources().getDisplayMetrics().density + 0.5f), 0,
                 (int) (16 * getResources().getDisplayMetrics().density + 0.5f), 0);
         GradientDrawable searchBackground = new GradientDrawable();
-        searchBackground.setColor(0xFF1D1B20);
+        searchBackground.setColor(0xFF151515);
         searchBackground.setCornerRadius(24 * getResources().getDisplayMetrics().density);
         search.setBackground(searchBackground);
         android.widget.LinearLayout.LayoutParams searchParams = new android.widget.LinearLayout.LayoutParams(

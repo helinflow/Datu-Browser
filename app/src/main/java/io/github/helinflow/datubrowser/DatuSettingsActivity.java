@@ -60,10 +60,10 @@ public class DatuSettingsActivity extends AppCompatActivity {
                 (int) (16 * getResources().getDisplayMetrics().density + 0.5f), 0);
         GradientDrawable searchBackground = new GradientDrawable();
         searchBackground.setColor(0xFF151515);
-        searchBackground.setCornerRadius(24 * getResources().getDisplayMetrics().density);
+        searchBackground.setCornerRadius(12 * getResources().getDisplayMetrics().density);
         search.setBackground(searchBackground);
         android.widget.LinearLayout.LayoutParams searchParams = new android.widget.LinearLayout.LayoutParams(
-                -1, (int) (52 * getResources().getDisplayMetrics().density + 0.5f));
+                -1, (int) (48 * getResources().getDisplayMetrics().density + 0.5f));
         searchParams.setMargins((int) (18 * getResources().getDisplayMetrics().density + 0.5f),
                 (int) (10 * getResources().getDisplayMetrics().density + 0.5f),
                 (int) (18 * getResources().getDisplayMetrics().density + 0.5f),

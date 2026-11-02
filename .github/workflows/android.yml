@@ -2,13 +2,17 @@ name: Android CI
 
 on:
   push:
-    branches: [main, master]
+    branches: [main, master, chromium-engine]
   pull_request:
     branches: [main, master]
   workflow_dispatch:
 
 permissions:
   contents: read
+
+concurrency:
+  group: android-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -34,7 +38,7 @@ jobs:
           echo "$SDK_TOOLS_DIR/tools/bin" >> "$GITHUB_PATH"
           echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
           yes | "$SDK_TOOLS_DIR/tools/bin/sdkmanager" --sdk_root="$ANDROID_HOME" --licenses
-          "$SDK_TOOLS_DIR/tools/bin/sdkmanager" --sdk_root="$ANDROID_HOME" "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+          "$SDK_TOOLS_DIR/tools/bin/sdkmanager" --sdk_root="$ANDROID_HOME" "platform-tools" "platforms;android-35" "build-tools;35.0.0"
 
       - name: Set up Gradle 8.13
         uses: gradle/actions/setup-gradle@v4
@@ -78,8 +82,8 @@ jobs:
             exit 1
           fi
 
-          "$ANDROID_HOME/build-tools/34.0.0/zipalign" -f -p 4 "$UNSIGNED_APK" "$RUNNER_TEMP/datu-release-aligned.apk"
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" sign \
+          "$ANDROID_HOME/build-tools/35.0.0/zipalign" -f -p 4 "$UNSIGNED_APK" "$RUNNER_TEMP/datu-release-aligned.apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" sign \
             --ks "$KEYSTORE_PATH" \
             --ks-key-alias "$KEY_ALIAS" \
             --ks-pass env:KEYSTORE_PASSWORD \
@@ -87,7 +91,7 @@ jobs:
             --out "$RUNNER_TEMP/datu-browser-release.apk" \
             "$RUNNER_TEMP/datu-release-aligned.apk"
 
-          "$ANDROID_HOME/build-tools/34.0.0/apksigner" verify "$RUNNER_TEMP/datu-browser-release.apk"
+          "$ANDROID_HOME/build-tools/35.0.0/apksigner" verify "$RUNNER_TEMP/datu-browser-release.apk"
           echo "signed=true" >> "$GITHUB_OUTPUT"
 
       - name: Upload signed release APK

@@ -1,34 +1,43 @@
 plugins {
-	id 'com.android.application'
+    id 'com.android.application'
 }
 
 android {
-	compileSdk 34
-	
-	useLibrary 'org.apache.http.legacy'
-	
-	defaultConfig {
-		applicationId "io.github.helinflow.datubrowser"
-		namespace "io.github.helinflow.datubrowser"
-		minSdkVersion 21
-		targetSdkVersion 34
-		versionCode 1
-		versionName "0.1.0"
-	}
-	
-	buildTypes {
-		release {
-			minifyEnabled false
-			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-		}
-	}
-	buildFeatures {
-		viewBinding true
-	}
+    compileSdk 35
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        applicationId "io.github.helinflow.datubrowser"
+        namespace "io.github.helinflow.datubrowser"
+        minSdkVersion 23
+        targetSdkVersion 34
+        versionCode 1
+        versionName "0.1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+// Kotlin 1.8+ includes the legacy jdk7/jdk8 extensions in kotlin-stdlib.
+// Exclude older split artifacts pulled transitively by AndroidX to avoid duplicate classes.
+configurations.configureEach {
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
 }
 
 dependencies {
-	implementation fileTree(dir: 'libs', include: ['*.jar'])
-	implementation 'androidx.appcompat:appcompat:1.7.1'
-	implementation 'com.google.android.material:material:1.12.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
 }

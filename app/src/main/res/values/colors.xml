@@ -1,7 +1,30 @@
 <resources>
-	<color name="colorPrimary">#7A163D</color>
-	<color name="colorPrimaryDark">#3B071A</color>
-	<color name="colorAccent">#FFB1C8</color>
-	<color name="colorControlHighlight">#FFB1C8</color>
-	<color name="colorControlNormal">#9A898E</color>
+    <!-- DATU MINIMAL: monochrome, high-contrast dark palette. -->
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorOnPrimary">#000000</color>
+    <color name="colorPrimaryContainer">#292929</color>
+    <color name="colorOnPrimaryContainer">#FFFFFF</color>
+    <color name="colorSecondary">#B3B3B3</color>
+    <color name="colorOnSecondary">#111111</color>
+    <color name="colorSecondaryContainer">#242424</color>
+    <color name="colorOnSecondaryContainer">#FFFFFF</color>
+    <color name="colorTertiary">#D6D6D6</color>
+    <color name="colorOnTertiary">#000000</color>
+    <color name="colorSurface">#111111</color>
+    <color name="colorOnSurface">#F5F5F5</color>
+    <color name="colorSurfaceVariant">#292929</color>
+    <color name="colorOnSurfaceVariant">#A6A6A6</color>
+    <color name="colorOutline">#3A3A3A</color>
+    <color name="colorError">#FFB4AB</color>
+    <color name="colorSuccess">#B5CCB0</color>
+    <color name="colorBackground">#000000</color>
+    <color name="colorNavigation">#111111</color>
+    <color name="colorTextDisabled">#777777</color>
+    <color name="colorSelected">#292929</color>
+    <color name="colorGradientStart">#191919</color>
+    <color name="colorGradientEnd">#000000</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#FFFFFF</color>
+    <color name="colorControlHighlight">#33FFFFFF</color>
+    <color name="colorControlNormal">#A6A6A6</color>
 </resources>

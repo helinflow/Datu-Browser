@@ -1,6 +1,6 @@
 <div align="center">Datu Browser
 
-Um navegador rápido e minimalista para Android.
+Um navegador rápido e minimalista para Android, com identidade visual própria.
 
 Um projeto independente feito por mim como hobby.
 
@@ -30,12 +30,14 @@ Ainda faltam alguns recursos no app. Eu tô trabalhando nisso, mas no momento t�
 
 🚀 Características
 
-- 🌐 Navegação simples e minimalista
+- 🌐 Interface Datu Minimal, monocromática e sem dependência de Material 3 Expressive
 - ⚡ Foco em velocidade e otimização
 - 🛡️ Bloqueio de anúncios
 - 📋 Listas do uBlock Origin
 - 🔄 Atualização das listas pelas configurações
 - 📱 Feito para Android
+- ⚫ Interface minimalista em preto e grafite
+- 🧩 Componentes visuais nativos baseados em AppCompat
 - 🪶 Projeto focado em ser leve
 - 🔧 Desenvolvimento independente
 

@@ -356,7 +356,7 @@ public class MainActivity extends AppCompatActivity {
             dados.edit().putBoolean("home_wallpaper", enabled).apply();
             if (!enabled) {
                 wallpaperAtivoNaTela = false;
-                binding.tela1.setBackgroundColor(Color.rgb(14, 13, 18));
+                binding.tela1.setBackgroundColor(Color.BLACK);
             } else {
                 carregarPapelParede();
             }
@@ -779,11 +779,11 @@ public class MainActivity extends AppCompatActivity {
 		findViewById(R.id.linear_pesquisa);
 		
 		// ================================
-		// MD3 — ARREDONDAMENTO
+		// DATU MINIMAL — GEOMETRIA
 		// ================================
 		
 		final float raio =
-		20 * getResources()
+		12 * getResources()
 		.getDisplayMetrics()
 		.density;
 		
@@ -3834,7 +3834,7 @@ public class MainActivity extends AppCompatActivity {
 				new GradientDrawable();
 				
 				background.setColor(0xFF151515);
-				background.setCornerRadius(20);
+				background.setCornerRadius(dp(12));
 				
 				// Borda: #292929
 				background.setStroke(
@@ -3926,7 +3926,7 @@ public class MainActivity extends AppCompatActivity {
     private GradientDrawable formaArredondada(int cor, int raioDp) {
         GradientDrawable shape = new GradientDrawable();
         shape.setColor(cor);
-        shape.setCornerRadius(dp(raioDp));
+        shape.setCornerRadius(dp(Math.min(raioDp, 12)));
         return shape;
     }
     // Chromium Android uses an anchored overflow popup backed by a menu model.
@@ -4246,7 +4246,7 @@ public class MainActivity extends AppCompatActivity {
 		card.setPadding(16, 14, 16, 14);
 		GradientDrawable background = new GradientDrawable();
 		background.setColor(Color.rgb(36, 32, 34));
-		background.setCornerRadius(20 * getResources().getDisplayMetrics().density);
+		background.setCornerRadius(12 * getResources().getDisplayMetrics().density);
 		card.setBackground(background);
 		TextView title = new TextView(this);
 		title.setText(name);
@@ -4354,7 +4354,7 @@ public class MainActivity extends AppCompatActivity {
 	private android.graphics.drawable.GradientDrawable fundoCardGuia(boolean ativo) {
 		android.graphics.drawable.GradientDrawable fundo = new android.graphics.drawable.GradientDrawable();
 		fundo.setColor(ativo ? 0xFF242424 : 0xFF151515);
-		fundo.setCornerRadius(dpGuias(22));
+		fundo.setCornerRadius(dpGuias(12));
 		fundo.setStroke(dpGuias(1), ativo ? 0xFFFFFFFF : 0xFF292929);
 		return fundo;
 	}
@@ -4387,7 +4387,7 @@ public class MainActivity extends AppCompatActivity {
 		quantidade.setPadding(dpGuias(10), dpGuias(6), dpGuias(10), dpGuias(6));
 		android.graphics.drawable.GradientDrawable countBg = new android.graphics.drawable.GradientDrawable();
 		countBg.setColor(0xFFFFFFFF);
-		countBg.setCornerRadius(dpGuias(18));
+		countBg.setCornerRadius(dpGuias(10));
 		quantidade.setBackground(countBg);
 		topo.addView(quantidade);
 		raiz.addView(topo);

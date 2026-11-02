@@ -3833,13 +3833,13 @@ public class MainActivity extends AppCompatActivity {
 				GradientDrawable background =
 				new GradientDrawable();
 				
-				background.setColor(0xFF242022);
+				background.setColor(0xFF151515);
 				background.setCornerRadius(20);
 				
 				// Borda: #292929
 				background.setStroke(
 				1,
-				0xFF3A3235
+				0xFF292929
 				);
 				
 				if (dialog.getWindow() != null) {
@@ -3860,7 +3860,7 @@ public class MainActivity extends AppCompatActivity {
 				if (message != null) {
 					
 					message.setTextColor(
-					0xFFF5EEF1
+					0xFFF5F5F5
 					);
 				}
 				
@@ -3880,7 +3880,7 @@ public class MainActivity extends AppCompatActivity {
 					if (title != null) {
 						
 						title.setTextColor(
-						0xFFF5EEF1
+						0xFFF5F5F5
 						);
 					}
 				}
@@ -3889,14 +3889,14 @@ public class MainActivity extends AppCompatActivity {
 				dialog.getButton(
 				DialogInterface.BUTTON_POSITIVE
 				).setTextColor(
-				0xFFFFB0C8
+				0xFFFFFFFF
 				);
 				
 				// Botão "Cancelar" — Text Secondary: #A6A6A6
 				dialog.getButton(
 				DialogInterface.BUTTON_NEGATIVE
 				).setTextColor(
-				0xFFD0C4C8
+				0xFFA6A6A6
 				);
 			}
 		});
@@ -4353,9 +4353,9 @@ public class MainActivity extends AppCompatActivity {
 
 	private android.graphics.drawable.GradientDrawable fundoCardGuia(boolean ativo) {
 		android.graphics.drawable.GradientDrawable fundo = new android.graphics.drawable.GradientDrawable();
-		fundo.setColor(ativo ? 0xFF302A3D : 0xFF1B1920);
+		fundo.setColor(ativo ? 0xFF242424 : 0xFF151515);
 		fundo.setCornerRadius(dpGuias(22));
-		fundo.setStroke(dpGuias(1), ativo ? 0xFFD0BCFF : 0xFF494451);
+		fundo.setStroke(dpGuias(1), ativo ? 0xFFFFFFFF : 0xFF292929);
 		return fundo;
 	}
 
@@ -4367,7 +4367,7 @@ public class MainActivity extends AppCompatActivity {
 		android.widget.LinearLayout raiz = new android.widget.LinearLayout(this);
 		raiz.setOrientation(android.widget.LinearLayout.VERTICAL);
 		raiz.setPadding(dpGuias(16), dpGuias(12), dpGuias(16), dpGuias(16));
-		raiz.setBackgroundColor(0xFF202124);
+		raiz.setBackgroundColor(0xFF151515);
 
 		android.widget.LinearLayout topo = new android.widget.LinearLayout(this);
 		topo.setGravity(android.view.Gravity.CENTER_VERTICAL);
@@ -4380,13 +4380,13 @@ public class MainActivity extends AppCompatActivity {
 
 		android.widget.TextView quantidade = new android.widget.TextView(this);
 		quantidade.setText(String.valueOf(tabManager.getCount()));
-		quantidade.setTextColor(0xFF202124);
+		quantidade.setTextColor(0xFF151515);
 		quantidade.setTextSize(14);
 		quantidade.setGravity(android.view.Gravity.CENTER);
 		quantidade.setMinWidth(dpGuias(34));
 		quantidade.setPadding(dpGuias(10), dpGuias(6), dpGuias(10), dpGuias(6));
 		android.graphics.drawable.GradientDrawable countBg = new android.graphics.drawable.GradientDrawable();
-		countBg.setColor(0xFF8AB4F8);
+		countBg.setColor(0xFFFFFFFF);
 		countBg.setCornerRadius(dpGuias(18));
 		quantidade.setBackground(countBg);
 		topo.addView(quantidade);
@@ -4394,7 +4394,7 @@ public class MainActivity extends AppCompatActivity {
 
 		android.widget.TextView descricao = new android.widget.TextView(this);
 		descricao.setText("Toque em uma guia para continuar navegando.");
-		descricao.setTextColor(0xFFBDC1C6);
+		descricao.setTextColor(0xFFA6A6A6);
 		descricao.setTextSize(13);
 		descricao.setPadding(0, dpGuias(5), 0, dpGuias(14));
 		raiz.addView(descricao);
@@ -4434,14 +4434,14 @@ public class MainActivity extends AppCompatActivity {
 		android.widget.Button nova = new android.widget.Button(this);
 		nova.setText("Nova guia");
 		nova.setAllCaps(false);
-		nova.setTextColor(0xFF202124);
-		nova.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF8AB4F8));
+		nova.setTextColor(0xFF151515);
+		nova.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFFFFFFFF));
 		acoes.addView(nova, new android.widget.LinearLayout.LayoutParams(0, dpGuias(48), 1));
 		android.widget.Button anonima = new android.widget.Button(this);
 		anonima.setText("Anônima");
 		anonima.setAllCaps(false);
 		anonima.setTextColor(0xFFE8EAED);
-		anonima.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF3C4043));
+		anonima.setBackgroundTintList(android.content.res.ColorStateList.valueOf(0xFF292929));
 		android.widget.LinearLayout.LayoutParams privateParams =
 			new android.widget.LinearLayout.LayoutParams(0, dpGuias(48), 1);
 		privateParams.leftMargin = dpGuias(8);
@@ -4468,7 +4468,7 @@ public class MainActivity extends AppCompatActivity {
 		dialog.setView(raiz);
 		dialog.show();
 		if (dialog.getWindow() != null) {
-			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF202124));
+			dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xFF151515));
 			dialog.getWindow().setLayout(-1, -1);
 		}
 	}

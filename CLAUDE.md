@@ -37,7 +37,7 @@ Atue como engenheiro Android sênior responsável por análise, implementação,
 
 - Reutilize componentes e recursos visuais existentes.
 - Reproduza os padrões do Chromium Android solicitados com atenção à estrutura, hierarquia, navegação e comportamento, adaptando-os ao DATU.
-- Siga Material 3 Expressive quando solicitado e quando suportado pelas dependências do projeto.
+- Siga a identidade Datu Minimal: superfícies pretas/grafite, tipografia clara, bordas discretas e componentes AppCompat/nativos. Não adicione Material 3 Expressive ou Material Components sem solicitação explícita.
 - Garanta que controles tenham ações funcionais, estados visuais e acessibilidade.
 - Verifique diferentes tamanhos de tela e temas suportados.
 - Não entregue apenas aparência: conecte a interface à lógica real.
